@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CFM - Campeonato da Federação MamoBall</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'media',
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ['Inter', 'system-ui', 'sans-serif'], 
+                        mono: ['JetBrains Mono', 'monospace'], 
+                        serif: ['Merriweather', 'serif'],
+                        display: ['Outfit', 'sans-serif'] // Fonte moderna para destaques
+                    },
+                    colors: { 
+                        cfm: { dark: '#050505', card: '#0f0f11', border: '#1f1f22' },
+                        brand: { 400: '#34d399', 500: '#10b981', 600: '#059669' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;700;900&family=JetBrains+Mono:wght@400;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #f8fafc; overflow-x: hidden; }
+        @media (prefers-color-scheme: dark) { body { background-color: #000000; } }
+        
+        /* Fundo moderno 2026 - Mesh Gradient Subtle */
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            background: radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.03), transparent 25%),
+                        radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.03), transparent 25%);
+        }
+        @media (prefers-color-scheme: dark) {
+            body::before { background: radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.08), transparent 25%), radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.08), transparent 25%); }
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        @media (prefers-color-scheme: dark) { .custom-scrollbar::-webkit-scrollbar-thumb { background: #333338; } }
+        
+        /* Glassmorphism Ultra Premium */
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.7); 
+            backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); 
+            border: 1px solid rgba(255, 255, 255, 0.6); 
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.5); 
+        }
+        @media (prefers-color-scheme: dark) { 
+            .glass-panel { 
+                background: rgba(15, 15, 17, 0.65); 
+                border: 1px solid rgba(255, 255, 255, 0.06); 
+                box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.02); 
+            } 
+        }
+        
+        .bracket-connector { position: absolute; right: -2rem; width: 2rem; border-right: 2px solid; border-color: inherit; }
+        .bracket-connector.top { top: 50%; height: calc(50% + 1rem); border-top: 2px solid; border-top-right-radius: 1rem; }
+        .bracket-connector.bottom { bottom: 50%; height: calc(50% + 1rem); border-bottom: 2px solid; border-bottom-right-radius: 1rem; }
+        .bracket-connector-horizontal::before { content: ''; position: absolute; left: -2rem; top: 50%; width: 2rem; border-top: 2px solid; border-color: inherit; }
+    </style>
+</head>
+<body class="text-slate-900 dark:text-slate-100 transition-colors duration-500 selection:bg-brand-500/20 selection:text-brand-500">
+
+    <!-- SITE PÚBLICO -->
+    <div id="app-publico">
+        <header class="fixed top-0 inset-x-0 z-40 glass-panel border-b-0 m-4 rounded-2xl md:rounded-[2rem]">
+            <div class="max-w-7xl mx-auto px-6 py-3 md:py-4 flex justify-between items-center">
+                <div class="flex items-center gap-4 group cursor-pointer" onclick="navegar('home')">
+                    <div class="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm transition-transform group-hover:scale-105">
+                        <img src="logo_federacao.png" alt="CFM" class="w-full h-full object-cover text-[9px] text-center text-slate-400 font-bold">
+                    </div>
+                    <span class="text-xl font-display font-black tracking-tight group-hover:text-brand-500 transition-colors">CFM</span>
+                </div>
+                <nav class="space-x-8 text-sm font-semibold text-slate-500 dark:text-zinc-400 hidden md:flex items-center">
+                    <button onclick="navegar('home')" class="hover:text-slate-900 dark:hover:text-white transition-colors">Início</button>
+                    <button onclick="navegar('tabelas')" class="hover:text-slate-900 dark:hover:text-white transition-colors">Competições</button>
+                    <button onclick="navegar('noticias')" class="hover:text-slate-900 dark:hover:text-white transition-colors">Notícias</button>
+                    
+                    <button id="btn-login" onclick="abrirLogin()" class="bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black px-6 py-2.5 rounded-xl transition-all shadow-lg hover:shadow-xl font-bold active:scale-95 ml-4">Fazer Login</button>
+
+                    <div id="user-menu" class="hidden flex items-center gap-4 ml-4">
+                        <span id="user-email-display" class="text-xs border border-slate-200 dark:border-zinc-800 px-3 py-1.5 rounded-full text-ellipsis overflow-hidden max-w-[150px] font-medium bg-white/50 dark:bg-black/50"></span>
+                        <button id="btn-admin" onclick="abrirAdminPanel()" class="hidden bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-xl transition-all font-bold text-xs uppercase tracking-widest shadow-lg shadow-brand-500/20 active:scale-95">Admin</button>
+                        <button onclick="fazerLogout()" class="text-xs text-red-500 font-bold hover:text-red-600 transition-colors p-2">Sair</button>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- CONTEÚDO DINÂMICO DO SITE -->
+        <main id="main-content" class="pt-28">
+            <!-- Início (Home) -->
+            <div id="page-home" class="fade-in">
+                <section class="max-w-7xl mx-auto px-6 py-12 md:py-24 flex flex-col lg:flex-row items-center gap-16 min-h-[75vh]">
+                    <div class="lg:w-5/12 space-y-8 relative z-10">
+                        <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-slate-200/60 dark:border-zinc-800/60 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md text-xs font-bold uppercase tracking-[0.2em] text-slate-600 dark:text-zinc-400 shadow-sm">
+                            <span id="status-nuvem" class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse shadow-[0_0_10px_rgba(250,204,21,0.5)]"></span> Federação Oficial
+                        </div>
+                        <h1 class="text-6xl md:text-[5.5rem] font-display font-black leading-[1.02] tracking-tight">
+                            A elite do <br>
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-brand-500 to-blue-500">MamoBall.</span>
+                        </h1>
+                        <p class="text-lg md:text-xl text-slate-600 dark:text-zinc-400 leading-relaxed max-w-md font-medium">Bem-vindos ao site da CFM - MamoBall. Tabelas atualizadas, resultados ao vivo e as últimas notícias do cenário da CFM.</p>
+                        <div class="flex gap-4 pt-4">
+                            <button onclick="navegar('tabelas')" class="px-8 py-4 text-sm font-bold text-slate-900 bg-white border border-slate-200 dark:border-zinc-800 dark:bg-cfm-card dark:text-white rounded-2xl hover:scale-105 transition-transform shadow-xl shadow-black/5 dark:shadow-black/50">Explorar Competições</button>
+                        </div>
+                    </div>
+
+                    <div class="lg:w-7/12 w-full relative group cursor-pointer" onclick="abrirUltimaNoticia()">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-brand-500 to-blue-600 rounded-[3rem] blur-3xl opacity-10 group-hover:opacity-30 transition duration-1000"></div>
+                        <div class="relative overflow-hidden rounded-[2.5rem] aspect-[16/10] border border-slate-200/50 dark:border-zinc-800/50 bg-slate-900 shadow-2xl">
+                            <img id="hero-banner" src="https://images.unsplash.com/photo-1542652694-40abf526446e?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover group-hover:scale-110 transition duration-[1.5s] ease-out opacity-80" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8 md:p-12">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-brand-400 mb-4 bg-black/40 backdrop-blur-xl px-4 py-2 rounded-xl w-max border border-white/10">Destaque</span>
+                                <h2 id="hero-titulo" class="text-3xl md:text-5xl font-display font-black text-white mb-3 leading-tight drop-shadow-lg">Bem-vindo à Federação</h2>
+                                <p id="hero-resumo" class="text-slate-300 text-sm md:text-base line-clamp-2 mb-6 max-w-2xl font-medium">Aguardando a publicação das primeiras notícias da confederação.</p>
+                                <span class="text-white font-bold text-sm flex items-center gap-2 group-hover:text-brand-400 transition-colors">Ler artigo <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Tabelas e Competições -->
+            <div id="page-tabelas" class="hidden max-w-7xl mx-auto px-6 py-12 fade-in">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    <div>
+                        <h2 class="text-5xl font-display font-black tracking-tight mb-6">Torneios da Federação</h2>
+                        <div class="flex flex-wrap gap-3" id="menu-campeonatos"></div>
+                    </div>
+                </div>
+                
+                <div id="conteudo-tabela" class="glass-panel rounded-[2rem] p-4 md:p-8 overflow-x-auto shadow-2xl"></div>
+            </div>
+
+            <!-- Central de Notícias -->
+            <div id="page-noticias" class="hidden max-w-7xl mx-auto px-6 py-12 fade-in">
+                <h2 class="text-5xl font-display font-black tracking-tight mb-12">Portal de Notícias</h2>
+                <div id="lista-noticias" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL DE NOTÍCIA COMPLETA (TELA CHEIA) -->
+    <div id="modal-noticia" class="fixed inset-0 z-[100] hidden flex-col bg-slate-50 dark:bg-black overflow-y-auto fade-in">
+        <div class="sticky top-0 z-20 glass-panel border-b-0 m-4 rounded-2xl shadow-sm">
+            <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+                <span class="font-black tracking-[0.2em] uppercase text-brand-500 text-xs">CFM News</span>
+                <button onclick="fecharNoticia()" class="bg-slate-200/50 dark:bg-zinc-800/50 hover:bg-slate-300 dark:hover:bg-zinc-700 w-10 h-10 rounded-full flex items-center justify-center transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto w-full pb-32 fade-in-up -mt-20">
+            <div class="w-full aspect-video md:aspect-[21/9] bg-zinc-900 relative rounded-b-[3rem] overflow-hidden shadow-2xl">
+                <img id="modal-noticia-banner" src="" class="w-full h-full object-cover opacity-90">
+                <div class="absolute inset-0 bg-gradient-to-t from-slate-50 dark:from-black via-transparent to-transparent"></div>
+            </div>
+            
+            <div class="px-6 md:px-12 -mt-16 relative z-10">
+                <span id="modal-noticia-data" class="text-brand-600 dark:text-brand-400 font-bold text-xs tracking-widest uppercase mb-4 block bg-white/50 dark:bg-black/50 backdrop-blur-md w-max px-4 py-2 rounded-xl border border-slate-200/50 dark:border-zinc-800/50"></span>
+                <h1 id="modal-noticia-titulo" class="text-4xl md:text-6xl font-display font-black leading-[1.1] mb-10 tracking-tight text-slate-900 dark:text-white"></h1>
+                
+                <div class="prose prose-slate dark:prose-invert max-w-none font-serif text-lg md:text-xl leading-relaxed text-slate-700 dark:text-slate-300">
+                    <p id="modal-noticia-texto" class="whitespace-pre-line"></p>
+                </div>
+                
+                <div id="modal-noticia-btn-container" class="mt-16 hidden">
+                    <a id="modal-noticia-link" href="#" target="_blank" class="inline-flex justify-center w-full sm:w-auto bg-slate-900 dark:bg-white hover:scale-105 text-white dark:text-black font-bold py-4 px-12 rounded-2xl transition-all shadow-xl shadow-black/10 dark:shadow-white/10 text-center"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- PAINEL ADMIN -->
+    <div id="admin-panel" class="fixed inset-0 z-[150] hidden bg-slate-50 dark:bg-[#050505] flex-col overflow-hidden">
+        <header class="bg-white dark:bg-cfm-card border-b border-slate-200 dark:border-zinc-800 px-6 py-4 flex justify-between items-center shadow-sm z-10">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-brand-500 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-lg shadow-brand-500/30">CF</div>
+                <span class="font-bold text-lg font-display">CFM Studio</span>
+            </div>
+            <button onclick="fecharAdminPanel()" class="text-sm font-bold bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 px-5 py-2.5 rounded-xl transition-colors">Fechar Painel</button>
+        </header>
+        
+        <div class="flex-1 flex overflow-hidden">
+            <aside class="w-64 bg-white dark:bg-cfm-card border-r border-slate-200 dark:border-zinc-800 p-6 flex flex-col gap-2 z-0">
+                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 block">Gestão CFM</span>
+                <button onclick="abaAdmin('noticias')" id="btn-aba-noticias" class="admin-tab text-left px-4 py-3.5 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400 font-bold transition-all">Notícias</button>
+                <button onclick="abaAdmin('torneios')" id="btn-aba-torneios" class="admin-tab text-left px-4 py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all">Torneios</button>
+                <button onclick="abaAdmin('partidas')" id="btn-aba-partidas" class="admin-tab text-left px-4 py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all">Partidas</button>
+                <button onclick="abaAdmin('times')" id="btn-aba-times" class="admin-tab text-left px-4 py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all">Clubes</button>
+            </aside>
+            
+            <main class="flex-1 p-8 md:p-12 overflow-y-auto custom-scrollbar bg-slate-50/50 dark:bg-[#050505]">
+                
+                <!-- Aba Notícias -->
+                <div id="aba-noticias" class="max-w-4xl fade-in">
+                    <h2 class="text-4xl font-display font-black mb-2">Publicar Notícia</h2>
+                    <p class="text-slate-500 mb-8">Conteúdo oficial para a Federação de MamoBall.</p>
+                    
+                    <div class="space-y-6 bg-white dark:bg-cfm-card p-8 rounded-[2rem] border border-slate-200 dark:border-zinc-800 shadow-sm mb-12">
+                        <div>
+                            <label class="block text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Título da Matéria</label>
+                            <input type="text" id="news-titulo" placeholder="Ex: Inscrições Abertas!" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-4 focus:border-brand-500 outline-none transition-colors font-semibold">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Imagem de Capa (Obrigatório)</label>
+                            <input type="file" id="news-banner-file" accept="image/*" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 focus:border-brand-500 outline-none file:mr-4 file:py-2.5 file:px-5 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-brand-500/10 file:text-brand-600 dark:file:text-brand-400 hover:file:bg-brand-500/20 cursor-pointer transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Conteúdo Principal</label>
+                            <textarea id="news-texto" placeholder="Escreva o texto completo da notícia aqui..." rows="8" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-4 focus:border-brand-500 outline-none transition-colors custom-scrollbar font-serif"></textarea>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-zinc-800 pt-6">
+                            <div>
+                                <label class="block text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Botão Externo (Texto)</label>
+                                <input type="text" id="news-btn-label" placeholder="Ex: Acessar Discord" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 focus:border-brand-500 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Link do Botão</label>
+                                <input type="text" id="news-btn-link" placeholder="https://" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 focus:border-brand-500 outline-none">
+                            </div>
+                        </div>
+                        <button onclick="salvarNoticia()" id="btn-salvar-noticia" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-brand-500/20 mt-4 active:scale-95">Publicar na CFM</button>
+                    </div>
+
+                    <!-- Lista de Notícias para Excluir -->
+                    <div class="mt-12">
+                        <h3 class="text-2xl font-display font-black mb-6">Notícias Publicadas</h3>
+                        <div id="admin-lista-noticias" class="space-y-4"></div>
+                    </div>
+                </div>
+
+                <!-- Aba Torneios -->
+                <div id="aba-torneios" class="hidden max-w-4xl fade-in">
+                    <div class="flex justify-between items-end mb-8">
+                        <div>
+                            <h2 class="text-4xl font-display font-black mb-2">Torneios</h2>
+                            <p class="text-slate-500">Crie ligas e estruture o cenário competitivo.</p>
+                        </div>
+                        <button onclick="criarTorneio()" class="bg-slate-900 dark:bg-white text-white dark:text-black px-6 py-3.5 rounded-2xl font-bold transition-all active:scale-95 shadow-lg">+ Novo Torneio</button>
+                    </div>
+                    <div id="admin-lista-torneios" class="space-y-6"></div>
+                </div>
+
+                <!-- Aba Partidas -->
+                <div id="aba-partidas" class="hidden max-w-3xl fade-in">
+                    <h2 class="text-4xl font-display font-black mb-2">Registrar Jogo</h2>
+                    <p class="text-slate-500 mb-8">A tabela ou a árvore de mata-mata atualiza-se em tempo real.</p>
+                    <div class="bg-white dark:bg-cfm-card p-8 rounded-[2rem] border border-slate-200 dark:border-zinc-800 shadow-sm">
+                        <div class="mb-8">
+                            <label class="block text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Selecione o Torneio</label>
+                            <select id="form-partida-camp" onchange="atualizarSelectsPartida()" class="w-full p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl outline-none focus:border-brand-500 font-bold cursor-pointer"></select>
+                        </div>
+                        <div class="flex items-center gap-4 bg-slate-50 dark:bg-zinc-900 p-6 rounded-2xl border border-slate-200 dark:border-zinc-800">
+                            <select id="form-home-team" class="flex-1 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl outline-none focus:border-brand-500 font-bold cursor-pointer"></select>
+                            <input type="number" id="form-home-score" placeholder="0" class="w-16 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-center font-black text-xl focus:border-brand-500 outline-none">
+                            <span class="font-black text-slate-300 dark:text-zinc-600">X</span>
+                            <input type="number" id="form-away-score" placeholder="0" class="w-16 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-center font-black text-xl focus:border-brand-500 outline-none">
+                            <select id="form-away-team" class="flex-1 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl outline-none focus:border-brand-500 font-bold cursor-pointer"></select>
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-4 text-center font-medium">No formato Mata-Mata, em caso de empate, insira o placar decisivo final (ex: Penáltis).</p>
+                        <button onclick="salvarPartida()" class="w-full mt-6 bg-brand-600 hover:bg-brand-500 text-white py-4 rounded-xl font-bold transition-colors shadow-lg shadow-brand-500/20 active:scale-95">Gravar Resultado</button>
+                    </div>
+                </div>
+
+                <!-- Aba Times -->
+                <div id="aba-times" class="hidden max-w-4xl fade-in">
+                    <div class="flex justify-between items-end mb-8">
+                        <div>
+                            <h2 class="text-4xl font-display font-black mb-2">Equipes da Federação</h2>
+                            <p class="text-slate-500">Gestão dos clubes federados.</p>
+                        </div>
+                        <button onclick="adicionarNovoTime()" class="bg-slate-900 dark:bg-white text-white dark:text-black px-6 py-3.5 rounded-2xl font-bold transition-all shadow-lg active:scale-95">+ Nova Equipe</button>
+                    </div>
+                    <div id="admin-lista-times" class="grid grid-cols-1 lg:grid-cols-2 gap-5"></div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- COOKIE BANNER ULTRA MODERNO (PILL) -->
+    <div id="cookie-banner" class="fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-white/80 dark:bg-zinc-900/80 backdrop-blur-2xl border border-slate-200/50 dark:border-zinc-800/50 p-6 z-[70] transform translate-y-[150%] transition-transform duration-700 shadow-2xl rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-6">
+        <p class="text-sm text-slate-600 dark:text-zinc-300 font-medium text-center sm:text-left">
+            O site oficial da Federação de MamoBall utiliza cookies para sua experiência. <br class="hidden sm:block">
+            <a href="/politica-de-cookies" class="text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300 transition-colors font-bold mt-1.5 inline-block">Saber mais sobre a política de cookies</a>
+        </p>
+        <div class="flex gap-3 w-full sm:w-auto shrink-0">
+            <button onclick="responderCookies(false)" class="flex-1 sm:flex-none px-6 py-3 rounded-xl font-bold text-slate-500 hover:text-slate-800 dark:text-zinc-400 dark:hover:text-white bg-slate-100/50 hover:bg-slate-200 dark:bg-zinc-800/50 dark:hover:bg-zinc-800 transition-all active:scale-95">Negar</button>
+            <button onclick="responderCookies(true)" class="flex-1 sm:flex-none bg-slate-900 hover:bg-slate-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black px-6 py-3 rounded-xl font-bold transition-all shadow-lg active:scale-95">Permitir</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // ==========================================
+        // 1. CONFIGURAÇÃO (COLOQUE AS SUAS CHAVES)
+        // ==========================================
+        const myFirebaseConfig = {
+            apiKey: "AIzaSyAdndD_kOO1svVoxPbtXDNE1nTJ9mQ1gdE",
+            authDomain: "cfm-mamoball.firebaseapp.com",
+            projectId: "cfm-mamoball",
+            storageBucket: "cfm-mamoball.firebasestorage.app",
+            messagingSenderId: "993491227649",
+            appId: "1:993491227649:web:8ba72d5dea93e107391c00"
+        };
+
+        const ADMIN_EMAILS = ['samueldossantosramos123@gmail.com', ''];
+
+        // BASE DE DADOS "VIRGEM" - Pronta para produção
+        let state = {
+            times: {},
+            campeonatos: {},
+            partidas: [],
+            noticias: []
+        };
+
+        let currentUser = null; 
+        let db, docRef, auth, app;
+        let campeonatoAbertoPublico = null; 
+        
+        const isProducao = myFirebaseConfig.apiKey !== "COLE_AQUI";
+        const firebaseConfig = isProducao ? myFirebaseConfig : JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : "{}");
+        const appIdGlobal = typeof __app_id !== 'undefined' ? __app_id : 'cfm-app-default';
+
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+
+            onAuthStateChanged(auth, (user) => {
+                currentUser = (user && user.email) ? { email: user.email.toLowerCase() } : null;
+                verificarPermissoes();
+            });
+
+            const initDb = async () => {
+                if(!isProducao && typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
+                else if(!isProducao && !auth.currentUser) await signInAnonymously(auth);
+
+                const dbPath = isProducao ? doc(db, 'campeonatos', 'federacao_mamo_v1') : doc(db, 'artifacts', appIdGlobal, 'public', 'data', 'cfm', 'estado_v8');
+                docRef = dbPath;
+                
+                onSnapshot(docRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        let data = docSnap.data();
+                        if(!data.campeonatos) data.campeonatos = {};
+                        if(!data.times) data.times = {};
+                        if(!data.partidas) data.partidas = [];
+                        if(!data.noticias) data.noticias = [];
+                        state = data;
+                        renderizarTudo();
+                    } else if (isProducao) {
+                        setDoc(docRef, state);
+                    }
+                    document.getElementById('status-nuvem').classList.replace('bg-yellow-400', 'bg-brand-500');
+                    document.getElementById('status-nuvem').classList.replace('shadow-[0_0_10px_rgba(250,204,21,0.5)]', 'shadow-[0_0_10px_rgba(16,185,129,0.5)]');
+                });
+            };
+            initDb();
+        } catch (e) { console.error(e); }
+
+        // ==========================================
+        // COMPRESSÃO DE IMAGEM
+        // ==========================================
+        function resizeImageAsync(file, maxWidth, maxHeight) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width, height = img.height;
+                        if (width > maxWidth) { height = Math.round(height * maxWidth / width); width = maxWidth; }
+                        if (height > maxHeight) { width = Math.round(width * maxHeight / height); height = maxHeight; }
+                        canvas.width = width; canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/webp', 0.8));
+                    }
+                    img.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ==========================================
+        // NAVEGAÇÃO E RENDERIZAÇÃO PÚBLICA
+        // ==========================================
+        window.navegar = function(pagina) {
+            ['home', 'tabelas', 'noticias'].forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
+            document.getElementById(`page-${pagina}`).classList.remove('hidden');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+
+        function renderizarTudo() {
+            renderizarHome();
+            renderizarMenuCampeonatos();
+            renderizarTabelaPublica();
+            renderizarNoticias();
+            if(!document.getElementById('admin-panel').classList.contains('hidden')) {
+                atualizarListasAdmin();
+            }
+        }
+
+        function renderizarHome() {
+            const ultima = state.noticias && state.noticias.length > 0 ? state.noticias[0] : null;
+            if (ultima) {
+                document.getElementById('hero-banner').src = ultima.banner;
+                document.getElementById('hero-titulo').innerText = ultima.titulo;
+                document.getElementById('hero-resumo').innerText = ultima.resumo;
+            } else {
+                document.getElementById('hero-banner').src = "https://images.unsplash.com/photo-1542652694-40abf526446e?auto=format&fit=crop&w=1200&q=80";
+                document.getElementById('hero-titulo').innerText = "Bem-vindo à Federação";
+                document.getElementById('hero-resumo').innerText = "Acompanhe tudo sobre o Campeonato da Federação de MamoBall.";
+            }
+        }
+
+        window.abrirUltimaNoticia = () => {
+            if(state.noticias && state.noticias.length > 0) abrirNoticia(state.noticias[0].id);
+        }
+
+        window.abrirNoticia = (id) => {
+            const n = state.noticias.find(x => x.id === id);
+            if(!n) return;
+            document.getElementById('modal-noticia-banner').src = n.banner;
+            document.getElementById('modal-noticia-titulo').innerText = n.titulo;
+            
+            const dataObj = new Date(n.data);
+            document.getElementById('modal-noticia-data').innerText = isNaN(dataObj) ? 'Publicado recentemente' : dataObj.toLocaleDateString('pt-BR');
+            
+            document.getElementById('modal-noticia-texto').innerText = n.texto;
+            
+            const btnContainer = document.getElementById('modal-noticia-btn-container');
+            const btnLink = document.getElementById('modal-noticia-link');
+            if(n.linkLabel && n.linkUrl) {
+                btnLink.innerText = n.linkLabel;
+                btnLink.href = n.linkUrl;
+                btnContainer.classList.remove('hidden');
+            } else {
+                btnContainer.classList.add('hidden');
+            }
+
+            document.getElementById('modal-noticia').classList.remove('hidden');
+            document.getElementById('modal-noticia').classList.add('flex');
+            document.body.style.overflow = 'hidden'; 
+        };
+
+        window.fecharNoticia = () => {
+            document.getElementById('modal-noticia').classList.add('hidden');
+            document.getElementById('modal-noticia').classList.remove('flex');
+            document.body.style.overflow = '';
+        };
+
+        function renderizarMenuCampeonatos() {
+            const container = document.getElementById('menu-campeonatos');
+            const chaves = Object.keys(state.campeonatos || {});
+            
+            if(chaves.length === 0) {
+                container.innerHTML = '<span class="text-sm text-slate-400 font-medium">Nenhuma competição a decorrer no momento.</span>';
+                return;
+            }
+            
+            if(!state.campeonatos[campeonatoAbertoPublico]) campeonatoAbertoPublico = chaves[0];
+
+            container.innerHTML = chaves.map(id => {
+                const c = state.campeonatos[id];
+                const ativo = id === campeonatoAbertoPublico;
+                const classes = ativo 
+                    ? "bg-slate-900 dark:bg-white text-white dark:text-black font-bold shadow-md" 
+                    : "bg-white dark:bg-zinc-800/50 text-slate-500 border border-slate-200 dark:border-zinc-700 hover:bg-slate-50 dark:hover:bg-zinc-800 font-semibold";
+                
+                let icon = c.logo ? `<img src="${c.logo}" class="w-5 h-5 rounded-full object-cover">` : '';
+                return `<button onclick="trocarCampeonatoPublico('${id}')" class="flex items-center gap-2 px-6 py-3 rounded-2xl transition-all ${classes}">${icon} ${c.nome}</button>`;
+            }).join('');
+        }
+
+        window.trocarCampeonatoPublico = function(id) {
+            campeonatoAbertoPublico = id;
+            renderizarMenuCampeonatos();
+            renderizarTabelaPublica();
+        };
+
+        // --- MATEMÁTICA DO MATA-MATA DINÂMICO ---
+        function resolverMataMata(camp) {
+            const clubes = camp.clubes || [];
+            if(clubes.length === 0) return [];
+
+            const numFases = Math.max(1, Math.ceil(Math.log2(clubes.length)));
+            const slotsIniciais = Math.pow(2, numFases);
+            
+            let arvore = [];
+            let timesRestantes = [...clubes];
+            while(timesRestantes.length < slotsIniciais) timesRestantes.push(null);
+            
+            const partidasDoCamp = state.partidas.filter(p => p.campeonatoId === campeonatoAbertoPublico);
+
+            for(let fase = 0; fase < numFases; fase++) {
+                let jogosDestaFase = [];
+                let vencedores = [];
+
+                for(let i = 0; i < timesRestantes.length; i+=2) {
+                    let home = timesRestantes[i];
+                    let away = timesRestantes[i+1];
+                    let winner = null;
+                    let scoreH = null, scoreA = null;
+
+                    if(home && away) {
+                        let p = partidasDoCamp.find(m => (m.home === home && m.away === away) || (m.home === away && m.away === home));
+                        if(p) {
+                            let isHomeReal = p.home === home;
+                            scoreH = isHomeReal ? p.scoreH : p.scoreA;
+                            scoreA = isHomeReal ? p.scoreA : p.scoreH;
+                            winner = scoreH > scoreA ? home : (scoreA > scoreH ? away : null);
+                        }
+                    } else if (home && !away) { winner = home; } 
+                    else if (!home && away) { winner = away; }
+
+                    jogosDestaFase.push({ home, away, scoreH, scoreA, winner, isFase: fase+1 });
+                    vencedores.push(winner);
+                }
+                arvore.push(jogosDestaFase);
+                timesRestantes = vencedores;
+            }
+            return { arvore, campeao: timesRestantes[0] };
+        }
+
+        function renderizarTabelaPublica() {
+            const container = document.getElementById('conteudo-tabela');
+            if(!campeonatoAbertoPublico || !state.campeonatos[campeonatoAbertoPublico]) {
+                container.innerHTML = `
+                    <div class="py-24 text-center flex flex-col items-center justify-center opacity-60">
+                        <div class="w-16 h-16 mb-6 text-slate-300 dark:text-zinc-700"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 9h-2V7h2v5zm0 4h-2v-2h2v2z"/></svg></div>
+                        <h3 class="text-2xl font-display font-black tracking-tight mb-2">Sem Competições</h3>
+                        <p class="text-slate-500 font-medium">Nenhuma liga foi iniciada pela organização.</p>
+                    </div>`;
+                return;
+            }
+
+            const camp = state.campeonatos[campeonatoAbertoPublico];
+
+            if(!camp.clubes || camp.clubes.length === 0) {
+                container.innerHTML = `
+                    <div class="py-24 text-center flex flex-col items-center justify-center">
+                        <div class="w-20 h-20 mb-6 text-slate-300 dark:text-zinc-800"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.5 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg></div>
+                        <h3 class="text-3xl font-display font-black mb-2 tracking-tight">Em Manutenção</h3>
+                        <p class="text-slate-500 font-medium text-lg">Nenhuma equipa confirmada para a <b>${camp.nome}</b> ainda.</p>
+                    </div>`;
+                return;
+            }
+
+            if(camp.formato === 'mata-mata') {
+                const { arvore, campeao } = resolverMataMata(camp);
+                
+                let html = '<div class="flex gap-12 overflow-x-auto py-8 no-scrollbar items-center px-4 relative">';
+                
+                arvore.forEach((fase, rIdx) => {
+                    let isFinal = rIdx === arvore.length - 1;
+                    html += `<div class="flex flex-col justify-around min-h-[400px] w-72 shrink-0 relative z-10">`;
+                    html += `<h4 class="text-center font-black text-slate-400 dark:text-zinc-500 uppercase tracking-widest text-[10px] mb-6">${isFinal ? 'Grande Final' : 'Fase ' + (rIdx + 1)}</h4>`;
+                    
+                    fase.forEach((m, mIdx) => {
+                        let h = m.home ? state.times[m.home] : null;
+                        let a = m.away ? state.times[m.away] : null;
+                        
+                        let hName = h ? h.nome : (m.home ? '...' : 'Vazio');
+                        let aName = a ? a.nome : (m.away ? '...' : (m.home ? 'Avança Dir.' : 'Vazio'));
+                        
+                        let hLogo = h ? `<div class="w-7 h-7 rounded-lg bg-cover bg-center shadow-sm border border-slate-200/50 dark:border-zinc-700/50" style="${h.logo ? `background-image:url('${h.logo}')` : `background-color:${h.cor}`}">${h.logo?'':''}</div>` : '';
+                        let aLogo = a ? `<div class="w-7 h-7 rounded-lg bg-cover bg-center shadow-sm border border-slate-200/50 dark:border-zinc-700/50" style="${a.logo ? `background-image:url('${a.logo}')` : `background-color:${a.cor}`}">${a.logo?'':''}</div>` : '';
+                        
+                        let isHWinner = m.winner === m.home && m.winner !== null;
+                        let isAWinner = m.winner === m.away && m.winner !== null;
+
+                        let connectorClass = '';
+                        if(!isFinal) { connectorClass = mIdx % 2 === 0 ? 'bracket-connector top border-slate-300 dark:border-zinc-700' : 'bracket-connector bottom border-slate-300 dark:border-zinc-700'; }
+                        let hConnector = rIdx > 0 ? 'bracket-connector-horizontal border-slate-300 dark:border-zinc-700' : '';
+
+                        html += `
+                            <div class="relative w-full my-4">
+                                <div class="bg-white dark:bg-cfm-card border ${isHWinner || isAWinner ? 'border-brand-400 shadow-[0_0_20px_rgba(52,211,153,0.15)]' : 'border-slate-200/60 dark:border-zinc-800'} rounded-2xl p-4 relative z-10 ${hConnector} transition-all">
+                                    <div class="flex justify-between items-center mb-3">
+                                        <div class="flex items-center gap-3 ${isHWinner ? 'font-black text-brand-600 dark:text-brand-400' : (m.winner || !m.home ? 'text-slate-400 dark:text-zinc-600 font-medium' : 'font-bold')}">${hLogo} <span class="truncate text-sm">${hName}</span></div>
+                                        <div class="font-black text-lg ${isHWinner ? 'text-brand-500' : 'text-slate-300 dark:text-zinc-700'}">${m.scoreH !== null ? m.scoreH : '-'}</div>
+                                    </div>
+                                    <div class="flex justify-between items-center">
+                                        <div class="flex items-center gap-3 ${isAWinner ? 'font-black text-brand-600 dark:text-brand-400' : (m.winner || !m.away ? 'text-slate-400 dark:text-zinc-600 font-medium' : 'font-bold')}">${aLogo} <span class="truncate text-sm">${aName}</span></div>
+                                        <div class="font-black text-lg ${isAWinner ? 'text-brand-500' : 'text-slate-300 dark:text-zinc-700'}">${m.scoreA !== null ? m.scoreA : '-'}</div>
+                                    </div>
+                                </div>
+                                <div class="${connectorClass}"></div>
+                            </div>
+                        `;
+                    });
+                    html += `</div>`;
+                });
+
+                if (campeao) {
+                    let c = state.times[campeao];
+                    html += `
+                    <div class="flex flex-col items-center justify-center w-72 shrink-0 relative z-10 pl-12 fade-in">
+                        <div class="absolute inset-0 bg-yellow-400/10 blur-3xl rounded-full"></div>
+                        <span class="text-[10px] uppercase font-black tracking-[0.2em] text-yellow-600 dark:text-yellow-500 mb-6 flex items-center gap-2 bg-yellow-500/10 px-4 py-2 rounded-full border border-yellow-500/20"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd"></path></svg> Campeão</span>
+                        <div class="w-40 h-40 rounded-[2rem] border-4 border-yellow-400 bg-cover bg-center shadow-[0_20px_50px_rgba(250,204,21,0.3)] flex items-center justify-center text-4xl font-black text-white relative z-10 transform -rotate-3 hover:rotate-0 transition-transform duration-500" style="${c.logo ? `background-image:url('${c.logo}')` : `background-color:${c.cor}`}">${c.logo?'':c.tag.replace(/\[|\]/g,'')}</div>
+                        <h3 class="mt-8 text-4xl font-display font-black text-yellow-600 dark:text-yellow-400 text-center tracking-tight drop-shadow-sm">${c.nome}</h3>
+                    </div>`;
+                }
+
+                html += '</div>';
+                container.innerHTML = html;
+                return;
+            }
+
+            // TABELA DE PONTOS
+            let stats = {};
+            camp.clubes.forEach(id => { if(state.times[id]) stats[id] = { timeId: id, p: 0, j: 0, v: 0, gp: 0, gc: 0, sg: 0 }; });
+            
+            state.partidas.filter(p => p.campeonatoId === campeonatoAbertoPublico).forEach(p => {
+                let h = stats[p.home], a = stats[p.away];
+                if(!h || !a) return;
+                h.j++; a.j++; 
+                if (p.scoreH > p.scoreA) { h.p += 3; h.v++; } 
+                else if (p.scoreH < p.scoreA) { a.p += 3; a.v++; } else { h.p++; a.p++; }
+                h.sg += (p.scoreH - p.scoreA); a.sg += (p.scoreA - p.scoreH);
+            });
+
+            const ordenados = Object.values(stats).sort((a,b) => b.p - a.p || b.sg - a.sg);
+            let html = ordenados.map((l, i) => {
+                const t = state.times[l.timeId];
+                
+                let rowBg = "hover:bg-white dark:hover:bg-zinc-800/40";
+                let posClass = "text-slate-400 font-bold";
+                let badge = "";
+                
+                if (i === 0) {
+                    posClass = "text-brand-500 font-black";
+                    badge = `<span class="text-[9px] uppercase font-black text-brand-500 tracking-widest block mt-1">Líder</span>`;
+                } else if (i < 4) {
+                    posClass = "text-blue-500 font-black";
+                    badge = `<span class="text-[9px] uppercase font-bold text-blue-500 tracking-widest block mt-1">Acesso</span>`;
+                } else if (i >= ordenados.length - 4 && ordenados.length >= 8) {
+                    posClass = "text-red-500 font-bold";
+                    rowBg = "bg-red-50/30 dark:bg-red-900/10 hover:bg-red-50 dark:hover:bg-red-900/20";
+                }
+
+                const bgStyle = t.logo ? `background-image: url('${t.logo}');` : `background-color: ${t.cor};`;
+                const tagLetras = t.logo ? '' : t.tag.replace(/\[|\]/g, '');
+
+                return `
+                <tr class="border-b border-slate-100 dark:border-zinc-800/50 ${rowBg} transition-colors group">
+                    <td class="py-5 px-2 md:px-6 text-center w-16 md:w-24">
+                        <div class="flex flex-col items-center justify-center">
+                            <span class="${posClass} text-xl md:text-2xl">${i+1}º</span>
+                            ${badge}
+                        </div>
+                    </td>
+                    <td class="py-5 px-2 md:px-6">
+                        <div class="flex items-center gap-4 md:gap-6">
+                            <div class="w-10 h-10 md:w-14 md:h-14 rounded-[1rem] flex items-center justify-center text-[11px] font-black text-white bg-cover bg-center shadow-md border border-slate-200/50 dark:border-zinc-700/50 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300" style="${bgStyle}">${tagLetras}</div>
+                            <div class="flex flex-col">
+                                <span class="font-display font-black text-lg md:text-2xl text-slate-900 dark:text-white group-hover:text-brand-500 transition-colors tracking-tight leading-none">${t.nome}</span>
+                                <span class="text-[10px] md:text-xs font-mono text-slate-500 uppercase tracking-[0.2em] mt-1">${t.tag}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="py-5 px-2 md:px-6 text-center font-display font-black text-2xl md:text-4xl text-slate-900 dark:text-white">${l.p}</td>
+                    <td class="py-5 px-2 md:px-6 text-center text-slate-500 font-medium text-lg">${l.j}</td>
+                    <td class="py-5 px-2 md:px-6 text-center text-slate-500 font-medium text-lg hidden sm:table-cell">${l.v}</td>
+                    <td class="py-5 px-2 md:px-6 text-center text-slate-500 font-medium text-lg hidden sm:table-cell">${l.sg > 0 ? '+'+l.sg : l.sg}</td>
+                </tr>`;
+            }).join('');
+
+            container.innerHTML = `
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-[10px] md:text-[11px] uppercase tracking-[0.15em] text-slate-400 border-b-2 border-slate-200 dark:border-zinc-800">
+                            <th class="pb-4 px-2 md:px-6 font-bold text-center">Pos</th>
+                            <th class="pb-4 px-2 md:px-6 font-bold">Equipa</th>
+                            <th class="pb-4 px-2 md:px-6 font-black text-center text-slate-900 dark:text-white">Pts</th>
+                            <th class="pb-4 px-2 md:px-6 font-bold text-center">J</th>
+                            <th class="pb-4 px-2 md:px-6 font-bold text-center hidden sm:table-cell">V</th>
+                            <th class="pb-4 px-2 md:px-6 font-bold text-center hidden sm:table-cell">SG</th>
+                        </tr>
+                    </thead>
+                    <tbody>${html}</tbody>
+                </table>
+            `;
+        }
+
+        function renderizarNoticias() {
+            const container = document.getElementById('lista-noticias');
+            if(!state.noticias || state.noticias.length === 0) {
+                container.innerHTML = `
+                <div class="col-span-full py-20 text-center flex flex-col items-center justify-center opacity-60">
+                    <div class="w-12 h-12 mb-4 text-slate-300 dark:text-zinc-700"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l6 6v10a2 2 0 01-2 2z"></path></svg></div>
+                    <p class="text-slate-500 font-medium text-lg">Sem notícias publicadas de momento.</p>
+                </div>`;
+                return;
+            }
+            container.innerHTML = state.noticias.map(n => `
+                <div class="group cursor-pointer bg-white dark:bg-cfm-card p-4 md:p-6 rounded-[2rem] border border-slate-200/60 dark:border-zinc-800 hover:shadow-2xl hover:border-brand-500/30 transition-all duration-500 flex flex-col h-full" onclick="abrirNoticia(${n.id})">
+                    <div class="relative overflow-hidden rounded-2xl mb-6 aspect-[4/3]">
+                        <img src="${n.banner}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 ease-out">
+                    </div>
+                    <h3 class="text-2xl font-display font-black mb-3 group-hover:text-brand-500 transition-colors leading-tight tracking-tight">${n.titulo}</h3>
+                    <p class="text-slate-500 text-sm line-clamp-3 mb-6 flex-1 font-serif">${n.texto}</p>
+                    <span class="text-[11px] font-black uppercase tracking-widest text-brand-500 mt-auto flex items-center gap-2">Ler matéria completa <svg class="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></span>
+                </div>
+            `).join('');
+        }
+
+        // ==========================================
+        // LÓGICA DO PAINEL ADMIN
+        // ==========================================
+        window.abrirAdminPanel = () => { document.getElementById('admin-panel').classList.remove('hidden'); document.getElementById('admin-panel').classList.add('flex'); renderizarTudo(); };
+        window.fecharAdminPanel = () => { document.getElementById('admin-panel').classList.add('hidden'); };
+        
+        window.abaAdmin = (aba) => {
+            const tabs = ['noticias', 'torneios', 'partidas', 'times'];
+            tabs.forEach(a => {
+                document.getElementById(`aba-${a}`).classList.add('hidden');
+                document.getElementById(`btn-aba-${a}`).className = "admin-tab text-left px-4 py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all";
+            });
+            document.getElementById(`aba-${aba}`).classList.remove('hidden');
+            document.getElementById(`btn-aba-${aba}`).className = "admin-tab text-left px-4 py-3.5 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400 font-bold transition-all";
+        };
+
+        function atualizarListasAdmin() {
+            atualizarFormularioPartidas();
+            atualizarListaTimesAdmin();
+            atualizarListaTorneiosAdmin();
+            atualizarListaNoticiasAdmin(); // NOVO
+        }
+
+        // --- NOTICIAS ADMIN ---
+        window.salvarNoticia = async () => {
+            const titulo = document.getElementById('news-titulo').value;
+            const bannerFile = document.getElementById('news-banner-file').files[0];
+            const texto = document.getElementById('news-texto').value;
+            
+            if(!titulo || !bannerFile || !texto) return alert("Preencha o título, selecione uma imagem e digite a matéria!");
+            
+            const btn = document.getElementById('btn-salvar-noticia');
+            btn.disabled = true; btn.innerText = "Processando imagem e publicando...";
+
+            const bannerBase64 = await resizeImageAsync(bannerFile, 1920, 1080);
+
+            const nova = { 
+                id: Date.now(), titulo, banner: bannerBase64, texto, 
+                resumo: texto.substring(0, 150) + (texto.length > 150 ? '...' : ''),
+                linkLabel: document.getElementById('news-btn-label').value,
+                linkUrl: document.getElementById('news-btn-link').value,
+                data: new Date().toISOString()
+            };
+            
+            state.noticias = [nova, ...(state.noticias || [])].slice(0, 15);
+            if(docRef) await setDoc(docRef, state);
+            
+            btn.disabled = false; btn.innerText = "Publicar na CFM";
+            alert("Sucesso!");
+            document.querySelectorAll('#aba-noticias input[type="text"], #aba-noticias textarea').forEach(i => i.value = '');
+            document.getElementById('news-banner-file').value = '';
+            renderizarTudo();
+        };
+
+        // NOVO: Listar Notícias no Admin
+        function atualizarListaNoticiasAdmin() {
+            let html = '';
+            if(!state.noticias || state.noticias.length === 0) {
+                html = '<p class="text-sm text-slate-500 font-medium">Nenhuma notícia para gerir.</p>';
+            } else {
+                state.noticias.forEach(n => {
+                    html += `
+                    <div class="flex justify-between items-center p-4 bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-2xl shadow-sm">
+                        <div class="flex items-center gap-4">
+                            <img src="${n.banner}" class="w-14 h-14 rounded-xl object-cover border border-slate-200 dark:border-zinc-800">
+                            <div>
+                                <p class="font-bold text-slate-900 dark:text-white line-clamp-1">${n.titulo}</p>
+                                <p class="text-[10px] text-slate-500 font-mono tracking-widest mt-1 uppercase">${new Date(n.data).toLocaleDateString('pt-BR')}</p>
+                            </div>
+                        </div>
+                        <button onclick="excluirNoticia(${n.id})" class="text-xs text-red-500 font-bold hover:bg-red-50 dark:hover:bg-red-900/20 px-4 py-2 rounded-lg transition-colors">Excluir</button>
+                    </div>`;
+                });
+            }
+            document.getElementById('admin-lista-noticias').innerHTML = html;
+        }
+
+        // NOVO: Excluir Notícia
+        window.excluirNoticia = async (id) => {
+            if(confirm("Tem certeza que deseja apagar permanentemente esta matéria?")) {
+                state.noticias = state.noticias.filter(n => n.id !== id);
+                if(docRef) await setDoc(docRef, state);
+                atualizarListasAdmin();
+                renderizarTudo();
+            }
+        };
+
+
+        // --- TORNEIOS ADMIN ---
+        window.criarTorneio = async () => {
+            const nome = prompt("Nome do novo Torneio (Ex: Copa MMB):");
+            if(!nome) return;
+            const id = 'camp_' + Date.now();
+            state.campeonatos[id] = { nome: nome, formato: 'pontos', logo: '', clubes: [] };
+            if(docRef) await setDoc(docRef, state);
+            atualizarListasAdmin();
+            renderizarTudo();
+        };
+
+        window.excluirTorneio = async (id) => {
+            if(confirm("Tem certeza que deseja apagar o torneio? O histórico de partidas não será apagado.")) {
+                delete state.campeonatos[id];
+                if(campeonatoAbertoPublico === id) campeonatoAbertoPublico = Object.keys(state.campeonatos)[0];
+                if(docRef) await setDoc(docRef, state);
+                atualizarListasAdmin();
+                renderizarTudo();
+            }
+        };
+
+        window.salvarConfigTorneio = async (id) => {
+            const btn = document.getElementById(`btn-save-camp-${id}`);
+            btn.innerText = "...";
+            
+            state.campeonatos[id].nome = document.getElementById(`camp-nome-${id}`).value;
+            state.campeonatos[id].formato = document.getElementById(`camp-formato-${id}`).value;
+
+            let selecionados = [];
+            document.querySelectorAll(`.check-clube-${id}:checked`).forEach(cb => selecionados.push(cb.value));
+            state.campeonatos[id].clubes = selecionados;
+
+            if(docRef) await setDoc(docRef, state);
+            btn.innerText = "Salvar Alterações";
+            alert("Torneio salvo!");
+            renderizarTudo();
+        };
+
+        window.toggleEditTorneio = (id) => { document.getElementById(`edit-camp-${id}`).classList.toggle('hidden'); };
+
+        function atualizarListaTorneiosAdmin() {
+            let html = '';
+            const chaves = Object.keys(state.campeonatos || {});
+            
+            if(chaves.length === 0) {
+                html = '<p class="text-sm text-slate-500 font-medium">Nenhum torneio criado.</p>';
+            }
+
+            for(let id in state.campeonatos) {
+                let c = state.campeonatos[id];
+                
+                let clubesHtml = '';
+                for(let timeId in state.times) {
+                    let checked = (c.clubes && c.clubes.includes(timeId)) ? 'checked' : '';
+                    clubesHtml += `<label class="flex items-center gap-3 p-3 bg-slate-50 dark:bg-zinc-800/50 rounded-xl border border-slate-200 dark:border-zinc-700 cursor-pointer hover:border-brand-500 transition-colors"><input type="checkbox" class="check-clube-${id} accent-brand-500 w-4 h-4" value="${timeId}" ${checked}> <span class="text-sm font-bold">${state.times[timeId].nome}</span></label>`;
+                }
+
+                html += `
+                <div class="bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[2rem] shadow-sm overflow-hidden mb-6">
+                    <div class="p-6 flex justify-between items-center bg-slate-50/50 dark:bg-zinc-900/30">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center font-display font-black text-xl border border-brand-500/20">T</div>
+                            <div><p class="font-display font-black text-xl">${c.nome}</p><p class="text-[10px] text-slate-500 uppercase tracking-widest mt-1">${c.formato}</p></div>
+                        </div>
+                        <button onclick="toggleEditTorneio('${id}')" class="bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 px-5 py-2.5 rounded-xl text-sm font-bold hover:border-brand-500 transition-colors">Configurar</button>
+                    </div>
+                    
+                    <div id="edit-camp-${id}" class="hidden p-8 border-t border-slate-200 dark:border-zinc-800 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div><label class="block text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Nome do Torneio</label><input type="text" id="camp-nome-${id}" value="${c.nome}" class="w-full p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl outline-none focus:border-brand-500 font-bold"></div>
+                            <div><label class="block text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Formato</label>
+                                <select id="camp-formato-${id}" class="w-full p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl outline-none focus:border-brand-500 font-bold cursor-pointer">
+                                    <option value="pontos" ${c.formato==='pontos'?'selected':''}>Tabela de Pontos</option>
+                                    <option value="mata-mata" ${c.formato==='mata-mata'?'selected':''}>Chaveamento Mata-Mata</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-6 border-t border-slate-200 dark:border-zinc-800">
+                            <label class="block text-[11px] font-black text-slate-400 mb-4 uppercase tracking-widest">Equipes Participantes</label>
+                            <p class="text-[10px] text-slate-500 mb-4 bg-yellow-500/10 text-yellow-600 dark:text-yellow-500 p-3 rounded-xl border border-yellow-500/20 font-medium">💡 No formato Mata-Mata, o sistema agrupa de 2 em 2 (A 1ª equipa joga contra a 2ª, a 3ª contra a 4ª...).</p>
+                            ${!state.times || Object.keys(state.times).length === 0 ? '<p class="text-sm text-slate-500">Adicione clubes primeiro na aba "Clubes".</p>' : `<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">${clubesHtml}</div>`}
+                        </div>
+
+                        <div class="flex justify-between items-center mt-6 pt-6 border-t border-slate-200 dark:border-zinc-800">
+                            <button onclick="excluirTorneio('${id}')" class="text-sm text-red-500 font-bold hover:underline">Apagar Torneio</button>
+                            <button onclick="salvarConfigTorneio('${id}')" id="btn-save-camp-${id}" class="bg-brand-600 hover:bg-brand-500 text-white px-8 py-3.5 rounded-xl font-bold shadow-lg shadow-brand-500/20 transition-all active:scale-95">Salvar Alterações</button>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            document.getElementById('admin-lista-torneios').innerHTML = html;
+        }
+
+        // --- PARTIDAS ADMIN ---
+        window.atualizarSelectsPartida = function() {
+            const campId = document.getElementById('form-partida-camp').value;
+            if(!campId || !state.campeonatos[campId]) return;
+            
+            const camp = state.campeonatos[campId];
+            if(!camp.clubes) return;
+
+            let options = '';
+            camp.clubes.forEach(id => { if(state.times[id]) options += `<option value="${id}">${state.times[id].nome}</option>`; });
+            
+            document.getElementById('form-home-team').innerHTML = options; 
+            document.getElementById('form-away-team').innerHTML = options;
+            if(camp.clubes.length > 1) document.getElementById('form-away-team').selectedIndex = 1;
+        };
+
+        function atualizarFormularioPartidas() {
+            let optCamp = ''; 
+            for(let id in state.campeonatos) optCamp += `<option value="${id}">${state.campeonatos[id].nome} (${state.campeonatos[id].formato})</option>`;
+            
+            const select = document.getElementById('form-partida-camp');
+            if(optCamp === '') {
+                select.innerHTML = '<option value="">Crie um torneio primeiro...</option>';
+            } else {
+                select.innerHTML = optCamp;
+                window.atualizarSelectsPartida();
+            }
+        }
+
+        window.salvarPartida = async () => {
+            const campId = document.getElementById('form-partida-camp').value;
+            const home = document.getElementById('form-home-team').value;
+            const away = document.getElementById('form-away-team').value;
+            const scoreH = parseInt(document.getElementById('form-home-score').value);
+            const scoreA = parseInt(document.getElementById('form-away-score').value);
+            
+            if(!campId) return alert("Crie um torneio primeiro!");
+            if(!home || !away) return alert("Adicione clubes ao torneio!");
+            if(home === away) return alert("As equipas devem ser diferentes!");
+            if(isNaN(scoreH) || isNaN(scoreA)) return alert("Preencha o resultado corretamente!");
+
+            state.partidas.push({ id: Date.now(), campeonatoId: campId, home, away, scoreH, scoreA });
+            if(docRef) await setDoc(docRef, state);
+            alert("Resultado registado na nuvem!");
+            document.getElementById('form-home-score').value = ''; document.getElementById('form-away-score').value = '';
+            renderizarTudo();
+        };
+
+        // --- CLUBES ADMIN ---
+        window.adicionarNovoTime = async () => {
+            const novoId = 'time_' + Date.now();
+            if(!state.times) state.times = {};
+            state.times[novoId] = { nome: 'Nova Equipa', tag: '[CFM]', cor: '#64748b', logo: '' };
+            if(docRef) await setDoc(docRef, state);
+            atualizarListasAdmin();
+        };
+
+        window.excluirTime = async (id) => {
+            if(confirm("Tem certeza? Esta ação afeta o histórico de tabelas e torneios.")) {
+                delete state.times[id];
+                if(docRef) await setDoc(docRef, state);
+                atualizarListasAdmin();
+                renderizarTudo();
+            }
+        };
+
+        window.toggleEditTime = (id) => { document.getElementById(`edit-time-${id}`).classList.toggle('hidden'); };
+
+        function atualizarListaTimesAdmin() {
+            let html = '';
+            const chaves = Object.keys(state.times || {});
+            
+            if(chaves.length === 0) {
+                html = '<p class="text-sm text-slate-500 font-medium">Nenhuma equipa registada.</p>';
+            }
+
+            for(let id in state.times) {
+                let t = state.times[id];
+                let bgStyle = t.logo ? `background-image: url('${t.logo}'); background-color: transparent;` : `background-color: ${t.cor};`;
+                let logoTxt = t.logo ? '' : t.tag.replace(/\[|\]/g, '');
+
+                html += `
+                <div class="p-6 bg-white dark:bg-cfm-card rounded-[2rem] border border-slate-200 dark:border-zinc-800 shadow-sm flex flex-col gap-4">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-4">
+                            <div class="w-14 h-14 rounded-[1rem] flex items-center justify-center text-[10px] font-black text-white bg-cover bg-center shadow-md border border-slate-200/50 dark:border-zinc-700/50" style="${bgStyle}">${logoTxt}</div>
+                            <div><p class="font-display font-black text-xl">${t.nome}</p><p class="text-[10px] text-slate-400 font-mono tracking-widest mt-1">${t.tag}</p></div>
+                        </div>
+                        <button onclick="toggleEditTime('${id}')" class="text-sm bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 px-5 py-2.5 rounded-xl font-bold transition-colors border border-slate-200 dark:border-zinc-700">Editar</button>
+                    </div>
+                    
+                    <div id="edit-time-${id}" class="hidden flex-col gap-5 pt-6 mt-2 border-t border-slate-100 dark:border-zinc-800">
+                        <div><label class="text-[11px] text-slate-400 uppercase font-black mb-2 block tracking-widest">Nome do Clube</label><input type="text" id="edit-nome-${id}" value="${t.nome}" class="w-full p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl outline-none focus:border-brand-500 font-bold"></div>
+                        <div class="flex gap-4">
+                            <div class="flex-1"><label class="text-[11px] text-slate-400 uppercase font-black mb-2 block tracking-widest">TAG</label><input type="text" id="edit-tag-${id}" value="${t.tag}" class="w-full p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl outline-none focus:border-brand-500 font-mono"></div>
+                            <div class="w-28"><label class="text-[11px] text-slate-400 uppercase font-black mb-2 block tracking-widest">Cor</label><input type="color" id="edit-cor-${id}" value="${t.cor}" class="w-full h-[58px] p-1.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl cursor-pointer outline-none"></div>
+                        </div>
+                        <div><label class="text-[11px] text-slate-400 uppercase font-black mb-2 block tracking-widest">Escudo Oficial</label><input type="file" id="edit-logo-${id}" accept="image/*" class="w-full text-sm file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-100 dark:file:bg-zinc-800 file:text-slate-600 dark:file:text-zinc-300 cursor-pointer hover:file:bg-slate-200 dark:hover:file:bg-zinc-700 transition-colors"></div>
+                        <div class="flex justify-between items-center mt-4 pt-4 border-t border-slate-100 dark:border-zinc-800">
+                            <button onclick="excluirTime('${id}')" class="text-sm text-red-500 hover:text-red-600 font-bold transition-colors">Remover Clube</button>
+                            <button onclick="salvarTimeAdmin('${id}')" id="btn-salvar-time-${id}" class="bg-slate-900 dark:bg-white text-white dark:text-black px-8 py-3.5 rounded-xl text-sm font-bold shadow-lg transition-all active:scale-95">Salvar Clube</button>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            document.getElementById('admin-lista-times').innerHTML = html;
+        }
+
+        window.salvarTimeAdmin = async (id) => {
+            const btn = document.getElementById(`btn-salvar-time-${id}`);
+            btn.innerText = "..."; btn.disabled = true;
+
+            state.times[id].nome = document.getElementById(`edit-nome-${id}`).value;
+            state.times[id].tag = document.getElementById(`edit-tag-${id}`).value;
+            state.times[id].cor = document.getElementById(`edit-cor-${id}`).value;
+
+            const fileInput = document.getElementById(`edit-logo-${id}`);
+            if (fileInput.files.length > 0) state.times[id].logo = await resizeImageAsync(fileInput.files[0], 200, 200);
+
+            if(docRef) await setDoc(docRef, state);
+            btn.innerText = "Salvar Clube"; btn.disabled = false; alert('Clube atualizado!');
+            atualizarListasAdmin(); renderizarTudo();
+        };
+
+        // ==========================================
+        // SISTEMA DE LOGIN E SEGURANÇA
+        // ==========================================
+        window.abrirLogin = async () => {
+            if(isProducao) { 
+                try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
+                catch(e) { alert("Erro de autorização. Certifique-se de adicionar o domínio no Firebase."); } 
+            }
+            else { const e = prompt("Email:"); if(e) { currentUser = { email: e.toLowerCase() }; verificarPermissoes(); } }
+        };
+
+        window.fazerLogout = async () => { if(isProducao) await signOut(auth); else currentUser = null; verificarPermissoes(); fecharAdminPanel(); };
+
+        function verificarPermissoes() {
+            const btnLogin = document.getElementById('btn-login');
+            const userMenu = document.getElementById('user-menu');
+            const btnAdmin = document.getElementById('btn-admin');
+            if(currentUser && currentUser.email) {
+                btnLogin.classList.add('hidden'); userMenu.classList.remove('hidden');
+                document.getElementById('user-email-display').innerText = currentUser.email;
+                if(ADMIN_EMAILS.includes(currentUser.email)) btnAdmin.classList.remove('hidden');
+                else btnAdmin.classList.add('hidden');
+            } else {
+                btnLogin.classList.remove('hidden'); userMenu.classList.add('hidden');
+            }
+        }
+
+        // ==========================================
+        // LÓGICA DO BANNER DE COOKIES (FLUTUANTE)
+        // ==========================================
+        window.responderCookies = (aceitou) => { 
+            localStorage.setItem('cfm_cookies', aceitou ? 'aceito' : 'recusado'); 
+            document.getElementById('cookie-banner').classList.add('translate-y-[150%]'); 
+        };
+        
+        document.addEventListener('DOMContentLoaded', () => { 
+            if(!localStorage.getItem('cfm_cookies')) {
+                setTimeout(() => document.getElementById('cookie-banner').classList.remove('translate-y-[150%]'), 1500); 
+            }
+        });
+
+    </script>
+</body>
+</html>
