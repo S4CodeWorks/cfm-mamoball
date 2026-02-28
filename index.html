@@ -218,7 +218,7 @@
 
     <!-- MODAL DE NOTÍCIA COMPLETA (TELA CHEIA) -->
     <div id="modal-noticia" class="fixed inset-0 z-[100] hidden flex-col bg-slate-50 dark:bg-black overflow-y-auto fade-in">
-        <div class="sticky top-0 z-20 glass-panel border-b-0 m-2 md:m-4 rounded-2xl shadow-sm">
+        <div class="sticky top-0 z-30 glass-panel border-b-0 m-2 md:m-4 rounded-2xl shadow-sm shrink-0">
             <div class="max-w-4xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
                 <span class="font-black tracking-[0.2em] uppercase text-brand-500 text-xs">CFM News</span>
                 <button onclick="fecharNoticia()" class="bg-slate-200/50 dark:bg-zinc-800/50 hover:bg-slate-300 dark:hover:bg-zinc-700 w-10 h-10 rounded-full flex items-center justify-center transition-colors shrink-0">
@@ -227,17 +227,19 @@
             </div>
         </div>
         
-        <div class="max-w-4xl mx-auto w-full pb-32 fade-in-up -mt-16 md:-mt-20">
-            <div class="w-full aspect-square sm:aspect-video md:aspect-[21/9] bg-zinc-900 relative md:rounded-b-[3rem] overflow-hidden shadow-2xl">
-                <img id="modal-noticia-banner" src="" class="w-full h-full object-cover opacity-90">
-                <div class="absolute inset-0 bg-gradient-to-t from-slate-50 dark:from-black via-black/20 to-transparent"></div>
+        <div class="max-w-4xl mx-auto w-full px-4 md:px-6 pb-32 fade-in-up mt-2">
+            <!-- Banner da Notícia -->
+            <div class="w-full aspect-video md:aspect-[21/9] bg-zinc-900 relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-xl mb-8 md:mb-10">
+                <img id="modal-noticia-banner" src="" class="w-full h-full object-cover object-center opacity-90">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
             </div>
             
-            <div class="px-6 md:px-12 -mt-10 md:-mt-16 relative z-10">
-                <span id="modal-noticia-data" class="text-brand-600 dark:text-brand-400 font-bold text-[10px] md:text-xs tracking-widest uppercase mb-4 block bg-white/80 dark:bg-black/80 backdrop-blur-md w-max px-4 py-2 rounded-xl border border-slate-200/50 dark:border-zinc-800/50 shadow-sm"></span>
-                <h1 id="modal-noticia-titulo" class="text-3xl md:text-6xl font-display font-black leading-[1.1] mb-8 md:mb-10 tracking-tight text-slate-900 dark:text-white"></h1>
+            <div class="px-2 md:px-8 relative z-10">
+                <span id="modal-noticia-data" class="text-brand-600 dark:text-brand-400 font-bold text-[10px] md:text-xs tracking-widest uppercase mb-4 block w-max py-2 rounded-xl"></span>
+                <h1 id="modal-noticia-titulo" class="text-3xl md:text-5xl lg:text-6xl font-display font-black leading-[1.1] mb-8 md:mb-10 tracking-tight text-slate-900 dark:text-white"></h1>
                 
-                <div class="prose prose-slate dark:prose-invert max-w-none font-serif text-base md:text-xl leading-relaxed text-slate-700 dark:text-slate-300">
+                <!-- Conteúdo de texto com fonte modernizada e melhor espaçamento -->
+                <div class="prose prose-slate dark:prose-invert max-w-none font-sans text-lg md:text-xl leading-loose text-slate-700 dark:text-slate-300 font-medium">
                     <p id="modal-noticia-texto" class="whitespace-pre-line"></p>
                 </div>
                 
