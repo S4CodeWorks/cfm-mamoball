@@ -76,16 +76,6 @@
             }
         }
 
-        /* Botão admin mobile flutuante (2026) */
-        #btn-admin-mobile-float {
-            position: fixed;
-            bottom: 1.5rem;
-            right: 1.5rem;
-            z-index: 100;
-            box-shadow: 0 8px 32px 0 rgba(16,185,129,0.18);
-            animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
         /* Bracket e outros detalhes mantidos */
         .bracket-connector { position: absolute; right: -2rem; width: 2rem; border-right: 2px solid; border-color: inherit; }
         .bracket-connector.top { top: 50%; height: calc(50% + 1rem); border-top: 2px solid; border-top-right-radius: 1rem; }
@@ -124,7 +114,7 @@
             <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center relative z-20">
                 <div class="flex items-center gap-3 md:gap-4 group cursor-pointer" onclick="navegar('home')">
                     <div class="w-8 h-8 md:w-10 md:h-10 rounded-xl flex items-center justify-center overflow-hidden border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm transition-transform group-hover:scale-105">
-                        <img src="logo_federacao.png" alt="CFM" class="w-full h-full object-cover text-[9px] text-center text-slate-400 font-bold">
+                        <img src="logo_federacao.png" alt="CFM" class="w-full h-full object-cover text-[9px] text-center text-slate-400 font-bold" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='">
                     </div>
                     <span class="text-lg md:text-xl font-display font-black tracking-tight group-hover:text-brand-500 transition-colors">CFM</span>
                 </div>
@@ -144,13 +134,13 @@
                     </div>
                 </nav>
 
-                <!-- Botão Menu Mobile -->
-                <div class="md:hidden flex items-center gap-2">
-                    <button onclick="toggleMenuMobile()" class="p-2 text-slate-600 dark:text-slate-300">
+                <!-- Área Mobile Header -->
+                <div class="md:hidden flex items-center gap-2 md:gap-3">
+                    <!-- Botão Admin Mobile Organizado e Limpo -->
+                    <button id="btn-admin-mobile-header" onclick="abrirAdminPanel();" class="hidden bg-brand-500 text-white py-1.5 px-3 rounded-lg font-bold text-[10px] uppercase tracking-widest shadow-md shadow-brand-500/20 transition-all hover:bg-brand-600 active:scale-95">Admin</button>
+                    <button onclick="toggleMenuMobile()" class="p-1.5 text-slate-600 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg shadow-sm hover:bg-slate-50 dark:hover:bg-zinc-700 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                     </button>
-                    <!-- Botão Admin Mobile Fora do Menu -->
-                    <button id="btn-admin-mobile-float" onclick="abrirAdminPanel();" class="hidden bg-brand-500 text-white py-2 px-4 rounded-xl font-bold text-xs uppercase tracking-widest shadow-lg shadow-brand-500/20 ml-1 transition-all hover:bg-brand-600 active:scale-95">Admin</button>
                 </div>
             </div>
 
@@ -165,7 +155,6 @@
                         <button id="btn-login-mobile" onclick="abrirLogin(); toggleMenuMobile()" class="bg-slate-900 dark:bg-white text-white dark:text-black py-3.5 rounded-xl font-bold text-center w-full">Fazer Login</button>
                         <div id="user-menu-mobile" class="hidden flex-col gap-3">
                             <span id="user-email-display-mobile" class="text-xs text-center border border-slate-200 dark:border-zinc-800 py-2.5 rounded-xl text-slate-500 font-medium bg-slate-50 dark:bg-black/50"></span>
-                            <!-- O botão admin mobile dentro do menu agora é removido, pois ficará flutuante fora do menu -->
                             <button onclick="fazerLogout(); toggleMenuMobile()" class="text-red-500 font-bold py-3 text-center border border-red-100 dark:border-red-900/30 rounded-xl bg-red-50/50 dark:bg-red-500/10">Sair da Conta</button>
                         </div>
                     </div>
@@ -259,6 +248,43 @@
         </div>
     </div>
 
+    <!-- MODAL DO CLUBE COM ELENCO (PÚBLICO) -->
+    <div id="modal-clube" class="fixed inset-0 z-[200] hidden flex-col items-center justify-center p-4 sm:p-6 fade-in">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="fecharModalClube()"></div>
+        <div class="relative w-full max-w-md bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] fade-in-up">
+            <!-- Header (Capa/Logo) -->
+            <div class="relative h-32 md:h-40 bg-slate-900 flex justify-center pt-8 shrink-0">
+                <div id="mc-bg" class="absolute inset-0 opacity-40 bg-cover bg-center transition-colors"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-white dark:from-cfm-card to-transparent"></div>
+                <button onclick="fecharModalClube()" class="absolute top-4 right-4 w-8 h-8 bg-black/30 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black/50 transition-colors z-20">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+                <div id="mc-logo" class="relative z-10 w-24 h-24 md:w-28 md:h-28 rounded-[1.5rem] border-4 border-white dark:border-cfm-card bg-cover bg-center shadow-xl flex items-center justify-center text-2xl font-black text-white" style="transform: translateY(2rem);"></div>
+            </div>
+
+            <!-- Info do Clube -->
+            <div class="pt-14 pb-6 px-6 text-center shrink-0 border-b border-slate-100 dark:border-zinc-800/50">
+                <h2 id="mc-nome" class="text-2xl md:text-3xl font-display font-black tracking-tight text-slate-900 dark:text-white"></h2>
+                <p id="mc-tag" class="text-xs font-mono text-slate-500 uppercase tracking-widest mt-1 mb-5"></p>
+                
+                <div id="mc-camp-info" class="inline-flex items-center gap-3 bg-slate-50 dark:bg-zinc-900/50 border border-slate-200 dark:border-zinc-800 px-4 py-2.5 rounded-xl text-left shadow-sm">
+                    <div id="mc-camp-logo" class="w-9 h-9 rounded-lg bg-brand-500/10 text-brand-500 flex items-center justify-center font-black text-sm bg-cover bg-center border border-brand-500/20 shrink-0">T</div>
+                    <div class="flex flex-col">
+                        <span id="mc-camp-pos" class="text-[9px] text-brand-500 font-black uppercase tracking-widest mb-0.5"></span>
+                        <span id="mc-camp-nome" class="text-xs font-bold text-slate-800 dark:text-slate-200 leading-tight"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Elenco -->
+            <div class="flex-1 overflow-y-auto px-6 py-6 custom-scrollbar bg-slate-50/30 dark:bg-transparent">
+                <h3 class="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400 mb-4 text-center">Elenco Registrado</h3>
+                <div id="mc-elenco" class="space-y-3">
+                    <!-- renderizado via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- PAINEL ADMIN -->
     <div id="admin-panel" class="fixed inset-0 z-[150] hidden bg-slate-50 dark:bg-[#050505] flex-col overflow-hidden">
@@ -271,7 +297,7 @@
         </header>
         
         <div class="flex-1 flex flex-col md:flex-row overflow-hidden">
-            <!-- Menu Lateral Admin (Desktop) / Menu Superior Horizontal (Mobile) -->
+            <!-- Menu Lateral Admin -->
             <aside class="w-full md:w-64 bg-white dark:bg-cfm-card border-b md:border-b-0 md:border-r border-slate-200 dark:border-zinc-800 p-4 md:p-6 flex flex-row md:flex-col gap-2 z-0 overflow-x-auto no-scrollbar shrink-0">
                 <span class="hidden md:block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4">Gestão CFM</span>
                 <button onclick="abaAdmin('noticias')" id="btn-aba-noticias" class="admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl bg-brand-500/10 text-brand-600 dark:text-brand-400 font-bold transition-all text-sm md:text-base">Notícias</button>
@@ -357,12 +383,12 @@
                     </div>
                 </div>
 
-                <!-- Aba Times -->
+                <!-- Aba Times / Clubes -->
                 <div id="aba-times" class="hidden max-w-4xl mx-auto fade-in">
                     <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-6 md:mb-8 gap-4">
                         <div>
                             <h2 class="text-3xl md:text-4xl font-display font-black mb-2">Equipes da Federação</h2>
-                            <p class="text-sm md:text-base text-slate-500">Gestão dos clubes federados.</p>
+                            <p class="text-sm md:text-base text-slate-500">Gestão dos clubes e elencos.</p>
                         </div>
                         <button onclick="adicionarNovoTime()" class="bg-slate-900 dark:bg-white text-white dark:text-black px-6 py-3.5 rounded-xl font-bold transition-all shadow-lg active:scale-95 w-full sm:w-auto">+ Nova Equipe</button>
                     </div>
@@ -389,9 +415,6 @@
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // ==========================================
-        // 1. CONFIGURAÇÃO (COLOQUE AS SUAS CHAVES)
-        // ==========================================
         const myFirebaseConfig = {
             apiKey: "AIzaSyAdndD_kOO1svVoxPbtXDNE1nTJ9mQ1gdE",
             authDomain: "cfm-mamoball.firebaseapp.com",
@@ -403,7 +426,6 @@
 
         const ADMIN_EMAILS = ['samueldossantosramos123@gmail.com', 'essiquatru@gmail.com'];
 
-        // BASE DE DADOS "VIRGEM" - Pronta para produção
         let state = {
             times: {},
             campeonatos: {},
@@ -455,9 +477,6 @@
             initDb();
         } catch (e) { console.error(e); }
 
-        // ==========================================
-        // COMPRESSÃO DE IMAGEM
-        // ==========================================
         function resizeImageAsync(file, maxWidth, maxHeight) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -479,9 +498,6 @@
             });
         }
 
-        // ==========================================
-        // NAVEGAÇÃO E RENDERIZAÇÃO PÚBLICA
-        // ==========================================
         window.toggleMenuMobile = () => {
             const menu = document.getElementById('menu-mobile-dropdown');
             menu.classList.toggle('hidden');
@@ -557,6 +573,79 @@
             document.body.style.overflow = '';
         };
 
+        // --- LÓGICA DO POPUP DO CLUBE ---
+        window.abrirModalClube = (timeId, pos) => {
+            if(!timeId || !state.times[timeId]) return;
+            const t = state.times[timeId];
+            const camp = campeonatoAbertoPublico ? state.campeonatos[campeonatoAbertoPublico] : null;
+            
+            document.getElementById('mc-nome').innerText = t.nome;
+            document.getElementById('mc-tag').innerText = t.tag;
+            
+            const logoEl = document.getElementById('mc-logo');
+            if(t.logo) {
+                logoEl.style.backgroundImage = `url('${t.logo}')`;
+                logoEl.style.backgroundColor = 'transparent';
+                logoEl.innerText = '';
+            } else {
+                logoEl.style.backgroundImage = 'none';
+                logoEl.style.backgroundColor = t.cor || '#3b82f6';
+                logoEl.innerText = t.tag.replace(/\[|\]/g, '');
+            }
+            document.getElementById('mc-bg').style.backgroundColor = t.cor || '#3b82f6';
+
+            // Camp Info
+            if(camp) {
+                document.getElementById('mc-camp-info').classList.remove('hidden');
+                document.getElementById('mc-camp-nome').innerText = camp.nome;
+                document.getElementById('mc-camp-pos').innerText = pos ? `${pos}º Colocado` : 'Participante';
+                const campLogoEl = document.getElementById('mc-camp-logo');
+                if(camp.logo) {
+                    campLogoEl.style.backgroundImage = `url('${camp.logo}')`;
+                    campLogoEl.innerText = '';
+                    campLogoEl.style.backgroundColor = 'transparent';
+                    campLogoEl.classList.remove('border');
+                } else {
+                    campLogoEl.style.backgroundImage = 'none';
+                    campLogoEl.innerText = 'T';
+                    campLogoEl.style.backgroundColor = '';
+                    campLogoEl.classList.add('border');
+                }
+            } else {
+                document.getElementById('mc-camp-info').classList.add('hidden');
+            }
+
+            // Elenco
+            const elencoContainer = document.getElementById('mc-elenco');
+            const jogs = t.jogadores || [];
+            if(jogs.length === 0) {
+                elencoContainer.innerHTML = '<div class="text-center py-6 text-[11px] font-medium text-slate-500 dark:text-zinc-500 bg-slate-100/50 dark:bg-zinc-800/20 rounded-xl">Nenhum jogador cadastrado pela organização.</div>';
+            } else {
+                elencoContainer.innerHTML = jogs.map(j => `
+                    <div class="flex items-center justify-between bg-white dark:bg-zinc-800/60 p-3 rounded-[1rem] border border-slate-200 dark:border-zinc-700/50 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-[8px] bg-slate-100 dark:bg-zinc-900 flex items-center justify-center text-[9px] font-black text-slate-400 dark:text-zinc-500 border border-slate-200/50 dark:border-zinc-700">#${j.id.slice(-3)}</div>
+                            <div class="flex flex-col">
+                                <span class="text-sm font-bold text-slate-900 dark:text-white leading-tight">${j.nick}</span>
+                                <span class="text-[9px] text-slate-400 font-mono tracking-widest mt-0.5">ID: ${j.id}</span>
+                            </div>
+                        </div>
+                        ${j.discord ? `<div class="flex items-center gap-1.5 text-[10px] font-bold text-[#5865F2] bg-[#5865F2]/10 px-2.5 py-1.5 rounded-lg border border-[#5865F2]/20"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg> ${j.discord}</div>` : ''}
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('modal-clube').classList.remove('hidden');
+            document.getElementById('modal-clube').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.fecharModalClube = () => {
+            document.getElementById('modal-clube').classList.add('hidden');
+            document.getElementById('modal-clube').classList.remove('flex');
+            document.body.style.overflow = '';
+        };
+
         function renderizarMenuCampeonatos() {
             const container = document.getElementById('menu-campeonatos');
             const chaves = Object.keys(state.campeonatos || {});
@@ -586,7 +675,6 @@
             renderizarTabelaPublica();
         };
 
-        // --- MATEMÁTICA DO MATA-MATA DINÂMICO ---
         function resolverMataMata(camp) {
             const clubes = camp.clubes || [];
             if(clubes.length === 0) return [];
@@ -668,11 +756,11 @@
                         let h = m.home ? state.times[m.home] : null;
                         let a = m.away ? state.times[m.away] : null;
                         
-                        let hName = h ? h.nome : (m.home ? '...' : 'Vazio');
-                        let aName = a ? a.nome : (m.away ? '...' : (m.home ? 'Avança Dir.' : 'Vazio'));
+                        let hName = h ? `<span class="group-hover/t1:underline group-hover/t1:text-brand-500 truncate transition-colors">${h.nome}</span>` : (m.home ? '...' : 'Vazio');
+                        let aName = a ? `<span class="group-hover/t2:underline group-hover/t2:text-brand-500 truncate transition-colors">${a.nome}</span>` : (m.away ? '...' : (m.home ? 'Avança Dir.' : 'Vazio'));
                         
-                        let hLogo = h ? `<div class="w-6 h-6 md:w-7 md:h-7 rounded-lg bg-cover bg-center shadow-sm border border-slate-200/50 dark:border-zinc-700/50" style="${h.logo ? `background-image:url('${h.logo}')` : `background-color:${h.cor}`}">${h.logo?'':''}</div>` : '';
-                        let aLogo = a ? `<div class="w-6 h-6 md:w-7 md:h-7 rounded-lg bg-cover bg-center shadow-sm border border-slate-200/50 dark:border-zinc-700/50" style="${a.logo ? `background-image:url('${a.logo}')` : `background-color:${a.cor}`}">${a.logo?'':''}</div>` : '';
+                        let hLogo = h ? `<div class="w-6 h-6 md:w-7 md:h-7 rounded-lg bg-cover bg-center shadow-sm border border-slate-200/50 dark:border-zinc-700/50 shrink-0" style="${h.logo ? `background-image:url('${h.logo}')` : `background-color:${h.cor}`}">${h.logo?'':''}</div>` : '';
+                        let aLogo = a ? `<div class="w-6 h-6 md:w-7 md:h-7 rounded-lg bg-cover bg-center shadow-sm border border-slate-200/50 dark:border-zinc-700/50 shrink-0" style="${a.logo ? `background-image:url('${a.logo}')` : `background-color:${a.cor}`}">${a.logo?'':''}</div>` : '';
                         
                         let isHWinner = m.winner === m.home && m.winner !== null;
                         let isAWinner = m.winner === m.away && m.winner !== null;
@@ -681,16 +769,19 @@
                         if(!isFinal) { connectorClass = mIdx % 2 === 0 ? 'bracket-connector top border-slate-300 dark:border-zinc-700' : 'bracket-connector bottom border-slate-300 dark:border-zinc-700'; }
                         let hConnector = rIdx > 0 ? 'bracket-connector-horizontal border-slate-300 dark:border-zinc-700' : '';
 
+                        let hClick = m.home ? `onclick="abrirModalClube('${m.home}')" class="cursor-pointer group/t1 flex justify-between items-center mb-2 md:mb-3 p-1 -m-1 rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-800/50 transition-colors"` : `class="flex justify-between items-center mb-2 md:mb-3 p-1 -m-1"`;
+                        let aClick = m.away ? `onclick="abrirModalClube('${m.away}')" class="cursor-pointer group/t2 flex justify-between items-center p-1 -m-1 rounded-lg hover:bg-slate-50 dark:hover:bg-zinc-800/50 transition-colors"` : `class="flex justify-between items-center p-1 -m-1"`;
+
                         html += `
                             <div class="relative w-full my-3 md:my-4">
                                 <div class="bg-white dark:bg-cfm-card border ${isHWinner || isAWinner ? 'border-brand-400 shadow-[0_0_15px_rgba(52,211,153,0.15)]' : 'border-slate-200/60 dark:border-zinc-800'} rounded-xl md:rounded-2xl p-3 md:p-4 relative z-10 ${hConnector} transition-all">
-                                    <div class="flex justify-between items-center mb-2 md:mb-3">
-                                        <div class="flex items-center gap-2 md:gap-3 ${isHWinner ? 'font-black text-brand-600 dark:text-brand-400' : (m.winner || !m.home ? 'text-slate-400 dark:text-zinc-600 font-medium' : 'font-bold')}">${hLogo} <span class="truncate text-xs md:text-sm max-w-[120px] md:max-w-[140px]">${hName}</span></div>
-                                        <div class="font-black text-base md:text-lg ${isHWinner ? 'text-brand-500' : 'text-slate-300 dark:text-zinc-700'}">${m.scoreH !== null ? m.scoreH : '-'}</div>
+                                    <div ${hClick}>
+                                        <div class="flex items-center gap-2 md:gap-3 ${isHWinner ? 'font-black text-brand-600 dark:text-brand-400' : (m.winner || !m.home ? 'text-slate-400 dark:text-zinc-600 font-medium' : 'font-bold')} min-w-0 pr-2">${hLogo} <span class="truncate text-xs md:text-sm max-w-[120px] md:max-w-[140px]">${hName}</span></div>
+                                        <div class="font-black text-base md:text-lg shrink-0 ${isHWinner ? 'text-brand-500' : 'text-slate-300 dark:text-zinc-700'}">${m.scoreH !== null ? m.scoreH : '-'}</div>
                                     </div>
-                                    <div class="flex justify-between items-center">
-                                        <div class="flex items-center gap-2 md:gap-3 ${isAWinner ? 'font-black text-brand-600 dark:text-brand-400' : (m.winner || !m.away ? 'text-slate-400 dark:text-zinc-600 font-medium' : 'font-bold')}">${aLogo} <span class="truncate text-xs md:text-sm max-w-[120px] md:max-w-[140px]">${aName}</span></div>
-                                        <div class="font-black text-base md:text-lg ${isAWinner ? 'text-brand-500' : 'text-slate-300 dark:text-zinc-700'}">${m.scoreA !== null ? m.scoreA : '-'}</div>
+                                    <div ${aClick}>
+                                        <div class="flex items-center gap-2 md:gap-3 ${isAWinner ? 'font-black text-brand-600 dark:text-brand-400' : (m.winner || !m.away ? 'text-slate-400 dark:text-zinc-600 font-medium' : 'font-bold')} min-w-0 pr-2">${aLogo} <span class="truncate text-xs md:text-sm max-w-[120px] md:max-w-[140px]">${aName}</span></div>
+                                        <div class="font-black text-base md:text-lg shrink-0 ${isAWinner ? 'text-brand-500' : 'text-slate-300 dark:text-zinc-700'}">${m.scoreA !== null ? m.scoreA : '-'}</div>
                                     </div>
                                 </div>
                                 <div class="${connectorClass}"></div>
@@ -706,8 +797,8 @@
                     <div class="flex flex-col items-center justify-center w-60 md:w-72 shrink-0 relative z-10 pl-8 md:pl-12 fade-in">
                         <div class="absolute inset-0 bg-yellow-400/10 blur-3xl rounded-full"></div>
                         <span class="text-[9px] md:text-[10px] uppercase font-black tracking-[0.2em] text-yellow-600 dark:text-yellow-500 mb-4 md:mb-6 flex items-center gap-2 bg-yellow-500/10 px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-yellow-500/20"><svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd"></path></svg> Campeão</span>
-                        <div class="w-32 h-32 md:w-40 md:h-40 rounded-[1.5rem] md:rounded-[2rem] border-[3px] md:border-4 border-yellow-400 bg-cover bg-center shadow-[0_15px_40px_rgba(250,204,21,0.3)] flex items-center justify-center text-3xl md:text-4xl font-black text-white relative z-10 transform -rotate-3 hover:rotate-0 transition-transform duration-500" style="${c.logo ? `background-image:url('${c.logo}')` : `background-color:${c.cor}`}">${c.logo?'':c.tag.replace(/\[|\]/g,'')}</div>
-                        <h3 class="mt-6 md:mt-8 text-2xl md:text-4xl font-display font-black text-yellow-600 dark:text-yellow-400 text-center tracking-tight drop-shadow-sm">${c.nome}</h3>
+                        <div onclick="abrirModalClube('${campeao}', 1)" class="cursor-pointer w-32 h-32 md:w-40 md:h-40 rounded-[1.5rem] md:rounded-[2rem] border-[3px] md:border-4 border-yellow-400 bg-cover bg-center shadow-[0_15px_40px_rgba(250,204,21,0.3)] flex items-center justify-center text-3xl md:text-4xl font-black text-white relative z-10 transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-500" style="${c.logo ? `background-image:url('${c.logo}')` : `background-color:${c.cor}`}">${c.logo?'':c.tag.replace(/\[|\]/g,'')}</div>
+                        <h3 class="mt-6 md:mt-8 text-2xl md:text-4xl font-display font-black text-yellow-600 dark:text-yellow-400 text-center tracking-tight drop-shadow-sm cursor-pointer hover:underline" onclick="abrirModalClube('${campeao}', 1)">${c.nome}</h3>
                     </div>`;
                 }
 
@@ -752,7 +843,7 @@
                 const tagLetras = t.logo ? '' : t.tag.replace(/\[|\]/g, '');
 
                 return `
-                <tr class="border-b border-slate-100 dark:border-zinc-800/50 ${rowBg} transition-colors group">
+                <tr onclick="abrirModalClube('${l.timeId}', ${i+1})" class="cursor-pointer border-b border-slate-100 dark:border-zinc-800/50 ${rowBg} transition-colors group">
                     <td class="py-4 md:py-5 px-1 md:px-6 text-center w-12 md:w-24">
                         <div class="flex flex-col items-center justify-center">
                             <span class="${posClass} text-lg md:text-2xl">${i+1}º</span>
@@ -816,9 +907,6 @@
             `).join('');
         }
 
-        // ==========================================
-        // LÓGICA DO PAINEL ADMIN
-        // ==========================================
         window.abrirAdminPanel = () => { document.getElementById('admin-panel').classList.remove('hidden'); document.getElementById('admin-panel').classList.add('flex'); renderizarTudo(); };
         window.fecharAdminPanel = () => { document.getElementById('admin-panel').classList.add('hidden'); };
         
@@ -839,7 +927,6 @@
             atualizarListaNoticiasAdmin();
         }
 
-        // --- NOTICIAS ADMIN ---
         window.salvarNoticia = async () => {
             const titulo = document.getElementById('news-titulo').value;
             const bannerFile = document.getElementById('news-banner-file').files[0];
@@ -870,7 +957,6 @@
             renderizarTudo();
         };
 
-        // NOVO: Listar Notícias no Admin
         function atualizarListaNoticiasAdmin() {
             let html = '';
             if(!state.noticias || state.noticias.length === 0) {
@@ -902,8 +988,6 @@
             }
         };
 
-
-        // --- TORNEIOS ADMIN ---
         window.criarTorneio = async () => {
             const nome = prompt("Nome do novo Torneio (Ex: Copa MMB):");
             if(!nome) return;
@@ -1000,7 +1084,6 @@
             document.getElementById('admin-lista-torneios').innerHTML = html;
         }
 
-        // --- PARTIDAS ADMIN ---
         window.atualizarSelectsPartida = function() {
             const campId = document.getElementById('form-partida-camp').value;
             if(!campId || !state.campeonatos[campId]) return;
@@ -1048,11 +1131,10 @@
             renderizarTudo();
         };
 
-        // --- CLUBES ADMIN ---
         window.adicionarNovoTime = async () => {
             const novoId = 'time_' + Date.now();
             if(!state.times) state.times = {};
-            state.times[novoId] = { nome: 'Nova Equipa', tag: '[CFM]', cor: '#64748b', logo: '' };
+            state.times[novoId] = { nome: 'Nova Equipa', tag: '[CFM]', cor: '#64748b', logo: '', jogadores: [] };
             if(docRef) await setDoc(docRef, state);
             atualizarListasAdmin();
         };
@@ -1066,7 +1148,52 @@
             }
         };
 
-        window.toggleEditTime = (id) => { document.getElementById(`edit-time-${id}`).classList.toggle('hidden'); };
+        window.toggleEditTime = (id) => { 
+            document.getElementById(`edit-time-${id}`).classList.toggle('hidden'); 
+            window.renderJogadoresTemp(id); 
+        };
+
+        // --- SISTEMA DE JOGADORES (ADMIN) ---
+        window.addJogadorTemp = (timeId) => {
+            if(!state.times[timeId].jogadores) state.times[timeId].jogadores = [];
+            const idInput = document.getElementById(`add-jog-id-${timeId}`);
+            const nickInput = document.getElementById(`add-jog-nick-${timeId}`);
+            const discordInput = document.getElementById(`add-jog-discord-${timeId}`);
+            
+            if(!idInput.value || !nickInput.value) return alert("ID e Nick são obrigatórios para adicionar jogador!");
+            
+            state.times[timeId].jogadores.push({ id: idInput.value, nick: nickInput.value, discord: discordInput.value });
+            
+            idInput.value = '';
+            nickInput.value = '';
+            discordInput.value = '';
+            
+            window.renderJogadoresTemp(timeId);
+        };
+
+        window.remJogadorTemp = (timeId, idx) => {
+            state.times[timeId].jogadores.splice(idx, 1);
+            window.renderJogadoresTemp(timeId);
+        };
+
+        window.renderJogadoresTemp = (timeId) => {
+            const container = document.getElementById(`lista-jogadores-${timeId}`);
+            if(!container) return;
+            const jogs = state.times[timeId].jogadores || [];
+            if(jogs.length === 0) {
+                container.innerHTML = '<span class="text-xs text-slate-500 font-medium">Nenhum jogador cadastrado no elenco.</span>';
+                return;
+            }
+            container.innerHTML = jogs.map((j, idx) => `
+                <div class="flex justify-between items-center bg-slate-50 dark:bg-zinc-800/50 p-3 rounded-xl border border-slate-200 dark:border-zinc-700/50">
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white">${j.nick} <span class="text-[9px] text-slate-400 font-mono ml-1">#${j.id}</span></span>
+                        ${j.discord ? `<span class="text-[10px] text-[#5865F2] font-medium flex items-center gap-1.5 mt-1"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg> ${j.discord}</span>` : ''}
+                    </div>
+                    <button onclick="remJogadorTemp('${timeId}', ${idx})" class="text-red-500 font-bold px-3 py-1.5 text-[10px] uppercase tracking-wider bg-red-50 dark:bg-red-900/10 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg border border-red-100 dark:border-red-900/30 transition-colors">Remover</button>
+                </div>
+            `).join('');
+        };
 
         function atualizarListaTimesAdmin() {
             let html = '';
@@ -1101,9 +1228,24 @@
                             <div class="w-full sm:w-28"><label class="text-[10px] md:text-[11px] text-slate-400 uppercase font-black mb-2 block tracking-widest">Cor</label><input type="color" id="edit-cor-${id}" value="${t.cor}" class="w-full h-12 md:h-[58px] p-1 md:p-1.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl cursor-pointer outline-none"></div>
                         </div>
                         <div><label class="text-[10px] md:text-[11px] text-slate-400 uppercase font-black mb-2 block tracking-widest">Escudo Oficial</label><input type="file" id="edit-logo-${id}" accept="image/*" class="w-full text-xs md:text-sm file:mr-3 md:file:mr-4 file:py-2 md:file:py-3 file:px-4 md:file:px-6 file:rounded-xl file:border-0 file:font-bold file:bg-slate-100 dark:file:bg-zinc-800 file:text-slate-600 dark:file:text-zinc-300 cursor-pointer hover:file:bg-slate-200 dark:hover:file:bg-zinc-700 transition-colors"></div>
-                        <div class="flex flex-col-reverse sm:flex-row justify-between sm:items-center mt-4 pt-4 border-t border-slate-100 dark:border-zinc-800 gap-4">
-                            <button onclick="excluirTime('${id}')" class="text-xs md:text-sm text-red-500 hover:text-red-600 font-bold transition-colors py-2">Remover Clube</button>
-                            <button onclick="salvarTimeAdmin('${id}')" id="btn-salvar-time-${id}" class="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-black px-6 md:px-8 py-3 md:py-3.5 rounded-xl text-xs md:text-sm font-bold shadow-lg transition-all active:scale-95">Salvar Clube</button>
+                        
+                        <!-- NOVO: GESTÃO DE ELENCO -->
+                        <div class="mt-2 pt-5 border-t border-slate-100 dark:border-zinc-800">
+                            <label class="text-[10px] md:text-[11px] text-slate-400 uppercase font-black mb-3 block tracking-widest">Elenco (Jogadores)</label>
+                            <div class="flex flex-col sm:flex-row gap-2 mb-4 bg-slate-100/50 dark:bg-zinc-900/50 p-2 md:p-3 rounded-xl border border-slate-200 dark:border-zinc-800">
+                                <input type="text" id="add-jog-id-${id}" placeholder="ID no Jogo" class="w-full sm:w-[25%] p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg outline-none focus:border-brand-500 text-xs font-mono">
+                                <input type="text" id="add-jog-nick-${id}" placeholder="Nickname" class="w-full sm:w-[35%] p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg outline-none focus:border-brand-500 text-xs font-bold">
+                                <input type="text" id="add-jog-discord-${id}" placeholder="@Discord (Opcional)" class="w-full sm:w-[35%] p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg outline-none focus:border-brand-500 text-xs">
+                                <button onclick="addJogadorTemp('${id}')" class="bg-brand-500 hover:bg-brand-600 text-white p-3 rounded-lg font-black text-sm shrink-0 shadow-md transition-colors">+</button>
+                            </div>
+                            <div id="lista-jogadores-${id}" class="flex flex-col gap-2 max-h-48 overflow-y-auto custom-scrollbar">
+                                <!-- renderizado via JS ao abrir -->
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col-reverse sm:flex-row justify-between sm:items-center mt-4 pt-5 border-t border-slate-100 dark:border-zinc-800 gap-4">
+                            <button onclick="excluirTime('${id}')" class="text-xs md:text-sm text-red-500 hover:text-red-600 font-bold transition-colors py-2 uppercase tracking-widest">Remover Clube</button>
+                            <button onclick="salvarTimeAdmin('${id}')" id="btn-salvar-time-${id}" class="w-full sm:w-auto bg-slate-900 dark:bg-white text-white dark:text-black px-6 md:px-8 py-3.5 rounded-xl text-xs md:text-sm font-black uppercase tracking-widest shadow-lg transition-all active:scale-95">Salvar Clube</button>
                         </div>
                     </div>
                 </div>`;
@@ -1127,9 +1269,6 @@
             atualizarListasAdmin(); renderizarTudo();
         };
 
-        // ==========================================
-        // SISTEMA DE LOGIN E SEGURANÇA
-        // ==========================================
         window.abrirLogin = async () => {
             if(isProducao) { 
                 try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
@@ -1146,14 +1285,17 @@
             const userMenu = document.getElementById('user-menu');
             const btnAdmin = document.getElementById('btn-admin');
             
-            // Mobile
+            // Mobile Menu Lateral
             const btnLoginMob = document.getElementById('btn-login-mobile');
             const userMenuMob = document.getElementById('user-menu-mobile');
-            const btnAdminMob = document.getElementById('btn-admin-mobile');
+            
+            // Mobile Menu Cabeçalho (Botão isolado)
+            const btnAdminMobHeader = document.getElementById('btn-admin-mobile-header');
 
             if(currentUser && currentUser.email) {
                 // Desktop Toggle
-                btnLogin.classList.add('hidden'); userMenu.classList.remove('hidden');
+                if(btnLogin) btnLogin.classList.add('hidden'); 
+                if(userMenu) userMenu.classList.remove('hidden');
                 document.getElementById('user-email-display').innerText = currentUser.email;
                 
                 // Mobile Toggle
@@ -1164,20 +1306,23 @@
                     document.getElementById('user-email-display-mobile').innerText = currentUser.email;
                 }
 
-                // Botão admin mobile flutuante
-                const btnAdminMobileFloat = document.getElementById('btn-admin-mobile-float');
                 if(ADMIN_EMAILS.includes(currentUser.email)) {
-                    btnAdmin.classList.remove('hidden');
-                    if(btnAdminMob) btnAdminMob.classList.remove('hidden');
-                    if(btnAdminMobileFloat) btnAdminMobileFloat.classList.remove('hidden');
+                    if(btnAdmin) btnAdmin.classList.remove('hidden');
+                    if(btnAdminMobHeader) {
+                        btnAdminMobHeader.classList.remove('hidden');
+                        btnAdminMobHeader.classList.add('block');
+                    }
                 } else {
-                    btnAdmin.classList.add('hidden');
-                    if(btnAdminMob) btnAdminMob.classList.add('hidden');
-                    if(btnAdminMobileFloat) btnAdminMobileFloat.classList.add('hidden');
+                    if(btnAdmin) btnAdmin.classList.add('hidden');
+                    if(btnAdminMobHeader) {
+                        btnAdminMobHeader.classList.add('hidden');
+                        btnAdminMobHeader.classList.remove('block');
+                    }
                 }
             } else {
                 // Desktop Toggle
-                btnLogin.classList.remove('hidden'); userMenu.classList.add('hidden');
+                if(btnLogin) btnLogin.classList.remove('hidden'); 
+                if(userMenu) userMenu.classList.add('hidden');
                 
                 // Mobile Toggle
                 if(btnLoginMob) btnLoginMob.classList.remove('hidden');
@@ -1185,15 +1330,14 @@
                     userMenuMob.classList.add('hidden');
                     userMenuMob.classList.remove('flex');
                 }
-                // Esconde botão admin mobile flutuante
-                const btnAdminMobileFloat = document.getElementById('btn-admin-mobile-float');
-                if(btnAdminMobileFloat) btnAdminMobileFloat.classList.add('hidden');
+
+                if(btnAdminMobHeader) {
+                    btnAdminMobHeader.classList.add('hidden');
+                    btnAdminMobHeader.classList.remove('block');
+                }
             }
         }
 
-        // ==========================================
-        // LÓGICA DO BANNER DE COOKIES (FLUTUANTE)
-        // ==========================================
         window.responderCookies = (aceitou) => { 
             localStorage.setItem('cfm_cookies', aceitou ? 'aceito' : 'recusado'); 
             document.getElementById('cookie-banner').classList.add('translate-y-[150%]'); 
