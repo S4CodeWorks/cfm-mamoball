@@ -335,7 +335,7 @@
                         </div>
 
                         <!-- Área de Input (Fixa no final) -->
-                        <div class="p-3 md:p-4 bg-white/95 dark:bg-cfm-card/95 backdrop-blur-xl border-t border-slate-200 dark:border-zinc-800 shrink-0 pb-safe">
+                        <div class="p-3 pb-8 md:pb-4 md:p-4 bg-white/95 dark:bg-cfm-card/95 backdrop-blur-xl border-t border-slate-200 dark:border-zinc-800 shrink-0">
                             <form onsubmit="enviarMensagemSuporte(event)" class="flex items-center gap-2 md:gap-3 max-w-3xl mx-auto w-full">
                                 <input type="text" id="suporte-input" oninput="notificarDigitacao('user')" placeholder="Mensagem..." class="flex-1 bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-full px-5 py-3 md:py-3.5 outline-none focus:border-slate-400 transition-colors text-sm" autocomplete="off" required>
                                 <button type="submit" class="bg-black hover:bg-slate-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black w-12 h-12 md:w-14 md:h-14 flex items-center justify-center rounded-full font-bold shadow-md transition-all active:scale-95 shrink-0">
@@ -473,7 +473,7 @@
                         <!-- Mensagens renderizadas aqui -->
                     </div>
 
-                    <div id="admin-chat-input-area" class="p-3 md:p-4 bg-white/95 dark:bg-cfm-card/95 backdrop-blur-md border-t border-slate-200 dark:border-zinc-800 shrink-0 hidden pb-safe">
+                    <div id="admin-chat-input-area" class="p-3 pb-8 md:pb-4 md:p-4 bg-white/95 dark:bg-cfm-card/95 backdrop-blur-md border-t border-slate-200 dark:border-zinc-800 shrink-0 hidden">
                         <form onsubmit="enviarMensagemAdmin(event)" class="flex gap-2 max-w-4xl mx-auto w-full">
                             <input type="text" id="admin-chat-input" oninput="notificarDigitacao('admin')" placeholder="Sua resposta..." class="flex-1 bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-full px-5 py-3.5 outline-none focus:border-slate-400 transition-colors text-sm" autocomplete="off">
                             <button type="submit" class="bg-black dark:bg-white text-white dark:text-black w-12 h-12 flex items-center justify-center rounded-full font-bold shadow-md transition-all active:scale-95 shrink-0"><svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg></button>
@@ -636,6 +636,7 @@
 
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1477467241812463824/ts5hbr3_vtYOq3qji6umfgkWeLPp993KULguyCg4kps19grMyUGaWJWhKBcuwTmBu_ED"; 
         const DISCORD_WEBHOOK_REGRAS = "https://discord.com/api/webhooks/1477714500441346234/3G9mHJwoAHmVqF63AdA1Fj8p0RjEq8sGeJCCh2ln821cDHh6ojJkvpYFfJbd8r6CKkw3";
+        const DISCORD_WEBHOOK_SUPORTE = "https://discord.com/api/webhooks/1477790851122987009/epVecZWYxZ_OpTXHJsOQdb4CAbtPBAwK-HT-K-a85jk1igrYk5xsW4xEwKFeuAaIloEh";
         const URL_DO_SEU_SITE = "https://s4codeworks.github.io/cfm-mamoball/"; 
 
         const DEFAULT_ESTATUTO = `「📜」• **ReguLamento & ReGras Oficiais Da Federação** - CFM & FBM\n\n**🏳️━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━🏴**\n\n「📝」• **Inscrição/Formulato (CFM & FBM):**\n\nⓂ️ ~ Logo\n🔰 ~ Nome Do Time\n🎟️ ~ Tag Do Time\n⚽ ~ Elenco sC+\n\n**🏴━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━🏳️**\n\n「⚙️」 • **ReguLamento/Regras:**\n\n「1️⃣」 • **Nossos Primeiros Pontos é:** Seguir o Regulamento & ReGras, Formulato e Também Colaboração\n\n「2️⃣」 • Na **FBM** Só aceitamos Times **sD+** Ja Na **CFM** Apenas Times **Séries Ou Wk CBM!**\n\n「3️⃣」 • Não **Infringir** Nenhuma Das **Regras** Para Não surgir **PUNIÇÕES**\n\n「4️⃣」 • Só Aceitamos **Fair** Com **Gravação/Clipe,** Ocorreu Este Caso? Tem **7 Minutos** Para Mandar o Fair\n\n「5️⃣」 • Permitimos Atualização De Elenco Entre a **1° Fase Até a 2°Fase** Passou Disso, Não Atualizaremos\n「6️⃣」 • **Não Aceitamos** Jogador **Irregular** ou Jogadores Com **Multi Clubes**\nCaso Isso Time **Desclassificado ou Refazer o Jogo!**\n\n「7️⃣」 • Se o **Nick ou Id** De Um Jogador Do Elenco do Time Não Bater Com o Do **JOGO** é **W.O Adversário!** (Jogador Irregular)\n\n「8️⃣」 • Quando **Estiver -1 No Campo** é **Pause Imediato!** Caso Substituição Espera o Momento em que a Bola Chegue ao **MEIO!**\n\n「9️⃣」 • O **W.O é De 15Minutos,** Caso Ocorra este Caso é **W.o Imediato!**\n\n「🔟」 • As **Transmissões & Narrações**\nApenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )\n\n「1️⃣1️⃣」 • A Cada **3 a 3 Edições é 1° Temporada** e Caso Isso Temos 1°Edição *VIP* Valendo Muito **Money!**\n\n「1️⃣2️⃣」 • O Nosso **Campeonato** Promete Tudo & **Entregar TUDO!** Designers Pra Tudo , Novidades a Cada **DIA!** e Também Resenhas.\n\n「1️⃣3️⃣」 • Lembrando: O Módulo do Campeonato é **EQUAL** e **Não CLÁSSICO!**\n\n「1️⃣4️⃣」 • **Não XINGAR!** Ou Fazer **PRECONCEITOS** Com Os Membros/Adversários e Muito Menos Administradores.\n\n「1️⃣5️⃣」 • O Nosso Campeonato é **JUSTO e Muito ORGANIZADO!** Não é Atoa Ser o **MAIOR & MELHOR Via WhatsApp.**\n「📸」• **VENCEU** Do Adversário? Não se Esqueça De tirar Uma **PRINT** Do Fim De Partida & Mandar As **SUMULAS** No Privado de Um Administrador!\n\n*🏳️━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━🏴*\n\n「🔥」• **IMPORTANTE:** #FamíliaCFM , #MelhorDoZap , #CFM2k26`;
@@ -1258,8 +1259,28 @@
 
         window.criarTicket = async () => {
             if (!currentUser) return;
-            state.tickets.push({ id: Date.now(), userEmail: currentUser.email, status: 'aberto', admin: null, createdAt: new Date().toISOString(), mensagens: [] });
+            const novoId = Date.now();
+            state.tickets.push({ id: novoId, userEmail: currentUser.email, status: 'aberto', admin: null, createdAt: new Date().toISOString(), mensagens: [] });
             if(docRef) await setDoc(docRef, state);
+            
+            // Envia notificação pro Discord de Suporte
+            if(typeof DISCORD_WEBHOOK_SUPORTE !== 'undefined' && DISCORD_WEBHOOK_SUPORTE) {
+                try {
+                    const linkDireto = `${URL_DO_SEU_SITE.endsWith('/') ? URL_DO_SEU_SITE.slice(0, -1) : URL_DO_SEU_SITE}/?pagina=suporte`;
+                    await fetch(DISCORD_WEBHOOK_SUPORTE, {
+                        method: 'POST', headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            content: "🚨 **NOVO TICKET DE SUPORTE** @here",
+                            embeds: [{
+                                title: "📨 Atendimento Solicitado",
+                                description: `O jogador **${currentUser.email}** abriu um novo ticket na Central de Ajuda.\n\n🔗 **[Acessar Painel de Suporte (CFM Studio)](${linkDireto})**`,
+                                color: 16766720 // Cor amarela
+                            }]
+                        })
+                    });
+                } catch(e) { console.error("Erro Discord Suporte:", e); }
+            }
+
             renderizarSuporte(); // Força atualização da interface
         };
 
