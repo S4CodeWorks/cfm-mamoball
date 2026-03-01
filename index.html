@@ -110,10 +110,10 @@
         }
     </style>
 </head>
-<body class="text-slate-900 dark:text-slate-100 transition-colors duration-500 selection:bg-brand-500/20 selection:text-brand-500">
+<body class="text-slate-900 dark:text-slate-100 transition-colors duration-500 selection:bg-brand-500/20 selection:text-brand-500 flex flex-col min-h-screen">
 
     <!-- SITE PÚBLICO -->
-    <div id="app-publico">
+    <div id="app-publico" class="flex-1 flex flex-col">
         <header class="fixed top-0 inset-x-0 z-40 glass-panel border-b-0 m-2 md:m-4 rounded-2xl md:rounded-[2rem]">
             <div class="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center relative z-20">
                 <div class="flex items-center gap-3 md:gap-4 group cursor-pointer" onclick="navegar('home')">
@@ -167,7 +167,7 @@
         </header>
 
         <!-- CONTEÚDO DINÂMICO DO SITE -->
-        <main id="main-content" class="pt-24 md:pt-28">
+        <main id="main-content" class="pt-24 md:pt-28 flex-1">
             <!-- Início (Home) -->
             <div id="page-home" class="fade-in">
                 <section class="max-w-7xl mx-auto px-6 py-8 md:py-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-16 min-h-[75vh]">
@@ -217,7 +217,28 @@
                 <h2 class="text-4xl md:text-5xl font-display font-black tracking-tight mb-8 md:mb-12">Portal de Notícias</h2>
                 <div id="lista-noticias" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></div>
             </div>
+
+            <!-- Regras e Estatuto da Competição -->
+            <div id="page-regras" class="hidden max-w-4xl mx-auto px-6 py-8 md:py-16 fade-in">
+                <div class="bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[2rem] shadow-xl overflow-hidden p-8 md:p-12">
+                    <div class="text-center mb-10 border-b border-slate-100 dark:border-zinc-800/50 pb-8">
+                        <span class="inline-block bg-brand-500/10 text-brand-500 font-black text-xs uppercase tracking-widest px-4 py-2 rounded-xl mb-4">Documento Oficial</span>
+                        <h2 class="text-3xl md:text-5xl font-display font-black tracking-tight text-slate-900 dark:text-white">Estatuto e Regras</h2>
+                        <p class="text-slate-500 mt-3 font-medium">Regulamento oficial da Confederação de MamoBall.</p>
+                    </div>
+                    
+                    <div id="conteudo-regras" class="prose prose-slate dark:prose-invert max-w-none font-sans text-lg leading-loose text-slate-700 dark:text-slate-300 font-medium whitespace-pre-line">
+                        <!-- O texto do estatuto entra aqui -->
+                    </div>
+                </div>
+            </div>
         </main>
+
+        <!-- RODAPÉ DA PÁGINA COM O LINK DE REGRAS DISCRETO -->
+        <footer class="mt-auto py-8 border-t border-slate-200 dark:border-zinc-800 text-center bg-slate-50 dark:bg-[#050505]">
+            <button onclick="navegar('regras')" class="text-xs font-bold text-slate-500 hover:text-brand-500 dark:text-zinc-500 dark:hover:text-brand-400 transition-colors uppercase tracking-[0.15em] hover:underline">Estatuto e Regras Oficiais</button>
+            <p class="text-[10px] text-slate-400 dark:text-zinc-600 mt-2">&copy; CFM - Todos os direitos reservados.</p>
+        </footer>
     </div>
 
     <!-- MODAL DE NOTÍCIA COMPLETA (TELA CHEIA) -->
@@ -310,6 +331,10 @@
                 <button onclick="abaAdmin('torneios')" id="btn-aba-torneios" class="admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all text-sm md:text-base">Torneios</button>
                 <button onclick="abaAdmin('partidas')" id="btn-aba-partidas" class="admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all text-sm md:text-base">Partidas</button>
                 <button onclick="abaAdmin('times')" id="btn-aba-times" class="admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all text-sm md:text-base">Clubes</button>
+                
+                <span class="hidden md:block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 mt-6">Configurações</span>
+                <!-- Nova aba para Estatuto -->
+                <button onclick="abaAdmin('estatuto')" id="btn-aba-estatuto" class="admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all text-sm md:text-base">Estatuto (Regras)</button>
             </aside>
             
             <main class="flex-1 p-4 md:p-12 overflow-y-auto custom-scrollbar bg-slate-50/50 dark:bg-[#050505]">
@@ -400,6 +425,25 @@
                     </div>
                     <div id="admin-lista-times" class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5"></div>
                 </div>
+
+                <!-- Nova Aba Estatuto / Regras -->
+                <div id="aba-estatuto" class="hidden max-w-4xl mx-auto fade-in">
+                    <h2 class="text-3xl md:text-4xl font-display font-black mb-2">Regras e Estatuto</h2>
+                    <p class="text-sm md:text-base text-slate-500 mb-6 md:mb-8">Gerencie o regulamento que aparece no site e envie para o Discord.</p>
+                    
+                    <div class="bg-white dark:bg-cfm-card p-5 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200 dark:border-zinc-800 shadow-sm">
+                        <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Texto do Estatuto (Usa formatação do Discord)</label>
+                        <textarea id="estatuto-texto" rows="18" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 md:py-4 focus:border-brand-500 outline-none transition-colors custom-scrollbar font-sans text-sm"></textarea>
+                        
+                        <div class="mt-6 pt-6 border-t border-slate-100 dark:border-zinc-800 flex justify-end">
+                            <button onclick="salvarEstatutoEEnviarDiscord()" id="btn-salvar-estatuto" class="w-full sm:w-auto bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-lg shadow-[#5865F2]/30 flex items-center justify-center gap-3 active:scale-95">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
+                                Salvar e Enviar para o Discord
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
             </main>
         </div>
     </div>
@@ -422,13 +466,69 @@
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // ========================================================
-        // CONFIGURAÇÃO DO BOT DO DISCORD E REDIRECIONAMENTO DIRETO
-        // Cole aqui o link do Webhook do canal de notícias do seu Discord
+        // CONFIGURAÇÃO DOS WEBHOOKS DO DISCORD E REDIRECIONAMENTO DIRETO
+        
+        // Webhook do canal de NOTÍCIAS
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1477467241812463824/ts5hbr3_vtYOq3qji6umfgkWeLPp993KULguyCg4kps19grMyUGaWJWhKBcuwTmBu_ED"; 
         
-        // Link do seu site (verifique se está correto e se precisa terminar com / ou sem)
+        // Novo Webhook do canal de REGRAS/ESTATUTO
+        const DISCORD_WEBHOOK_REGRAS = "https://discord.com/api/webhooks/1477714500441346234/3G9mHJwoAHmVqF63AdA1Fj8p0RjEq8sGeJCCh2ln821cDHh6ojJkvpYFfJbd8r6CKkw3";
+
+        // Link do seu site
         const URL_DO_SEU_SITE = "https://s4codeworks.github.io/cfm-mamoball/"; 
         // ========================================================
+
+        // Texto padrão de regras para quando você carregar a primeira vez
+        const DEFAULT_ESTATUTO = `「📜」• **ReguLamento & ReGras Oficiais Da Federação** - CFM & FBM
+
+**🏳️━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━🏴**
+
+「📝」• **Inscrição/Formulato (CFM & FBM):**
+
+Ⓜ️ ~ Logo
+🔰 ~ Nome Do Time
+🎟️ ~ Tag Do Time
+⚽ ~ Elenco sC+
+
+**🏴━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━🏳️**
+
+「⚙️」 • **ReguLamento/Regras:**
+
+「1️⃣」 • **Nossos Primeiros Pontos é:** Seguir o Regulamento & ReGras, Formulato e Também Colaboração
+
+「2️⃣」 • Na **FBM** Só aceitamos Times **sD+** Ja Na **CFM** Apenas Times **Séries Ou Wk CBM!**
+
+「3️⃣」 • Não **Infringir** Nenhuma Das **Regras** Para Não surgir **PUNIÇÕES**
+
+「4️⃣」 • Só Aceitamos **Fair** Com **Gravação/Clipe,** Ocorreu Este Caso? Tem **7 Minutos** Para Mandar o Fair
+
+「5️⃣」 • Permitimos Atualização De Elenco Entre a **1° Fase Até a 2°Fase** Passou Disso, Não Atualizaremos
+「6️⃣」 • **Não Aceitamos** Jogador **Irregular** ou Jogadores Com **Multi Clubes**
+Caso Isso Time **Desclassificado ou Refazer o Jogo!**
+
+「7️⃣」 • Se o **Nick ou Id** De Um Jogador Do Elenco do Time Não Bater Com o Do **JOGO** é **W.O Adversário!** (Jogador Irregular)
+
+「8️⃣」 • Quando **Estiver -1 No Campo** é **Pause Imediato!** Caso Substituição Espera o Momento em que a Bola Chegue ao **MEIO!**
+
+「9️⃣」 • O **W.O é De 15Minutos,** Caso Ocorra este Caso é **W.o Imediato!**
+
+「🔟」 • As **Transmissões & Narrações**
+Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
+
+「1️⃣1️⃣」 • A Cada **3 a 3 Edições é 1° Temporada** e Caso Isso Temos 1°Edição *VIP* Valendo Muito **Money!**
+
+「1️⃣2️⃣」 • O Nosso **Campeonato** Promete Tudo & **Entregar TUDO!** Designers Pra Tudo , Novidades a Cada **DIA!** e Também Resenhas.
+
+「1️⃣3️⃣」 • Lembrando: O Módulo do Campeonato é **EQUAL** e **Não CLÁSSICO!**
+
+「1️⃣4️⃣」 • **Não XINGAR!** Ou Fazer **PRECONCEITOS** Com Os Membros/Adversários e Muito Menos Administradores.
+
+「1️⃣5️⃣」 • O Nosso Campeonato é **JUSTO e Muito ORGANIZADO!** Não é Atoa Ser o **MAIOR & MELHOR Via WhatsApp.**
+「📸」• **VENCEU** Do Adversário? Não se Esqueça De tirar Uma **PRINT** Do Fim De Partida & Mandar As **SUMULAS** No Privado de Um Administrador!
+
+*🏳️━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━🏴*
+
+「🔥」• **IMPORTANTE:** #FamíliaCFM , #MelhorDoZap , #CFM2k26`;
 
         const myFirebaseConfig = {
             apiKey: "AIzaSyAdndD_kOO1svVoxPbtXDNE1nTJ9mQ1gdE",
@@ -445,13 +545,14 @@
             times: {},
             campeonatos: {},
             partidas: [],
-            noticias: []
+            noticias: [],
+            estatuto: ""
         };
 
         let currentUser = null; 
         let db, docRef, auth, app;
         let campeonatoAbertoPublico = null; 
-        let urlDiretaVerificada = false; // Controle para abrir a URL com ?noticia= apenas 1x
+        let urlDiretaVerificada = false; 
         
         const isProducao = myFirebaseConfig.apiKey !== "COLE_AQUI";
         const firebaseConfig = isProducao ? myFirebaseConfig : JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : "{}");
@@ -481,17 +582,21 @@
                         if(!data.times) data.times = {};
                         if(!data.partidas) data.partidas = [];
                         if(!data.noticias) data.noticias = [];
+                        if(!data.estatuto) data.estatuto = DEFAULT_ESTATUTO;
                         state = data;
                         renderizarTudo();
 
-                        // SE TIVER UMA URL DIRETA (Ex: clicou no link do Discord), ELE ABRE A NOTICIA AUTOMATICAMENTE!
-                        if (!urlDiretaVerificada && state.noticias.length > 0) {
+                        // SE TIVER UMA URL DIRETA
+                        if (!urlDiretaVerificada) {
                             urlDiretaVerificada = true;
                             const params = new URLSearchParams(window.location.search);
                             const idDaNoticiaNaUrl = params.get('noticia');
-                            if (idDaNoticiaNaUrl) {
-                                // O timerzinho garante que o site já gerou a tela toda antes de abrir o pop-up
+                            const paginaNaUrl = params.get('pagina');
+
+                            if (idDaNoticiaNaUrl && state.noticias.length > 0) {
                                 setTimeout(() => abrirNoticia(Number(idDaNoticiaNaUrl)), 300);
+                            } else if (paginaNaUrl === 'regras') {
+                                setTimeout(() => navegar('regras'), 100);
                             }
                         }
 
@@ -537,9 +642,22 @@
         };
 
         window.navegar = function(pagina) {
-            ['home', 'tabelas', 'noticias'].forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
-            document.getElementById(`page-${pagina}`).classList.remove('hidden');
+            ['home', 'tabelas', 'noticias', 'regras'].forEach(p => {
+                const el = document.getElementById(`page-${p}`);
+                if (el) el.classList.add('hidden');
+            });
+            const targetPage = document.getElementById(`page-${pagina}`);
+            if (targetPage) targetPage.classList.remove('hidden');
             window.scrollTo({top: 0, behavior: 'smooth'});
+
+            // Se for navegar pras regras pelo botão no footer, atualiza a url tb
+            if(pagina === 'regras') {
+                const baseUrl = window.location.href.split('?')[0];
+                window.history.replaceState({}, '', `${baseUrl}?pagina=regras`);
+            } else {
+                const baseUrl = window.location.href.split('?')[0];
+                window.history.replaceState({}, '', baseUrl);
+            }
         };
 
         function renderizarTudo() {
@@ -547,8 +665,21 @@
             renderizarMenuCampeonatos();
             renderizarTabelaPublica();
             renderizarNoticias();
+            renderizarEstatuto();
+            
             if(!document.getElementById('admin-panel').classList.contains('hidden')) {
                 atualizarListasAdmin();
+            }
+        }
+
+        function renderizarEstatuto() {
+            // Renderiza o texto do estatuto na página pública
+            const conteudo = state.estatuto || DEFAULT_ESTATUTO;
+            document.getElementById('conteudo-regras').innerHTML = marked.parse(conteudo);
+            
+            // Renderiza na aba do admin (caso a pessoa queira editar)
+            if (!document.getElementById('admin-panel').classList.contains('hidden')) {
+                document.getElementById('estatuto-texto').value = conteudo;
             }
         }
 
@@ -578,7 +709,6 @@
             const dataObj = new Date(n.data);
             document.getElementById('modal-noticia-data').innerText = isNaN(dataObj) ? 'Publicado recentemente' : dataObj.toLocaleDateString('pt-BR');
             
-            // Renderiza o texto da notícia usando Marked.js para converter **negrito**, etc.
             document.getElementById('modal-noticia-texto').innerHTML = marked.parse(n.texto);
             
             const btnContainer = document.getElementById('modal-noticia-btn-container');
@@ -595,7 +725,6 @@
             document.getElementById('modal-noticia').classList.add('flex');
             document.body.style.overflow = 'hidden'; 
             
-            // Opcional: Quando clica pelo site ele atualiza a URL para o usuario poder copiar e mandar pra alguém
             const baseUrl = window.location.href.split('?')[0];
             window.history.replaceState({}, '', `${baseUrl}?noticia=${n.id}`);
         };
@@ -605,7 +734,6 @@
             document.getElementById('modal-noticia').classList.remove('flex');
             document.body.style.overflow = '';
             
-            // Limpa a URL quando o usuário fecha a notícia, tirando o ?noticia=...
             const params = new URLSearchParams(window.location.search);
             if (params.has('noticia')) {
                 const base = window.location.pathname;
@@ -836,7 +964,7 @@
                     html += `
                     <div class="flex flex-col items-center justify-center w-60 md:w-72 shrink-0 relative z-10 pl-8 md:pl-12 fade-in">
                         <div class="absolute inset-0 bg-yellow-400/10 blur-3xl rounded-full"></div>
-                        <span class="text-[9px] md:text-[10px] uppercase font-black tracking-[0.2em] text-yellow-600 dark:text-yellow-500 mb-4 md:mb-6 flex items-center gap-2 bg-yellow-500/10 px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-yellow-500/20"><svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd"></path></svg> Campeão</span>
+                        <span class="text-[9px] md:text-[10px] uppercase font-black tracking-[0.2em] text-yellow-600 dark:text-yellow-500 mb-4 md:mb-6 flex items-center gap-2 bg-yellow-500/10 px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-yellow-500/20"><svg class="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z" clip-rule="evenodd"></path></svg> Campeão</span>
                         <div onclick="abrirModalClube('${campeao}', 1)" class="cursor-pointer w-32 h-32 md:w-40 md:h-40 rounded-[1.5rem] md:rounded-[2rem] border-[3px] md:border-4 border-yellow-400 bg-cover bg-center shadow-[0_15px_40px_rgba(250,204,21,0.3)] flex items-center justify-center text-3xl md:text-4xl font-black text-white relative z-10 transform -rotate-3 hover:rotate-0 hover:scale-105 transition-all duration-500" style="${c.logo ? `background-image:url('${c.logo}')` : `background-color:${c.cor}`}">${c.logo?'':c.tag.replace(/\[|\]/g,'')}</div>
                         <h3 class="mt-6 md:mt-8 text-2xl md:text-4xl font-display font-black text-yellow-600 dark:text-yellow-400 text-center tracking-tight drop-shadow-sm cursor-pointer hover:underline" onclick="abrirModalClube('${campeao}', 1)">${c.nome}</h3>
                     </div>`;
@@ -951,7 +1079,7 @@
         window.fecharAdminPanel = () => { document.getElementById('admin-panel').classList.add('hidden'); };
         
         window.abaAdmin = (aba) => {
-            const tabs = ['noticias', 'torneios', 'partidas', 'times'];
+            const tabs = ['noticias', 'torneios', 'partidas', 'times', 'estatuto'];
             tabs.forEach(a => {
                 document.getElementById(`aba-${a}`).classList.add('hidden');
                 document.getElementById(`btn-aba-${a}`).className = "admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all text-sm md:text-base";
@@ -966,6 +1094,52 @@
             atualizarListaTorneiosAdmin();
             atualizarListaNoticiasAdmin();
         }
+
+        // --- SALVAR ESTATUTO NO BD E DISCORD ---
+        window.salvarEstatutoEEnviarDiscord = async () => {
+            const btn = document.getElementById('btn-salvar-estatuto');
+            const textoOriginal = btn.innerHTML;
+            const texto = document.getElementById('estatuto-texto').value;
+
+            if(!texto || texto.trim() === '') return alert("O texto do estatuto não pode estar vazio!");
+
+            btn.disabled = true; 
+            btn.innerHTML = `<svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Processando...`;
+
+            // 1. Salva no Firebase
+            state.estatuto = texto;
+            if(docRef) await setDoc(docRef, state);
+
+            // 2. Envia pro Discord
+            if(DISCORD_WEBHOOK_REGRAS && DISCORD_WEBHOOK_REGRAS !== "") {
+                try {
+                    const urlBase = URL_DO_SEU_SITE.endsWith('/') ? URL_DO_SEU_SITE.slice(0, -1) : URL_DO_SEU_SITE;
+                    const linkDireto = `${urlBase}/?pagina=regras`;
+                    
+                    const embed = {
+                        title: "Estatuto Atualizado",
+                        description: texto + `\n\n🔗 **[Ler de forma completa no Site Oficial](${linkDireto})**`,
+                        color: 1093160 // Verde da CFM
+                    };
+
+                    await fetch(DISCORD_WEBHOOK_REGRAS, { 
+                        method: 'POST', 
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            content: "⚙️ **O Regulamento Oficial foi Atualizado!** @everyone", 
+                            embeds: [embed]
+                        }) 
+                    });
+                } catch(e) { 
+                    console.error("Erro ao enviar estatuto pro Discord:", e); 
+                }
+            }
+
+            btn.disabled = false; 
+            btn.innerHTML = textoOriginal;
+            alert("Estatuto salvo no site e enviado para o Discord com sucesso!");
+            renderizarTudo();
+        };
 
         window.salvarNoticia = async () => {
             const titulo = document.getElementById('news-titulo').value;
