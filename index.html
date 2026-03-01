@@ -613,6 +613,7 @@
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1477467241812463824/ts5hbr3_vtYOq3qji6umfgkWeLPp993KULguyCg4kps19grMyUGaWJWhKBcuwTmBu_ED"; 
         const DISCORD_WEBHOOK_REGRAS = "https://discord.com/api/webhooks/1477714500441346234/3G9mHJwoAHmVqF63AdA1Fj8p0RjEq8sGeJCCh2ln821cDHh6ojJkvpYFfJbd8r6CKkw3";
         const DISCORD_WEBHOOK_SUPORTE = "https://discord.com/api/webhooks/1477790851122987009/epVecZWYxZ_OpTXHJsOQdb4CAbtPBAwK-HT-K-a85jk1igrYk5xsW4xEwKFeuAaIloEh";
+        const DISCORD_WEBHOOK_INSCRICAO = "https://discord.com/api/webhooks/1477809381394354357/I7FoqDHmmtiKfgPCqXuRtWLcliBQBR9DNoqqKR1Tr4ebSnv9fxeo2M4fkHgT1RVBbjAq";
         const URL_DO_SEU_SITE = "https://s4codeworks.github.io/cfm-mamoball/"; 
 
         const DEFAULT_ESTATUTO = `「📜」• **ReguLamento & ReGras Oficiais Da Federação** - CFM & FBM\n\n**🏳️━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━🏴**\n\n「📝」• **Inscrição/Formulato (CFM & FBM):**\n\nⓂ️ ~ Logo\n🔰 ~ Nome Do Time\n🎟️ ~ Tag Do Time\n⚽ ~ Elenco sC+\n\n**🏴━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━🏳️**\n\n「⚙️」 • **ReguLamento/Regras:**\n\n「1️⃣」 • **Nossos Primeiros Pontos é:** Seguir o Regulamento & ReGras, Formulato e Também Colaboração\n\n「2️⃣」 • Na **FBM** Só aceitamos Times **sD+** Ja Na **CFM** Apenas Times **Séries Ou Wk CBM!**\n\n「3️⃣」 • Não **Infringir** Nenhuma Das **Regras** Para Não surgir **PUNIÇÕES**\n\n「4️⃣」 • Só Aceitamos **Fair** Com **Gravação/Clipe,** Ocorreu Este Caso? Tem **7 Minutos** Para Mandar o Fair\n\n「5️⃣」 • Permitimos Atualização De Elenco Entre a **1° Fase Até a 2°Fase** Passou Disso, Não Atualizaremos\n「6️⃣」 • **Não Aceitamos** Jogador **Irregular** ou Jogadores Com **Multi Clubes**\nCaso Isso Time **Desclassificado ou Refazer o Jogo!**\n\n「7️⃣」 • Se o **Nick ou Id** De Um Jogador Do Elenco do Time Não Bater Com o Do **JOGO** é **W.O Adversário!** (Jogador Irregular)\n\n「8️⃣」 • Quando **Estiver -1 No Campo** é **Pause Imediato!** Caso Substituição Espera o Momento em que a Bola Chegue ao **MEIO!**\n\n「9️⃣」 • O **W.O é De 15Minutos,** Caso Ocorra este Caso é **W.o Imediato!**\n\n「🔟」 • As **Transmissões & Narrações**\nApenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )\n\n「1️⃣1️⃣」 • A Cada **3 a 3 Edições é 1° Temporada** e Caso Isso Temos 1°Edição *VIP* Valendo Muito **Money!**\n\n「1️⃣2️⃣」 • O Nosso **Campeonato** Promete Tudo & **Entregar TUDO!** Designers Pra Tudo , Novidades a Cada **DIA!** e Também Resenhas.\n\n「1️⃣3️⃣」 • Lembrando: O Módulo do Campeonato é **EQUAL** e **Não CLÁSSICO!**\n\n「1️⃣4️⃣」 • **Não XINGAR!** Ou Fazer **PRECONCEITOS** Com Os Membros/Adversários e Muito Menos Administradores.\n\n「1️⃣5️⃣」 • O Nosso Campeonato é **JUSTO e Muito ORGANIZADO!** Não é Atoa Ser o **MAIOR & MELHOR Via WhatsApp.**\n「📸」• **VENCEU** Do Adversário? Não se Esqueça De tirar Uma **PRINT** Do Fim De Partida & Mandar As **SUMULAS** No Privado de Um Administrador!\n\n*🏳️━─━─━─━─━─━─━─━─━─━─━─━─━─━─━─━🏴*\n\n「🔥」• **IMPORTANTE:** #FamíliaCFM , #MelhorDoZap , #CFM2k26`;
@@ -1206,12 +1207,12 @@
             if(docRef) await setDoc(docRef, state);
 
             // Avisar no Discord sobre a nova inscrição (Se configurado no suporte)
-            if(typeof DISCORD_WEBHOOK_SUPORTE !== 'undefined' && DISCORD_WEBHOOK_SUPORTE) {
+            if(typeof DISCORD_WEBHOOK_INSCRICAO !== 'undefined' && DISCORD_WEBHOOK_INSCRICAO) {
                 try {
-                    await fetch(DISCORD_WEBHOOK_SUPORTE, {
+                    await fetch(DISCORD_WEBHOOK_INSCRICAO, {
                         method: 'POST', headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
-                            content: "🏆 **NOVO CLUBE INSCRITO**",
+                            content: "🏆 **NOVO CLUBE INSCRITO** <@&1465201445354864722> <@&1465202769303703716> <@&1465203255394041920> <@&1465203901736423554>",
                             embeds: [{
                                 title: `Solicitação: ${nome} ${tag}`,
                                 description: `O jogador **${currentUser.email}** inscreveu um time com ${jogadoresInscricaoLocal.length} jogadores.\nAcesse o Painel CFM Studio para aprovar ou rejeitar.`,
@@ -1340,7 +1341,7 @@
                     await fetch(DISCORD_WEBHOOK_SUPORTE, {
                         method: 'POST', headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
-                            content: "🚨 **NOVO TICKET DE SUPORTE** @here",
+                            content: "🚨 **NOVO TICKET DE SUPORTE** <@&1465201445354864722> <@&1465202769303703716> <@&1465203255394041920>",
                             embeds: [{
                                 title: "📨 Atendimento Solicitado",
                                 description: `O jogador **${currentUser.email}** abriu um novo ticket na Central de Ajuda.\n\n🔗 **[Acessar Painel de Suporte (CFM Studio)](${linkDireto})**`,
