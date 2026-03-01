@@ -422,11 +422,11 @@
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // ========================================================
-        // CONFIGURAÇÃO DO BOT DO DISCORD (WEBHOOK)
+        // CONFIGURAÇÃO DO BOT DO DISCORD E REDIRECIONAMENTO DIRETO
         // Cole aqui o link do Webhook do canal de notícias do seu Discord
         const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1477467241812463824/ts5hbr3_vtYOq3qji6umfgkWeLPp993KULguyCg4kps19grMyUGaWJWhKBcuwTmBu_ED"; 
         
-        // Link do seu site para o bot colocar no final da mensagem
+        // Link do seu site (verifique se está correto e se precisa terminar com / ou sem)
         const URL_DO_SEU_SITE = "https://s4codeworks.github.io/cfm-mamoball/"; 
         // ========================================================
 
@@ -451,6 +451,7 @@
         let currentUser = null; 
         let db, docRef, auth, app;
         let campeonatoAbertoPublico = null; 
+        let urlDiretaVerificada = false; // Controle para abrir a URL com ?noticia= apenas 1x
         
         const isProducao = myFirebaseConfig.apiKey !== "COLE_AQUI";
         const firebaseConfig = isProducao ? myFirebaseConfig : JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : "{}");
@@ -482,6 +483,18 @@
                         if(!data.noticias) data.noticias = [];
                         state = data;
                         renderizarTudo();
+
+                        // SE TIVER UMA URL DIRETA (Ex: clicou no link do Discord), ELE ABRE A NOTICIA AUTOMATICAMENTE!
+                        if (!urlDiretaVerificada && state.noticias.length > 0) {
+                            urlDiretaVerificada = true;
+                            const params = new URLSearchParams(window.location.search);
+                            const idDaNoticiaNaUrl = params.get('noticia');
+                            if (idDaNoticiaNaUrl) {
+                                // O timerzinho garante que o site já gerou a tela toda antes de abrir o pop-up
+                                setTimeout(() => abrirNoticia(Number(idDaNoticiaNaUrl)), 300);
+                            }
+                        }
+
                     } else if (isProducao) {
                         setDoc(docRef, state);
                     }
@@ -581,12 +594,23 @@
             document.getElementById('modal-noticia').classList.remove('hidden');
             document.getElementById('modal-noticia').classList.add('flex');
             document.body.style.overflow = 'hidden'; 
+            
+            // Opcional: Quando clica pelo site ele atualiza a URL para o usuario poder copiar e mandar pra alguém
+            const baseUrl = window.location.href.split('?')[0];
+            window.history.replaceState({}, '', `${baseUrl}?noticia=${n.id}`);
         };
 
         window.fecharNoticia = () => {
             document.getElementById('modal-noticia').classList.add('hidden');
             document.getElementById('modal-noticia').classList.remove('flex');
             document.body.style.overflow = '';
+            
+            // Limpa a URL quando o usuário fecha a notícia, tirando o ?noticia=...
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('noticia')) {
+                const base = window.location.pathname;
+                window.history.replaceState({}, document.title, base);
+            }
         };
 
         // --- LÓGICA DO POPUP DO CLUBE ---
@@ -966,12 +990,11 @@
             state.noticias = [nova, ...(state.noticias || [])].slice(0, 15);
             if(docRef) await setDoc(docRef, state);
             
-            // --- ENVIO AUTOMÁTICO PARA O DISCORD ---
+            // --- ENVIO AUTOMÁTICO PARA O DISCORD (LINK DIRETO DA MATÉRIA) ---
             if(DISCORD_WEBHOOK_URL && DISCORD_WEBHOOK_URL !== "") {
                 try {
                     btn.innerText = "Enviando pro Discord...";
                     
-                    // Converte a imagem base64 para um arquivo real para o Discord ler
                     const byteString = atob(bannerBase64.split(',')[1]);
                     const mimeString = bannerBase64.split(',')[0].split(':')[1].split(';')[0];
                     const ab = new ArrayBuffer(byteString.length);
@@ -982,16 +1005,19 @@
                     const formData = new FormData();
                     formData.append('file', blob, 'banner.webp');
                     
-                    // Monta o visual da mensagem no Discord (Embed)
+                    // Tratamento rápido para garantir que a URL base não tenha / duplicada
+                    const urlBase = URL_DO_SEU_SITE.endsWith('/') ? URL_DO_SEU_SITE.slice(0, -1) : URL_DO_SEU_SITE;
+                    const linkDireto = `${urlBase}/?noticia=${nova.id}`;
+                    
                     const embed = {
                         title: titulo,
-                        description: nova.resumo + `\n\n🔗 **[Ler matéria completa no site oficial!](${URL_DO_SEU_SITE})**`,
-                        color: 1093160, // Cor verde da CFM
+                        description: nova.resumo + `\n\n🔗 **[Ler matéria completa no site oficial!](${linkDireto})**`,
+                        color: 1093160, 
                         image: { url: 'attachment://banner.webp' }
                     };
 
                     formData.append('payload_json', JSON.stringify({
-                        content: "📰 **Nova Notícia na Federação!** @everyone", // Mensagem principal
+                        content: "📰 **Nova Notícia na Federação!** @everyone", 
                         embeds: [embed]
                     }));
 
