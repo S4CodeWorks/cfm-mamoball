@@ -5,10 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CFM - Campeonato da Federação MamoBall</title>
     
-    <!-- Adicionado o plugin 'typography' para formatar o texto do Markdown perfeitamente -->
     <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
-    
-    <!-- Adicionando Marked.js para interpretar o Markdown e Emojis -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <script>
@@ -20,7 +17,7 @@
                         sans: ['Inter', 'system-ui', 'sans-serif'], 
                         mono: ['JetBrains Mono', 'monospace'], 
                         serif: ['Merriweather', 'serif'],
-                        display: ['Outfit', 'sans-serif'] // Fonte moderna para destaques
+                        display: ['Outfit', 'sans-serif']
                     },
                     colors: { 
                         cfm: { dark: '#050505', card: '#0f0f11', border: '#1f1f22' },
@@ -35,7 +32,6 @@
         body { background-color: #fafafa; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
         @media (prefers-color-scheme: dark) { body { background-color: #050505; } }
 
-        /* Fundo limpo e sofisticado - Preto e Branco */
         body::before {
             content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
             background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,0,0,0.04), transparent 70%);
@@ -49,43 +45,29 @@
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
         .fade-in { animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
-        /* Animação do Indicador de Digitação (Typing Bubble) */
         .typing-dot { animation: typingBounce 1.4s infinite ease-in-out both; }
         .typing-dot:nth-child(1) { animation-delay: -0.32s; }
         .typing-dot:nth-child(2) { animation-delay: -0.16s; }
-        @keyframes typingBounce {
-            0%, 80%, 100% { transform: scale(0); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
-        }
+        @keyframes typingBounce { 0%, 80%, 100% { transform: scale(0); opacity: 0.5; } 40% { transform: scale(1); opacity: 1; } }
 
         .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         @media (prefers-color-scheme: dark) { .custom-scrollbar::-webkit-scrollbar-thumb { background: #333338; } }
 
-        /* Glassmorphism Ultra Premium 2026 */
         .glass-panel {
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(32px) saturate(1.2);
-            -webkit-backdrop-filter: blur(32px) saturate(1.2);
-            border: 1.5px solid rgba(255,255,255,0.7);
-            box-shadow: 0 12px 48px -12px rgba(0,0,0,0.07), 0 1.5px 0 rgba(255,255,255,0.5) inset;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(32px) saturate(1.2); -webkit-backdrop-filter: blur(32px) saturate(1.2);
+            border: 1.5px solid rgba(255,255,255,0.7); box-shadow: 0 12px 48px -12px rgba(0,0,0,0.07), 0 1.5px 0 rgba(255,255,255,0.5) inset;
         }
         @media (prefers-color-scheme: dark) {
-            .glass-panel {
-                background: rgba(24, 24, 27, 0.82);
-                border: 1.5px solid rgba(255,255,255,0.08);
-                box-shadow: 0 24px 48px -12px rgba(0,0,0,0.6), 0 1.5px 0 rgba(255,255,255,0.03) inset;
-            }
+            .glass-panel { background: rgba(24, 24, 27, 0.82); border: 1.5px solid rgba(255,255,255,0.08); box-shadow: 0 24px 48px -12px rgba(0,0,0,0.6), 0 1.5px 0 rgba(255,255,255,0.03) inset; }
         }
 
-        /* Bracket e outros detalhes mantidos */
         .bracket-connector { position: absolute; right: -2rem; width: 2rem; border-right: 2px solid; border-color: inherit; }
         .bracket-connector.top { top: 50%; height: calc(50% + 1rem); border-top: 2px solid; border-top-right-radius: 1rem; }
         .bracket-connector.bottom { bottom: 50%; height: calc(50% + 1rem); border-bottom: 2px solid; border-bottom-right-radius: 1rem; }
@@ -96,13 +78,8 @@
         h1, h2, h3, h4, h5, h6 { letter-spacing: -0.01em; }
         .font-display { font-family: 'Outfit', 'Inter', 'system-ui', sans-serif; }
 
-        /* Ajuste do layout de chat para Mobile Tela Cheia */
         @media (max-width: 767px) {
-            .mobile-fullscreen-chat {
-                position: fixed !important; inset: 0 !important; z-index: 999 !important;
-                background: #fafafa !important; border-radius: 0 !important; padding: 0 !important;
-                max-width: none !important; margin: 0 !important; height: 100dvh !important;
-            }
+            .mobile-fullscreen-chat { position: fixed !important; inset: 0 !important; z-index: 999 !important; background: #fafafa !important; border-radius: 0 !important; padding: 0 !important; max-width: none !important; margin: 0 !important; height: 100dvh !important; }
             @media (prefers-color-scheme: dark) { .mobile-fullscreen-chat { background: #050505 !important; } }
         }
     </style>
@@ -120,7 +97,6 @@
                     <span class="text-lg md:text-xl font-display font-black tracking-tight group-hover:text-brand-500 transition-colors">CFM</span>
                 </div>
                 
-                <!-- Navegação Desktop -->
                 <nav class="space-x-8 text-sm font-semibold text-slate-500 dark:text-zinc-400 hidden md:flex items-center">
                     <button onclick="navegar('home')" class="hover:text-slate-900 dark:hover:text-white transition-colors">Início</button>
                     <button onclick="navegar('tabelas')" class="hover:text-slate-900 dark:hover:text-white transition-colors">Competições</button>
@@ -132,7 +108,6 @@
                         <span id="user-email-display" class="text-xs border border-slate-200 dark:border-zinc-800 px-3 py-1.5 rounded-full text-ellipsis overflow-hidden max-w-[150px] font-medium bg-white/50 dark:bg-black/50"></span>
                         <button id="btn-admin" onclick="abrirAdminPanel()" class="hidden bg-slate-900 dark:bg-white dark:text-black text-white px-4 py-2 rounded-xl transition-all font-bold text-xs uppercase tracking-widest shadow-lg active:scale-95">Admin</button>
                         
-                        <!-- ÍCONE DE NOTIFICAÇÃO (SINO) PARA TICKETS -->
                         <div id="btn-admin-tickets" class="hidden relative cursor-pointer hover:bg-slate-200 dark:hover:bg-zinc-800 p-2 rounded-full transition-colors" onclick="abrirPainelTickets()">
                             <svg class="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
                             <span id="badge-tickets-desktop" class="hidden absolute top-0 right-0 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 border-2 border-white dark:border-black"></span></span>
@@ -142,7 +117,6 @@
                     </div>
                 </nav>
 
-                <!-- Área Mobile Header -->
                 <div class="md:hidden flex items-center gap-2">
                     <div id="btn-admin-tickets-mobile" class="hidden relative cursor-pointer bg-slate-100 dark:bg-zinc-800 p-1.5 rounded-lg shadow-sm" onclick="abrirPainelTickets()">
                         <svg class="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
@@ -156,7 +130,6 @@
                 </div>
             </div>
 
-            <!-- Menu Mobile Desdobrável -->
             <div id="menu-mobile-dropdown" class="hidden md:hidden border-t border-slate-200/50 dark:border-zinc-800/50 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-3xl rounded-b-[2rem] absolute top-full left-0 w-full shadow-2xl z-10">
                 <div class="flex flex-col px-6 py-6 space-y-4">
                     <button onclick="navegarMobile('home')" class="text-left font-bold text-lg text-slate-700 dark:text-slate-200">Início</button>
@@ -178,12 +151,23 @@
         <!-- CONTEÚDO DINÂMICO DO SITE -->
         <main id="main-content" class="pt-24 md:pt-28 flex-1">
             
-            <!-- Início (Home) - Redesenhada Mobile First (Dashboard Exclusivo) -->
             <div id="page-home" class="fade-in pb-10 md:pb-0">
+                <!-- BANNER DE INSCRIÇÕES PÚBLICAS -->
+                <div id="banner-inscricoes" class="hidden max-w-7xl mx-auto px-4 sm:px-6 pt-4 md:pt-6 fade-in cursor-pointer z-10 relative" onclick="navegar('inscricao')">
+                    <div class="bg-black dark:bg-white text-white dark:text-black rounded-[1.5rem] p-4 md:p-6 flex flex-col sm:flex-row justify-between sm:items-center gap-4 shadow-2xl relative overflow-hidden group">
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-brand-500/30 rounded-full blur-3xl group-hover:bg-brand-500/50 transition-colors"></div>
+                        <div class="relative z-10 flex flex-col items-start">
+                            <span class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] bg-white/10 dark:bg-black/10 px-3 py-1.5 rounded-lg mb-2 flex items-center gap-2"><span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> VAGAS ABERTAS</span>
+                            <h3 class="font-display font-black text-xl md:text-2xl" id="banner-inscricoes-texto">Seletiva</h3>
+                            <p class="text-xs md:text-sm opacity-80 font-medium mt-1">Inscreva o seu clube na competição com a sua lineup.</p>
+                        </div>
+                        <button class="relative z-10 w-full sm:w-auto bg-white dark:bg-black text-black dark:text-white px-6 py-3.5 rounded-xl font-bold shadow-lg active:scale-95 transition-transform flex justify-center items-center gap-2">Garantir Vaga <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></button>
+                    </div>
+                </div>
+
                 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-2 md:py-20 flex flex-col lg:flex-row items-center gap-6 lg:gap-16 min-h-[75vh]">
-                    
                     <!-- VERSÃO MOBILE: Cabeçalho Dashboard e Grid de Ações -->
-                    <div class="w-full lg:hidden flex flex-col pt-2">
+                    <div class="w-full lg:hidden flex flex-col pt-2 relative z-0">
                         <div class="flex items-center justify-between mb-6">
                             <div>
                                 <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-1 flex items-center gap-2"><span id="status-nuvem-mobile" class="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse"></span> Sistema Oficial CFM</p>
@@ -194,9 +178,7 @@
                             </div>
                         </div>
 
-                        <!-- Grid de botões estilo App Nativo -->
                         <div class="grid grid-cols-2 gap-3 mb-4">
-                            <!-- Botão Principal Lado Esquerdo -->
                             <button onclick="navegar('tabelas')" class="bg-black dark:bg-white text-white dark:text-black p-5 rounded-[1.5rem] flex flex-col justify-between items-start gap-6 shadow-xl active:scale-95 transition-transform h-full min-h-[140px]">
                                 <div class="bg-white/10 dark:bg-black/5 p-3 rounded-[1rem] backdrop-blur-sm">
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
@@ -207,7 +189,6 @@
                                 </div>
                             </button>
                             
-                            <!-- Botões Menores Lado Direito -->
                             <div class="flex flex-col gap-3">
                                 <button onclick="navegar('regras')" class="flex-1 bg-white dark:bg-[#0f0f11] border border-slate-200 dark:border-zinc-800 p-4 rounded-[1.5rem] flex items-center gap-4 shadow-sm active:scale-95 transition-transform">
                                     <div class="bg-slate-100 dark:bg-zinc-800 p-2.5 rounded-xl text-slate-600 dark:text-zinc-400 shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg></div>
@@ -247,7 +228,6 @@
                         </div>
                     </div>
 
-                    <!-- Banner de Notícia Destacada (Comum para Desktop e Mobile) -->
                     <div class="w-full lg:w-7/12 relative group cursor-pointer mt-0 lg:mt-0" onclick="abrirUltimaNoticia()">
                         <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[2.5rem] aspect-[4/5] sm:aspect-[4/3] md:aspect-[16/10] border border-slate-200 dark:border-zinc-800 bg-slate-900 shadow-xl md:shadow-2xl">
                             <img id="hero-banner" src="https://images.unsplash.com/photo-1542652694-40abf526446e?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover md:group-hover:scale-105 transition duration-[1.5s] ease-out opacity-80" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='">
@@ -263,7 +243,6 @@
                 </section>
             </div>
 
-            <!-- Tabelas e Competições -->
             <div id="page-tabelas" class="hidden max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 fade-in">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-6">
                     <div class="w-full">
@@ -274,13 +253,11 @@
                 <div id="conteudo-tabela" class="glass-panel rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-8 overflow-x-auto shadow-2xl w-full"></div>
             </div>
 
-            <!-- Central de Notícias -->
             <div id="page-noticias" class="hidden max-w-7xl mx-auto px-6 py-8 md:py-12 fade-in">
                 <h2 class="text-4xl md:text-5xl font-display font-black tracking-tight mb-8 md:mb-12">Portal de Notícias</h2>
                 <div id="lista-noticias" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"></div>
             </div>
 
-            <!-- Regras e Estatuto da Competição -->
             <div id="page-regras" class="hidden max-w-4xl mx-auto px-6 py-8 md:py-16 fade-in">
                 <div class="bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[2rem] shadow-xl overflow-hidden p-8 md:p-12">
                     <div class="text-center mb-10 border-b border-slate-100 dark:border-zinc-800/50 pb-8">
@@ -289,31 +266,21 @@
                         <p class="text-slate-500 mt-3 font-medium">Regulamento oficial da Confederação de MamoBall.</p>
                     </div>
                     <div id="conteudo-regras" class="prose prose-slate dark:prose-invert max-w-none font-sans text-lg leading-loose text-slate-700 dark:text-slate-300 font-medium whitespace-pre-line">
-                        <!-- O texto do estatuto entra aqui -->
                     </div>
                 </div>
             </div>
 
-            <!-- NOVA ABA: TICKET DE SUPORTE (PÚBLICO) REESTRUTURADA PARA TELA CHEIA MOBILE -->
             <div id="page-suporte" class="hidden w-full max-w-4xl mx-auto px-0 md:px-6 py-0 md:py-12 fade-in flex flex-col transition-all">
-                
-                <!-- Título Desktop (Escondido no Mobile quando ativo) -->
                 <div id="suporte-title-desktop" class="text-center mb-8 hidden md:block mt-8 md:mt-0">
                     <h2 class="text-3xl md:text-4xl font-display font-black tracking-tight mb-2">Central de Ajuda</h2>
                     <p class="text-slate-500 font-medium">Fale diretamente com a organização.</p>
                 </div>
 
                 <div id="suporte-container-wrapper" class="flex-1 w-full bg-white dark:bg-cfm-card md:border md:border-slate-200 md:dark:border-zinc-800 md:rounded-[2rem] md:shadow-xl flex flex-col min-h-screen md:min-h-[600px] overflow-hidden">
-                    
-                    <!-- ESTADO: NÃO LOGADO OU SEM TICKET -->
                     <div id="suporte-estado-vazio" class="flex-1 flex flex-col items-center justify-center p-8 text-center bg-slate-50/50 dark:bg-transparent">
-                        <!-- Renderizado via JS -->
                     </div>
 
-                    <!-- ESTADO: TICKET ATIVO (CHAT TELA CHEIA NO MOBILE) -->
                     <div id="suporte-estado-ativo" class="hidden flex-col h-full w-full">
-                        
-                        <!-- Header do Chat (Estilo iOS/App) -->
                         <div id="suporte-chat-header" class="bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border-b border-slate-200 dark:border-zinc-800 px-4 py-3 flex items-center justify-between shrink-0 sticky top-0 z-10">
                             <div class="flex items-center gap-3">
                                 <button onclick="navegar('home')" class="md:hidden p-2 -ml-2 text-slate-500 hover:text-black dark:hover:text-white transition-colors">
@@ -329,12 +296,9 @@
                             </div>
                         </div>
 
-                        <!-- Área de Mensagens -->
                         <div id="suporte-chat-mensagens" class="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-4 custom-scrollbar bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-slate-50/80 dark:bg-[#050505]/90 bg-blend-overlay" style="background-size: 80px;">
-                            <!-- Renderizado via JS -->
                         </div>
 
-                        <!-- Área de Input (Fixa no final) -->
                         <div class="p-3 pb-8 md:pb-4 md:p-4 bg-white/95 dark:bg-cfm-card/95 backdrop-blur-xl border-t border-slate-200 dark:border-zinc-800 shrink-0">
                             <form onsubmit="enviarMensagemSuporte(event)" class="flex items-center gap-2 md:gap-3 max-w-3xl mx-auto w-full">
                                 <input type="text" id="suporte-input" oninput="notificarDigitacao('user')" placeholder="Mensagem..." class="flex-1 bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-full px-5 py-3 md:py-3.5 outline-none focus:border-slate-400 transition-colors text-sm" autocomplete="off" required>
@@ -346,9 +310,61 @@
                     </div>
                 </div>
             </div>
+
+            <!-- NOVA ABA PÚBLICA DE INSCRIÇÃO DE CLUBE -->
+            <div id="page-inscricao" class="hidden max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12 fade-in">
+                <h2 class="text-3xl md:text-5xl font-display font-black tracking-tight mb-2">Inscrição de Clube</h2>
+                <p class="text-slate-500 font-medium mb-8">Preencha o formulário para garantir a vaga da sua equipe na competição da CFM.</p>
+                
+                <div id="inscricao-nao-logado" class="hidden bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[2rem] shadow-sm p-10 text-center flex flex-col items-center justify-center">
+                    <div class="w-16 h-16 bg-slate-100 dark:bg-zinc-800 text-slate-800 dark:text-slate-200 rounded-2xl flex items-center justify-center mb-6 shadow-sm"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div>
+                    <h3 class="text-2xl font-display font-black mb-2">Login Necessário</h3>
+                    <p class="text-slate-500 mb-6 max-w-sm">Você será registrado como Capitão oficial. Faça login para continuar a inscrição.</p>
+                    <button onclick="abrirLogin()" class="bg-black dark:bg-white text-white dark:text-black font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all active:scale-95">Fazer Login</button>
+                </div>
+
+                <div id="inscricao-form" class="hidden bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[2rem] shadow-sm p-6 md:p-10">
+                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                         <div>
+                             <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Nome do Clube</label>
+                             <input type="text" id="insc-nome" placeholder="Ex: MamoBall FC" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 md:py-4 focus:border-slate-400 outline-none transition-colors font-bold">
+                         </div>
+                         <div>
+                             <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">TAG</label>
+                             <input type="text" id="insc-tag" placeholder="Ex: [MBFC]" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 md:py-4 focus:border-slate-400 outline-none transition-colors font-bold uppercase">
+                         </div>
+                         <div class="col-span-1 md:col-span-2">
+                             <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Logo Oficial do Time</label>
+                             <input type="file" id="insc-logo-file" accept="image/*" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 focus:border-slate-400 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-slate-200 dark:file:bg-zinc-800 file:text-slate-900 dark:file:text-white cursor-pointer transition-colors text-sm">
+                         </div>
+                     </div>
+
+                     <div class="border-t border-slate-100 dark:border-zinc-800 pt-8">
+                         <div class="flex justify-between items-end mb-4">
+                             <div>
+                                 <h3 class="text-xl font-display font-black text-slate-900 dark:text-white">Seu Elenco</h3>
+                                 <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold mt-1">Mínimo 6 | Máximo 10</p>
+                             </div>
+                             <span id="insc-count" class="bg-slate-100 dark:bg-zinc-800 px-3 py-1.5 rounded-lg text-xs font-black text-slate-600 dark:text-zinc-300 border border-slate-200 dark:border-zinc-700">0/10</span>
+                         </div>
+
+                         <div class="flex flex-col md:flex-row gap-3 mb-6 bg-slate-50 dark:bg-zinc-900/50 p-4 rounded-2xl border border-slate-200 dark:border-zinc-800/50">
+                             <input type="text" id="insc-jog-nick" placeholder="Nick do Jogador" class="flex-1 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl px-4 py-3 text-sm font-semibold outline-none focus:border-slate-400">
+                             <input type="text" id="insc-jog-id" placeholder="ID MamoBall" class="w-full md:w-32 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl px-4 py-3 text-sm font-mono outline-none focus:border-slate-400">
+                             <input type="text" id="insc-jog-discord" placeholder="@discord" class="w-full md:w-48 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-700 rounded-xl px-4 py-3 text-sm outline-none focus:border-slate-400">
+                             <button onclick="addJogadorInsc()" type="button" class="bg-black dark:bg-white text-white dark:text-black font-bold px-6 py-3 rounded-xl shadow-md active:scale-95 transition-transform w-full md:w-auto shrink-0">+</button>
+                         </div>
+
+                         <div id="lista-jogadores-insc" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8 min-h-[100px] content-start">
+                             <p class="text-xs text-slate-500 font-medium col-span-full text-center py-6 border border-dashed border-slate-200 dark:border-zinc-800 rounded-xl bg-slate-50/50 dark:bg-zinc-900/30">Adicione os jogadores acima para formar seu elenco.</p>
+                         </div>
+                     </div>
+
+                     <button id="btn-enviar-inscricao" onclick="enviarInscricao()" class="w-full bg-black hover:bg-slate-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-black text-lg py-4 md:py-5 rounded-2xl shadow-xl active:scale-95 transition-all">Enviar Solicitação do Clube</button>
+                </div>
+            </div>
         </main>
 
-        <!-- RODAPÉ DA PÁGINA (Escondido automaticamente no chat mobile) -->
         <footer id="main-footer" class="mt-auto py-8 border-t border-slate-200 dark:border-zinc-800 text-center bg-slate-50 dark:bg-[#050505] flex flex-col items-center justify-center gap-3">
             <div class="flex items-center gap-4">
                 <button onclick="navegar('regras')" class="text-[10px] md:text-xs font-bold text-slate-500 hover:text-black dark:text-zinc-500 dark:hover:text-white transition-colors uppercase tracking-[0.15em] hover:underline">Estatuto Oficial</button>
@@ -359,7 +375,7 @@
         </footer>
     </div>
 
-    <!-- MODAL DE NOTÍCIA COMPLETA (TELA CHEIA) -->
+    <!-- MODAL NOTICIA E CLUBE (MANTIDOS) -->
     <div id="modal-noticia" class="fixed inset-0 z-[100] hidden flex-col bg-slate-50 dark:bg-black overflow-y-auto fade-in">
         <div class="sticky top-0 z-30 glass-panel border-b-0 m-2 md:m-4 rounded-2xl shadow-sm shrink-0">
             <div class="max-w-4xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
@@ -369,20 +385,15 @@
                 </button>
             </div>
         </div>
-        
         <div class="max-w-4xl mx-auto w-full px-4 md:px-6 pb-32 fade-in-up mt-2">
-            <!-- Banner da Notícia -->
             <div class="w-full aspect-video md:aspect-[21/9] bg-zinc-900 relative rounded-[1.5rem] md:rounded-[2rem] overflow-hidden shadow-xl mb-8 md:mb-10">
                 <img id="modal-noticia-banner" src="" class="w-full h-full object-cover object-center opacity-90">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
             </div>
-            
             <div class="px-2 md:px-8 relative z-10">
                 <span id="modal-noticia-data" class="text-slate-500 dark:text-slate-400 font-bold text-[10px] md:text-xs tracking-widest uppercase mb-4 block w-max"></span>
                 <h1 id="modal-noticia-titulo" class="text-3xl md:text-5xl lg:text-6xl font-display font-black leading-[1.1] mb-8 md:mb-10 tracking-tight text-slate-900 dark:text-white"></h1>
-                
                 <div id="modal-noticia-texto" class="prose prose-slate dark:prose-invert max-w-none font-sans text-lg md:text-xl leading-loose text-slate-700 dark:text-slate-300 font-medium"></div>
-                
                 <div id="modal-noticia-btn-container" class="mt-12 md:mt-16 hidden">
                     <a id="modal-noticia-link" href="#" target="_blank" class="inline-flex justify-center w-full sm:w-auto bg-black dark:bg-white hover:scale-105 text-white dark:text-black font-bold py-4 px-12 rounded-2xl transition-all shadow-xl shadow-black/10 dark:shadow-white/10 text-center"></a>
                 </div>
@@ -390,7 +401,6 @@
         </div>
     </div>
 
-    <!-- MODAL DO CLUBE COM ELENCO (PÚBLICO) -->
     <div id="modal-clube" class="fixed inset-0 z-[200] hidden flex-col items-center justify-center p-4 sm:p-6 fade-in">
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="fecharModalClube()"></div>
         <div class="relative w-full max-w-md bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[2rem] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] fade-in-up">
@@ -405,7 +415,6 @@
             <div class="pt-14 pb-6 px-6 text-center shrink-0 border-b border-slate-100 dark:border-zinc-800/50">
                 <h2 id="mc-nome" class="text-2xl md:text-3xl font-display font-black tracking-tight text-slate-900 dark:text-white"></h2>
                 <p id="mc-tag" class="text-xs font-mono text-slate-500 uppercase tracking-widest mt-1 mb-5"></p>
-                
                 <div id="mc-camp-info" class="inline-flex items-center gap-3 bg-slate-50 dark:bg-zinc-900/50 border border-slate-200 dark:border-zinc-800 px-4 py-2.5 rounded-xl text-left shadow-sm">
                     <div id="mc-camp-logo" class="w-9 h-9 rounded-lg bg-black/5 dark:bg-white/10 text-slate-700 dark:text-white flex items-center justify-center font-black text-sm bg-cover bg-center border border-black/10 dark:border-white/10 shrink-0">T</div>
                     <div class="flex flex-col">
@@ -421,7 +430,7 @@
         </div>
     </div>
 
-    <!-- PAINEL DE TICKETS PARA O ADMIN (CHAT TOOL TELA CHEIA) -->
+    <!-- PAINEL DE TICKETS (ADMIN) -->
     <div id="modal-tickets-admin" class="fixed inset-0 z-[160] hidden flex-col bg-slate-50 dark:bg-[#050505] overflow-hidden fade-in">
         <header class="bg-white dark:bg-cfm-card border-b border-slate-200 dark:border-zinc-800 px-4 md:px-6 py-3 md:py-4 flex justify-between items-center shadow-sm z-10 shrink-0">
             <div class="flex items-center gap-3">
@@ -433,46 +442,28 @@
             </div>
             <button onclick="fecharPainelTickets()" class="hidden md:block text-xs md:text-sm font-bold bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 px-4 md:px-5 py-2.5 rounded-xl transition-colors shrink-0">Sair do Modo Suporte</button>
         </header>
-
         <div class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-            <!-- Lista de Tickets Laterais (Escondida no Mobile se o chat estiver aberto) -->
             <aside id="admin-tickets-sidebar" class="w-full md:w-80 bg-white dark:bg-cfm-card border-b md:border-b-0 md:border-r border-slate-200 dark:border-zinc-800 flex flex-col z-10 shrink-0 h-1/3 md:h-full transition-all">
-                <div class="p-4 border-b border-slate-100 dark:border-zinc-800">
-                    <h3 class="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400">Tickets Ativos</h3>
-                </div>
-                <div id="admin-lista-tickets" class="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-2">
-                    <!-- Preenchido via JS -->
-                </div>
+                <div class="p-4 border-b border-slate-100 dark:border-zinc-800"><h3 class="text-[10px] md:text-xs font-black uppercase tracking-widest text-slate-400">Tickets Ativos</h3></div>
+                <div id="admin-lista-tickets" class="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-2"></div>
             </aside>
-
-            <!-- Área de Chat do Admin -->
             <main id="admin-chat-area" class="flex-1 bg-slate-50/50 dark:bg-[#050505] flex flex-col relative h-2/3 md:h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-blend-overlay" style="background-size: 80px;">
                 <div class="absolute inset-0 flex flex-col items-center justify-center opacity-50 bg-slate-50 dark:bg-[#050505] z-0" id="admin-chat-empty">
                     <svg class="w-16 h-16 text-slate-300 dark:text-zinc-700 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
                     <p class="font-medium text-slate-500">Selecione um ticket ao lado para iniciar.</p>
                 </div>
-                
                 <div id="admin-chat-active" class="hidden flex-1 flex flex-col w-full h-full relative z-10 bg-slate-50/90 dark:bg-[#050505]/90 backdrop-blur-sm">
                     <div class="bg-white/95 dark:bg-cfm-card/95 backdrop-blur-md border-b border-slate-200 dark:border-zinc-800 p-3 md:p-4 flex justify-between items-center shrink-0">
                         <div class="flex items-center gap-3">
-                            <button onclick="voltarParaListaTicketsAdmin()" class="md:hidden p-2 -ml-2 text-slate-500">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-                            </button>
-                            <div class="flex flex-col">
-                                <p class="text-[9px] text-slate-400 uppercase font-black tracking-widest mb-0.5">Falando com</p>
-                                <p id="admin-chat-user-email" class="font-bold text-sm text-slate-900 dark:text-white truncate max-w-[150px] sm:max-w-xs"></p>
-                            </div>
+                            <button onclick="voltarParaListaTicketsAdmin()" class="md:hidden p-2 -ml-2 text-slate-500"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+                            <div class="flex flex-col"><p class="text-[9px] text-slate-400 uppercase font-black tracking-widest mb-0.5">Falando com</p><p id="admin-chat-user-email" class="font-bold text-sm text-slate-900 dark:text-white truncate max-w-[150px] sm:max-w-xs"></p></div>
                         </div>
                         <div class="flex gap-2 shrink-0">
                             <button id="btn-admin-aceitar" class="hidden bg-black dark:bg-white text-white dark:text-black px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest shadow-md transition-all active:scale-95">Assumir</button>
                             <button id="btn-admin-encerrar" class="hidden bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest shadow-md transition-all active:scale-95">Encerrar</button>
                         </div>
                     </div>
-                    
-                    <div id="admin-chat-mensagens-container" class="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-4 custom-scrollbar">
-                        <!-- Mensagens renderizadas aqui -->
-                    </div>
-
+                    <div id="admin-chat-mensagens-container" class="flex-1 overflow-y-auto p-4 md:p-6 flex flex-col gap-4 custom-scrollbar"></div>
                     <div id="admin-chat-input-area" class="p-3 pb-8 md:pb-4 md:p-4 bg-white/95 dark:bg-cfm-card/95 backdrop-blur-md border-t border-slate-200 dark:border-zinc-800 shrink-0 hidden">
                         <form onsubmit="enviarMensagemAdmin(event)" class="flex gap-2 max-w-4xl mx-auto w-full">
                             <input type="text" id="admin-chat-input" oninput="notificarDigitacao('admin')" placeholder="Sua resposta..." class="flex-1 bg-slate-100 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-full px-5 py-3.5 outline-none focus:border-slate-400 transition-colors text-sm" autocomplete="off">
@@ -502,50 +493,31 @@
                 <button onclick="abaAdmin('partidas')" id="btn-aba-partidas" class="admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all text-sm md:text-base">Partidas</button>
                 <button onclick="abaAdmin('times')" id="btn-aba-times" class="admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all text-sm md:text-base">Clubes</button>
                 
+                <span class="hidden md:block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 mt-6">Aprovação</span>
+                <button onclick="abaAdmin('inscricoes')" id="btn-aba-inscricoes" class="admin-tab shrink-0 flex items-center justify-between gap-2 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all text-sm md:text-base">Inscrições <span id="badge-inscricoes" class="hidden bg-brand-500 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md">0</span></button>
+
                 <span class="hidden md:block text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-4 mt-6">Configurações</span>
                 <button onclick="abaAdmin('estatuto')" id="btn-aba-estatuto" class="admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all text-sm md:text-base">Estatuto (Regras)</button>
             </aside>
             
             <main class="flex-1 p-4 md:p-12 overflow-y-auto custom-scrollbar bg-slate-50/50 dark:bg-[#050505]">
                 
-                <!-- Aba Notícias -->
                 <div id="aba-noticias" class="max-w-4xl mx-auto fade-in">
                     <h2 class="text-3xl md:text-4xl font-display font-black mb-2">Publicar Notícia</h2>
                     <p class="text-sm md:text-base text-slate-500 mb-6 md:mb-8">Conteúdo oficial para a Federação de MamoBall.</p>
-                    
                     <div class="space-y-4 md:space-y-6 bg-white dark:bg-cfm-card p-5 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200 dark:border-zinc-800 shadow-sm mb-12">
-                        <div>
-                            <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Título da Matéria</label>
-                            <input type="text" id="news-titulo" placeholder="Ex: Inscrições Abertas!" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 md:py-4 focus:border-slate-400 outline-none transition-colors font-semibold">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Imagem de Capa (Obrigatório)</label>
-                            <input type="file" id="news-banner-file" accept="image/*" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 focus:border-slate-400 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-slate-200 dark:file:bg-zinc-800 file:text-slate-900 dark:file:text-white cursor-pointer transition-colors text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Conteúdo Principal</label>
-                            <textarea id="news-texto" placeholder="Escreva o texto completo da notícia aqui..." rows="6" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 md:py-4 focus:border-slate-400 outline-none transition-colors custom-scrollbar font-serif"></textarea>
-                        </div>
+                        <div><label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Título da Matéria</label><input type="text" id="news-titulo" placeholder="Ex: Inscrições Abertas!" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 md:py-4 focus:border-slate-400 outline-none transition-colors font-semibold"></div>
+                        <div><label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Imagem de Capa (Obrigatório)</label><input type="file" id="news-banner-file" accept="image/*" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 focus:border-slate-400 outline-none file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-slate-200 dark:file:bg-zinc-800 file:text-slate-900 dark:file:text-white cursor-pointer transition-colors text-sm"></div>
+                        <div><label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Conteúdo Principal</label><textarea id="news-texto" placeholder="Escreva o texto completo da notícia aqui..." rows="6" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 md:py-4 focus:border-slate-400 outline-none transition-colors custom-scrollbar font-serif"></textarea></div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-slate-100 dark:border-zinc-800 pt-6">
-                            <div>
-                                <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Botão Externo (Texto)</label>
-                                <input type="text" id="news-btn-label" placeholder="Ex: Acessar Discord" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 focus:border-slate-400 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Link do Botão</label>
-                                <input type="text" id="news-btn-link" placeholder="https://" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 focus:border-slate-400 outline-none">
-                            </div>
+                            <div><label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Botão Externo (Texto)</label><input type="text" id="news-btn-label" placeholder="Ex: Acessar Discord" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 focus:border-slate-400 outline-none"></div>
+                            <div><label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Link do Botão</label><input type="text" id="news-btn-link" placeholder="https://" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 focus:border-slate-400 outline-none"></div>
                         </div>
                         <button onclick="salvarNoticia()" id="btn-salvar-noticia" class="w-full bg-black hover:bg-slate-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-bold py-3.5 md:py-4 rounded-xl transition-all shadow-lg mt-4 active:scale-95">Publicar na CFM</button>
                     </div>
-
-                    <div class="mt-8 md:mt-12">
-                        <h3 class="text-2xl font-display font-black mb-4 md:mb-6">Notícias Publicadas</h3>
-                        <div id="admin-lista-noticias" class="space-y-4"></div>
-                    </div>
+                    <div class="mt-8 md:mt-12"><h3 class="text-2xl font-display font-black mb-4 md:mb-6">Notícias Publicadas</h3><div id="admin-lista-noticias" class="space-y-4"></div></div>
                 </div>
 
-                <!-- Aba Torneios -->
                 <div id="aba-torneios" class="hidden max-w-4xl mx-auto fade-in">
                     <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-6 md:mb-8 gap-4">
                         <div>
@@ -557,25 +529,14 @@
                     <div id="admin-lista-torneios" class="space-y-6"></div>
                 </div>
 
-                <!-- Aba Partidas -->
                 <div id="aba-partidas" class="hidden max-w-3xl mx-auto fade-in">
                     <h2 class="text-3xl md:text-4xl font-display font-black mb-2">Registrar Jogo</h2>
                     <p class="text-sm md:text-base text-slate-500 mb-6 md:mb-8">A tabela atualiza-se em tempo real.</p>
                     <div class="bg-white dark:bg-cfm-card p-5 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200 dark:border-zinc-800 shadow-sm">
-                        <div class="mb-6 md:mb-8">
-                            <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Selecione o Torneio</label>
-                            <select id="form-partida-camp" onchange="atualizarSelectsPartida()" class="w-full p-3 md:p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-sm md:text-base"></select>
-                        </div>
-                        
+                        <div class="mb-6 md:mb-8"><label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Selecione o Torneio</label><select id="form-partida-camp" onchange="atualizarSelectsPartida()" class="w-full p-3 md:p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-sm md:text-base"></select></div>
                         <div class="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 dark:bg-zinc-900 p-4 md:p-6 rounded-2xl border border-slate-200 dark:border-zinc-800">
                             <select id="form-home-team" class="w-full sm:flex-1 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-center sm:text-left"></select>
-                            
-                            <div class="flex items-center gap-3 shrink-0">
-                                <input type="number" id="form-home-score" placeholder="0" class="w-16 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-center font-black text-xl focus:border-slate-400 outline-none">
-                                <span class="font-black text-slate-300 dark:text-zinc-600">X</span>
-                                <input type="number" id="form-away-score" placeholder="0" class="w-16 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-center font-black text-xl focus:border-slate-400 outline-none">
-                            </div>
-
+                            <div class="flex items-center gap-3 shrink-0"><input type="number" id="form-home-score" placeholder="0" class="w-16 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-center font-black text-xl focus:border-slate-400 outline-none"><span class="font-black text-slate-300 dark:text-zinc-600">X</span><input type="number" id="form-away-score" placeholder="0" class="w-16 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-center font-black text-xl focus:border-slate-400 outline-none"></div>
                             <select id="form-away-team" class="w-full sm:flex-1 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-center sm:text-left"></select>
                         </div>
                         <p class="text-[10px] text-slate-400 mt-4 text-center font-medium">Em Mata-Mata, registre o placar final (ex: Pênaltis).</p>
@@ -583,7 +544,6 @@
                     </div>
                 </div>
 
-                <!-- Aba Times / Clubes -->
                 <div id="aba-times" class="hidden max-w-4xl mx-auto fade-in">
                     <div class="flex flex-col sm:flex-row justify-between sm:items-end mb-6 md:mb-8 gap-4">
                         <div>
@@ -595,15 +555,32 @@
                     <div id="admin-lista-times" class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5"></div>
                 </div>
 
-                <!-- Aba Estatuto / Regras -->
+                <!-- NOVA ABA ADMIN: INSCRIÇÕES -->
+                <div id="aba-inscricoes" class="hidden max-w-4xl mx-auto fade-in">
+                    <h2 class="text-3xl md:text-4xl font-display font-black mb-2">Controle de Inscrições</h2>
+                    <p class="text-sm md:text-base text-slate-500 mb-6 md:mb-8">Libere vagas para o público criar times direto no site.</p>
+                    
+                    <div class="bg-white dark:bg-cfm-card p-5 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200 dark:border-zinc-800 shadow-sm mb-8">
+                        <div class="flex flex-col md:flex-row md:items-end gap-4">
+                            <div class="flex-1">
+                                <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Selecione o Torneio Alvo</label>
+                                <select id="admin-inscricoes-camp" class="w-full p-3 md:p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-sm md:text-base"></select>
+                            </div>
+                            <button id="btn-toggle-inscricoes" onclick="toggleStatusInscricoes()" class="bg-black dark:bg-white text-white dark:text-black py-3.5 md:py-4 px-6 md:px-8 rounded-xl font-bold transition-all shadow-lg active:scale-95 shrink-0">Abrir Vagas</button>
+                        </div>
+                        <p class="text-[10px] text-slate-400 mt-4 font-medium"><span class="text-yellow-500 font-bold">Aviso:</span> Ao abrir vagas, um banner aparecerá na tela inicial para todo o público.</p>
+                    </div>
+
+                    <h3 class="text-2xl font-display font-black mb-4">Pedidos de Inscrição <span id="inscricoes-count-title" class="text-brand-500"></span></h3>
+                    <div id="admin-lista-inscricoes"></div>
+                </div>
+
                 <div id="aba-estatuto" class="hidden max-w-4xl mx-auto fade-in">
                     <h2 class="text-3xl md:text-4xl font-display font-black mb-2">Regras e Estatuto</h2>
                     <p class="text-sm md:text-base text-slate-500 mb-6 md:mb-8">Gerencie o regulamento que aparece no site e envie para o Discord.</p>
-                    
                     <div class="bg-white dark:bg-cfm-card p-5 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200 dark:border-zinc-800 shadow-sm">
                         <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Texto do Estatuto (Usa formatação do Discord)</label>
                         <textarea id="estatuto-texto" rows="18" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 md:py-4 focus:border-slate-400 outline-none transition-colors custom-scrollbar font-sans text-sm"></textarea>
-                        
                         <div class="mt-6 pt-6 border-t border-slate-100 dark:border-zinc-800 flex justify-end">
                             <button onclick="salvarEstatutoEEnviarDiscord()" id="btn-salvar-estatuto" class="w-full sm:w-auto bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold py-3.5 px-8 rounded-xl transition-all shadow-lg shadow-[#5865F2]/30 flex items-center justify-center gap-3 active:scale-95">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg>
@@ -617,7 +594,6 @@
         </div>
     </div>
 
-    <!-- COOKIE BANNER ULTRA MODERNO (PILL) -->
     <div id="cookie-banner" class="fixed bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 w-[95%] md:w-[90%] max-w-2xl bg-white/90 dark:bg-zinc-900/90 backdrop-blur-2xl border border-slate-200/50 dark:border-zinc-800/50 p-4 md:p-6 z-[70] transform translate-y-[150%] transition-transform duration-700 shadow-2xl rounded-2xl md:rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4 md:gap-6">
         <p class="text-xs md:text-sm text-slate-600 dark:text-zinc-300 font-medium text-center sm:text-left">
             O site oficial da Federação de MamoBall utiliza cookies para sua experiência. <br class="hidden sm:block">
@@ -652,12 +628,14 @@
 
         const ADMIN_EMAILS = ['samueldossantosramos123@gmail.com', 'essiquatru@gmail.com', 'joaopalmeiras1201@gmail.com'];
 
-        let state = { times: {}, campeonatos: {}, partidas: [], noticias: [], estatuto: "", tickets: [] };
+        // Add inscricoes & inscricoesAbertas to initial state
+        let state = { times: {}, campeonatos: {}, partidas: [], noticias: [], estatuto: "", tickets: [], inscricoes: [], inscricoesAbertas: { status: false, campId: null } };
         let currentUser = null; 
         let db, docRef, auth, app;
         let campeonatoAbertoPublico = null; 
         let urlDiretaVerificada = false; 
-        let adminTicketSelecionado = null; 
+        let adminTicketSelecionado = null;
+        let jogadoresInscricaoLocal = []; // Elenco do formulário público
         
         const isProducao = myFirebaseConfig.apiKey !== "COLE_AQUI";
         const firebaseConfig = isProducao ? myFirebaseConfig : JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : "{}");
@@ -678,14 +656,15 @@
                 if(!isProducao && typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
                 else if(!isProducao && !auth.currentUser) await signInAnonymously(auth);
 
-                docRef = isProducao ? doc(db, 'campeonatos', 'federacao_mamo_v1') : doc(db, 'artifacts', appIdGlobal, 'public', 'data', 'cfm', 'estado_v9');
+                docRef = isProducao ? doc(db, 'campeonatos', 'federacao_mamo_v1') : doc(db, 'artifacts', appIdGlobal, 'public', 'data', 'cfm', 'estado_v11');
                 
                 onSnapshot(docRef, (docSnap) => {
                     if (docSnap.exists()) {
                         let data = docSnap.data();
                         state = {
                             times: data.times || {}, campeonatos: data.campeonatos || {}, partidas: data.partidas || [],
-                            noticias: data.noticias || [], estatuto: data.estatuto || DEFAULT_ESTATUTO, tickets: data.tickets || []
+                            noticias: data.noticias || [], estatuto: data.estatuto || DEFAULT_ESTATUTO, tickets: data.tickets || [],
+                            inscricoes: data.inscricoes || [], inscricoesAbertas: data.inscricoesAbertas || { status: false, campId: null }
                         };
                         renderizarTudo();
 
@@ -734,7 +713,7 @@
         window.navegarMobile = (pagina) => { navegar(pagina); toggleMenuMobile(); };
 
         window.navegar = function(pagina) {
-            ['home', 'tabelas', 'noticias', 'regras', 'suporte'].forEach(p => {
+            ['home', 'tabelas', 'noticias', 'regras', 'suporte', 'inscricao'].forEach(p => {
                 const el = document.getElementById(`page-${p}`);
                 if (el) el.classList.add('hidden');
             });
@@ -744,11 +723,10 @@
 
             try {
                 const baseUrl = window.location.href.split('?')[0];
-                if(pagina === 'regras' || pagina === 'suporte') window.history.replaceState({}, '', `${baseUrl}?pagina=${pagina}`);
+                if(pagina === 'regras' || pagina === 'suporte' || pagina === 'inscricao') window.history.replaceState({}, '', `${baseUrl}?pagina=${pagina}`);
                 else window.history.replaceState({}, '', baseUrl);
             } catch(e) { console.warn("Aviso: History API bloqueada neste ambiente."); }
 
-            // Controle de interface mobile do suporte
             if(pagina === 'suporte') {
                 renderizarSuporte();
             } else {
@@ -757,6 +735,7 @@
                 document.getElementById('page-suporte').classList.remove('mobile-fullscreen-chat');
                 document.body.style.overflow = '';
             }
+            if(pagina === 'inscricao') renderJogadoresInsc();
         };
 
         function renderizarTudo() {
@@ -781,6 +760,15 @@
             heroBanners.forEach(el => el.src = ultima ? ultima.banner : "https://images.unsplash.com/photo-1542652694-40abf526446e?auto=format&fit=crop&w=1200&q=80");
             heroTitulos.forEach(el => el.innerText = ultima ? ultima.titulo : "Bem-vindo à Federação");
             heroResumos.forEach(el => el.innerHTML = ultima ? marked.parseInline(ultima.resumo) : "Acompanhe tudo sobre o Campeonato da Federação de MamoBall.");
+
+            // Banner Dinâmico de Inscrições
+            const bannerInsc = document.getElementById('banner-inscricoes');
+            if(state.inscricoesAbertas && state.inscricoesAbertas.status && state.campeonatos[state.inscricoesAbertas.campId]) {
+                document.getElementById('banner-inscricoes-texto').innerText = state.campeonatos[state.inscricoesAbertas.campId].nome;
+                if(bannerInsc) bannerInsc.classList.remove('hidden');
+            } else {
+                if(bannerInsc) bannerInsc.classList.add('hidden');
+            }
         }
 
         window.abrirUltimaNoticia = () => { if(state.noticias && state.noticias.length > 0) abrirNoticia(state.noticias[0].id); }
@@ -822,7 +810,91 @@
             } catch(e) { console.warn("Aviso: History API bloqueada neste ambiente."); }
         };
 
-        // --- FUNÇÕES DE TABELAS E PÚBLICO RESTAURADAS ---
+        function renderizarNoticias() {
+            const container = document.getElementById('lista-noticias');
+            if(!container) return;
+            
+            if(!state.noticias || state.noticias.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full py-20 text-center flex flex-col items-center justify-center opacity-60">
+                        <div class="w-16 h-16 mb-6 text-slate-300 dark:text-zinc-700"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM7 11h10v2H7v-2zm5.85-6.1l1.42 1.42L11.4 9.16c-.2.2-.51.2-.71 0l-2.83-2.83 1.42-1.42 2.47 2.47 3.1-3.1zM7 15h10v2H7v-2z"/></svg></div>
+                        <h3 class="text-2xl font-display font-black tracking-tight mb-2">Sem Publicações</h3>
+                        <p class="text-sm text-slate-500 font-medium">A organização ainda não publicou nenhuma notícia.</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = state.noticias.map((n, i) => {
+                const isDestaque = i === 0;
+                const dataObj = new Date(n.data);
+                const dataStr = isNaN(dataObj) ? 'Recente' : dataObj.toLocaleDateString('pt-BR');
+                
+                return `
+                <div onclick="abrirNoticia(${n.id})" class="group cursor-pointer bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[1.5rem] overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col ${isDestaque ? 'md:col-span-2 lg:col-span-2 md:flex-row' : ''}">
+                    <div class="w-full ${isDestaque ? 'md:w-1/2 md:h-full aspect-video md:aspect-auto' : 'aspect-video'} overflow-hidden relative bg-slate-100 dark:bg-zinc-900 shrink-0">
+                        <img src="${n.banner}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='">
+                        ${isDestaque ? '<div class="absolute top-4 left-4 bg-white text-black text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg shadow-lg">Destaque</div>' : ''}
+                    </div>
+                    <div class="p-6 md:p-8 flex flex-col flex-1 justify-center">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">${dataStr}</span>
+                        <h3 class="font-display font-black text-xl md:text-2xl lg:text-3xl text-slate-900 dark:text-white mb-3 leading-tight group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors">${n.titulo}</h3>
+                        <p class="text-slate-500 text-sm md:text-base line-clamp-2 md:line-clamp-3 font-medium mb-6">${n.resumo}</p>
+                        <span class="mt-auto inline-flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:gap-3 transition-all">Ler mais <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></span>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        window.abrirModalClube = (id, pos) => {
+            const t = state.times[id];
+            if(!t) return;
+            
+            document.getElementById('mc-nome').innerText = t.nome;
+            document.getElementById('mc-tag').innerText = t.tag;
+            
+            const logoEl = document.getElementById('mc-logo');
+            const bgEl = document.getElementById('mc-bg');
+            if(t.logo) {
+                logoEl.style.backgroundImage = `url('${t.logo}')`; logoEl.style.backgroundColor = 'transparent'; logoEl.innerText = '';
+                bgEl.style.backgroundImage = `url('${t.logo}')`; bgEl.style.backgroundColor = 'transparent';
+            } else {
+                logoEl.style.backgroundImage = 'none'; logoEl.style.backgroundColor = t.cor; logoEl.innerText = t.tag.replace(/\[|\]/g,'');
+                bgEl.style.backgroundImage = 'none'; bgEl.style.backgroundColor = t.cor;
+            }
+
+            const c = state.campeonatos[campeonatoAbertoPublico];
+            document.getElementById('mc-camp-nome').innerText = c ? c.nome : 'Sem torneio';
+            document.getElementById('mc-camp-pos').innerText = pos ? `${pos}º Colocado` : 'Participante';
+            const logoCamp = document.getElementById('mc-camp-logo');
+            if(c && c.logo) { logoCamp.style.backgroundImage = `url('${c.logo}')`; logoCamp.innerText = ''; } 
+            else { logoCamp.style.backgroundImage = 'none'; logoCamp.innerText = 'T'; }
+
+            const elencoContainer = document.getElementById('mc-elenco');
+            if(t.jogadores && t.jogadores.length > 0) {
+                elencoContainer.innerHTML = t.jogadores.map(j => `
+                    <div class="flex justify-between items-center bg-white dark:bg-zinc-800/80 p-3 rounded-xl border border-slate-200 dark:border-zinc-700/50 shadow-sm">
+                        <div class="flex flex-col">
+                            <span class="text-sm font-bold text-slate-900 dark:text-white">${j.nick}</span>
+                            <span class="text-[9px] text-slate-400 font-mono mt-0.5 uppercase tracking-widest">ID: ${j.id}</span>
+                        </div>
+                        ${j.discord ? `<span class="text-[10px] bg-[#5865F2]/10 text-[#5865F2] px-2 py-1 rounded-md font-bold truncate max-w-[100px]">@${j.discord}</span>` : ''}
+                    </div>
+                `).join('');
+            } else {
+                elencoContainer.innerHTML = '<p class="text-sm text-slate-500 font-medium text-center py-4">Elenco não divulgado.</p>';
+            }
+
+            document.getElementById('modal-clube').classList.remove('hidden');
+            document.getElementById('modal-clube').classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        };
+
+        window.fecharModalClube = () => {
+            document.getElementById('modal-clube').classList.add('hidden');
+            document.getElementById('modal-clube').classList.remove('flex');
+            document.body.style.overflow = '';
+        };
+
         function renderizarMenuCampeonatos() {
             const container = document.getElementById('menu-campeonatos');
             if(!container) return;
@@ -1065,100 +1137,103 @@
             `;
         }
 
-        window.abrirModalClube = (timeId, pos) => {
-            if(!timeId || !state.times[timeId]) return;
-            const t = state.times[timeId];
-            const camp = campeonatoAbertoPublico ? state.campeonatos[campeonatoAbertoPublico] : null;
+        // --- SISTEMA DE INSCRIÇÃO DO PÚBLICO ---
+        window.renderJogadoresInsc = () => {
+            const container = document.getElementById('lista-jogadores-insc');
+            const counter = document.getElementById('insc-count');
             
-            document.getElementById('mc-nome').innerText = t.nome;
-            document.getElementById('mc-tag').innerText = t.tag;
-            
-            const logoEl = document.getElementById('mc-logo');
-            if(t.logo) {
-                logoEl.style.backgroundImage = `url('${t.logo}')`;
-                logoEl.style.backgroundColor = 'transparent';
-                logoEl.innerText = '';
-            } else {
-                logoEl.style.backgroundImage = 'none';
-                logoEl.style.backgroundColor = t.cor || '#050505';
-                logoEl.innerText = t.tag.replace(/\[|\]/g, '');
-            }
-            document.getElementById('mc-bg').style.backgroundColor = t.cor || '#050505';
+            if(counter) counter.innerText = `${jogadoresInscricaoLocal.length}/10`;
 
-            if(camp) {
-                document.getElementById('mc-camp-info').classList.remove('hidden');
-                document.getElementById('mc-camp-nome').innerText = camp.nome;
-                document.getElementById('mc-camp-pos').innerText = pos ? `${pos}º Colocado` : 'Participante';
-                const campLogoEl = document.getElementById('mc-camp-logo');
-                if(camp.logo) {
-                    campLogoEl.style.backgroundImage = `url('${camp.logo}')`;
-                    campLogoEl.innerText = '';
-                    campLogoEl.style.backgroundColor = 'transparent';
-                    campLogoEl.classList.remove('border');
-                } else {
-                    campLogoEl.style.backgroundImage = 'none';
-                    campLogoEl.innerText = 'T';
-                    campLogoEl.style.backgroundColor = '';
-                    campLogoEl.classList.add('border');
-                }
-            } else {
-                document.getElementById('mc-camp-info').classList.add('hidden');
-            }
-
-            const elencoContainer = document.getElementById('mc-elenco');
-            const jogs = t.jogadores || [];
-            if(jogs.length === 0) {
-                elencoContainer.innerHTML = '<div class="text-center py-6 text-[11px] font-medium text-slate-500 dark:text-zinc-500 bg-slate-100/50 dark:bg-zinc-800/20 rounded-xl">Nenhum jogador cadastrado pela organização.</div>';
-            } else {
-                elencoContainer.innerHTML = jogs.map(j => `
-                    <div class="flex items-center justify-between bg-white dark:bg-zinc-800/60 p-3 rounded-[1rem] border border-slate-200 dark:border-zinc-700/50 shadow-sm">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-[8px] bg-slate-100 dark:bg-zinc-900 flex items-center justify-center text-[9px] font-black text-slate-400 dark:text-zinc-500 border border-slate-200/50 dark:border-zinc-700">#${j.id.slice(-3)}</div>
-                            <div class="flex flex-col">
-                                <span class="text-sm font-bold text-slate-900 dark:text-white leading-tight">${j.nick}</span>
-                                <span class="text-[9px] text-slate-400 font-mono tracking-widest mt-0.5">ID: ${j.id}</span>
-                            </div>
-                        </div>
-                        ${j.discord ? `<div class="flex items-center gap-1.5 text-[10px] font-bold text-[#5865F2] bg-[#5865F2]/10 px-2.5 py-1.5 rounded-lg border border-[#5865F2]/20"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg> ${j.discord}</div>` : ''}
-                    </div>
-                `).join('');
-            }
-
-            document.getElementById('modal-clube').classList.remove('hidden');
-            document.getElementById('modal-clube').classList.add('flex');
-            document.body.style.overflow = 'hidden';
-        };
-
-        window.fecharModalClube = () => {
-            document.getElementById('modal-clube').classList.add('hidden');
-            document.getElementById('modal-clube').classList.remove('flex');
-            document.body.style.overflow = '';
-        };
-
-        function renderizarNoticias() {
-            const container = document.getElementById('lista-noticias');
-            if(!container) return;
-            if(!state.noticias || state.noticias.length === 0) {
-                container.innerHTML = `
-                <div class="col-span-full py-16 md:py-20 text-center flex flex-col items-center justify-center opacity-60">
-                    <div class="w-10 h-10 md:w-12 md:h-12 mb-3 md:mb-4 text-slate-300 dark:text-zinc-700"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10l6 6v10a2 2 0 01-2 2z"></path></svg></div>
-                    <p class="text-slate-500 font-medium text-sm md:text-lg">Sem notícias publicadas de momento.</p>
-                </div>`;
+            if(jogadoresInscricaoLocal.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-500 font-medium col-span-full text-center py-6 border border-dashed border-slate-200 dark:border-zinc-800 rounded-xl bg-slate-50/50 dark:bg-zinc-900/30">Adicione os jogadores acima para formar seu elenco.</p>';
                 return;
             }
-            container.innerHTML = state.noticias.map(n => `
-                <div class="group cursor-pointer bg-white dark:bg-cfm-card p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200/60 dark:border-zinc-800 hover:shadow-2xl hover:border-slate-800 dark:hover:border-slate-400 transition-all duration-500 flex flex-col h-full" onclick="abrirNoticia(${n.id})">
-                    <div class="relative overflow-hidden rounded-[1rem] md:rounded-2xl mb-4 md:mb-6 aspect-[4/3]">
-                        <img src="${n.banner}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 ease-out">
+
+            container.innerHTML = jogadoresInscricaoLocal.map((j, idx) => `
+                <div class="flex justify-between items-center bg-white dark:bg-zinc-800/80 p-3 rounded-xl border border-slate-200 dark:border-zinc-700 shadow-sm">
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white">${j.nick} <span class="text-[9px] text-slate-400 font-mono ml-1">#${j.id}</span></span>
+                        ${j.discord ? `<span class="text-[10px] text-[#5865F2] font-bold mt-0.5">@${j.discord}</span>` : ''}
                     </div>
-                    <h3 class="text-xl md:text-2xl font-display font-black mb-2 md:mb-3 group-hover:text-slate-600 dark:group-hover:text-slate-300 transition-colors leading-tight tracking-tight">${n.titulo}</h3>
-                    <div class="text-slate-500 text-xs md:text-sm line-clamp-3 mb-4 md:mb-6 flex-1 font-sans leading-relaxed">${marked.parseInline(n.resumo)}</div>
-                    <span class="text-[9px] md:text-[11px] font-black uppercase tracking-widest text-slate-900 dark:text-white mt-auto flex items-center gap-2">Ler matéria completa <svg class="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></span>
+                    <button onclick="remJogadorInsc(${idx})" class="text-red-500 font-bold text-[10px] uppercase bg-red-50 dark:bg-red-900/10 px-3 py-1.5 rounded-lg transition-colors">Remover</button>
                 </div>
             `).join('');
-        }
+        };
 
-        // --- TICKETS DE SUPORTE (PÚBLICO) ---
+        window.addJogadorInsc = () => {
+            const idInput = document.getElementById('insc-jog-id');
+            const nickInput = document.getElementById('insc-jog-nick');
+            const discordInput = document.getElementById('insc-jog-discord');
+
+            if(!idInput.value || !nickInput.value) return alert("ID e Nickname do jogador são obrigatórios!");
+            if(jogadoresInscricaoLocal.length >= 10) return alert("O limite máximo do elenco é de 10 jogadores!");
+
+            jogadoresInscricaoLocal.push({ id: idInput.value, nick: nickInput.value, discord: discordInput.value });
+            idInput.value = ''; nickInput.value = ''; discordInput.value = '';
+            renderJogadoresInsc();
+        };
+
+        window.remJogadorInsc = (idx) => { jogadoresInscricaoLocal.splice(idx, 1); renderJogadoresInsc(); };
+
+        window.enviarInscricao = async () => {
+            const nome = document.getElementById('insc-nome').value;
+            const tag = document.getElementById('insc-tag').value;
+            const logoFile = document.getElementById('insc-logo-file').files[0];
+
+            if(!nome || !tag || !logoFile) return alert("Preencha o Nome, TAG e envie a Logo Oficial do seu clube!");
+            if(jogadoresInscricaoLocal.length < 6) return alert("O elenco deve ter no mínimo 6 jogadores registrados!");
+            
+            const btn = document.getElementById('btn-enviar-inscricao');
+            btn.disabled = true;
+            btn.innerText = "Validando Inscrição...";
+
+            const logoBase64 = await resizeImageAsync(logoFile, 400, 400);
+
+            const novaInscricao = {
+                id: Date.now(),
+                campId: state.inscricoesAbertas.campId,
+                userEmail: currentUser.email,
+                capitao: currentUser.email,
+                nome,
+                tag,
+                logo: logoBase64,
+                jogadores: [...jogadoresInscricaoLocal]
+            };
+
+            if(!state.inscricoes) state.inscricoes = [];
+            state.inscricoes.push(novaInscricao);
+
+            if(docRef) await setDoc(docRef, state);
+
+            // Avisar no Discord sobre a nova inscrição (Se configurado no suporte)
+            if(typeof DISCORD_WEBHOOK_SUPORTE !== 'undefined' && DISCORD_WEBHOOK_SUPORTE) {
+                try {
+                    await fetch(DISCORD_WEBHOOK_SUPORTE, {
+                        method: 'POST', headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            content: "🏆 **NOVO CLUBE INSCRITO**",
+                            embeds: [{
+                                title: `Solicitação: ${nome} ${tag}`,
+                                description: `O jogador **${currentUser.email}** inscreveu um time com ${jogadoresInscricaoLocal.length} jogadores.\nAcesse o Painel CFM Studio para aprovar ou rejeitar.`,
+                                color: 3447003 // Azul
+                            }]
+                        })
+                    });
+                } catch(e) { console.error(e); }
+            }
+
+            alert("Inscrição enviada com sucesso! A organização irá avaliar seu elenco.");
+            
+            // Limpa o formulário
+            document.getElementById('insc-nome').value = ''; document.getElementById('insc-tag').value = ''; document.getElementById('insc-logo-file').value = '';
+            jogadoresInscricaoLocal = [];
+            
+            btn.disabled = false;
+            btn.innerText = "Enviar Solicitação do Clube";
+            navegar('home');
+        };
+
+        // --- SISTEMA DE TICKETS (SUPORTE) ---
         window.renderizarSuporte = function() {
             const pageEl = document.getElementById('page-suporte');
             const titleDesktop = document.getElementById('suporte-title-desktop');
@@ -1168,7 +1243,6 @@
             if (pageEl.classList.contains('hidden')) return;
 
             if (!currentUser) {
-                // Remove fullscreen
                 pageEl.classList.remove('mobile-fullscreen-chat');
                 document.getElementById('main-header').classList.remove('hidden');
                 document.getElementById('main-footer').classList.remove('hidden');
@@ -1206,7 +1280,6 @@
                 return;
             }
 
-            // MODO TICKET ATIVO
             if(window.innerWidth < 768) {
                 pageEl.classList.add('mobile-fullscreen-chat');
                 document.getElementById('main-header').classList.add('hidden');
@@ -1246,12 +1319,10 @@
 
             if(ticket.mensagens.length === 0) html = `<div class="text-center text-xs text-slate-500 font-medium my-auto py-10">Escreva sua dúvida abaixo para começarmos.</div>`;
 
-            // Verificando digitação do Admin
             if(ticket.typing && ticket.typing['admin'] > Date.now() - 2500) {
                 html += `<div class="self-start bg-white dark:bg-zinc-800 rounded-[1.2rem] rounded-tl-sm px-4 py-3 max-w-[85%] border border-slate-200/50 dark:border-zinc-700/50 shadow-sm flex items-center gap-1 w-max h-10"><div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div><div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div><div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div></div>`;
             }
 
-            // Só rola pra baixo se tiver adicionado mensagem nova
             const isAtBottom = chatBox.scrollHeight - chatBox.scrollTop <= chatBox.clientHeight + 50;
             chatBox.innerHTML = html;
             if(isAtBottom) chatBox.scrollTop = chatBox.scrollHeight;
@@ -1263,7 +1334,6 @@
             state.tickets.push({ id: novoId, userEmail: currentUser.email, status: 'aberto', admin: null, createdAt: new Date().toISOString(), mensagens: [] });
             if(docRef) await setDoc(docRef, state);
             
-            // Envia notificação pro Discord de Suporte
             if(typeof DISCORD_WEBHOOK_SUPORTE !== 'undefined' && DISCORD_WEBHOOK_SUPORTE) {
                 try {
                     const linkDireto = `${URL_DO_SEU_SITE.endsWith('/') ? URL_DO_SEU_SITE.slice(0, -1) : URL_DO_SEU_SITE}/?pagina=suporte`;
@@ -1274,14 +1344,13 @@
                             embeds: [{
                                 title: "📨 Atendimento Solicitado",
                                 description: `O jogador **${currentUser.email}** abriu um novo ticket na Central de Ajuda.\n\n🔗 **[Acessar Painel de Suporte (CFM Studio)](${linkDireto})**`,
-                                color: 16766720 // Cor amarela
+                                color: 16766720
                             }]
                         })
                     });
                 } catch(e) { console.error("Erro Discord Suporte:", e); }
             }
-
-            renderizarSuporte(); // Força atualização da interface
+            renderizarSuporte();
         };
 
         window.enviarMensagemSuporte = async (e) => {
@@ -1294,19 +1363,14 @@
             if(ticketIndex === -1) return;
 
             state.tickets[ticketIndex].mensagens.push({ autor: currentUser.email, texto: texto, timestamp: new Date().toISOString() });
-            
-            // Limpa o indicador de digitação imediatamente
             if(state.tickets[ticketIndex].typing) state.tickets[ticketIndex].typing['user'] = 0;
-
             input.value = '';
             if(docRef) await setDoc(docRef, state);
             
-            // Rola para baixo no clique
             const chatBox = document.getElementById('suporte-chat-mensagens');
             setTimeout(() => { if(chatBox) chatBox.scrollTop = chatBox.scrollHeight; }, 50);
         };
 
-        // --- TICKETS DE SUPORTE (ADMIN PANEL) ---
         window.abrirPainelTickets = () => {
             document.getElementById('modal-tickets-admin').classList.remove('hidden');
             document.getElementById('modal-tickets-admin').classList.add('flex');
@@ -1322,15 +1386,8 @@
             adminTicketSelecionado = null;
         };
 
-        window.voltarParaListaTicketsAdmin = () => {
-            adminTicketSelecionado = null;
-            renderizarPainelTicketsAdmin();
-        };
-
-        window.selecionarTicketAdmin = (id) => {
-            adminTicketSelecionado = id;
-            renderizarPainelTicketsAdmin();
-        };
+        window.voltarParaListaTicketsAdmin = () => { adminTicketSelecionado = null; renderizarPainelTicketsAdmin(); };
+        window.selecionarTicketAdmin = (id) => { adminTicketSelecionado = id; renderizarPainelTicketsAdmin(); };
 
         function renderizarPainelTicketsAdmin() {
             const sidebar = document.getElementById('admin-tickets-sidebar');
@@ -1338,7 +1395,6 @@
             const areaVazia = document.getElementById('admin-chat-empty');
             const areaAtiva = document.getElementById('admin-chat-active');
             
-            // Logica de responsividade Mobile (Mostra um, esconde outro)
             if(window.innerWidth < 768) {
                 if(adminTicketSelecionado) { sidebar.classList.add('hidden'); chatArea.classList.remove('hidden'); } 
                 else { sidebar.classList.remove('hidden'); chatArea.classList.add('hidden'); }
@@ -1346,7 +1402,6 @@
                 sidebar.classList.remove('hidden'); chatArea.classList.remove('hidden');
             }
 
-            // Renderiza Lista Lateral
             const listaEl = document.getElementById('admin-lista-tickets');
             let ticketsAtivos = state.tickets.filter(t => t.status === 'aberto' || (t.status === 'em_atendimento' && t.admin === currentUser.email));
             ticketsAtivos.sort((a,b) => {
@@ -1373,20 +1428,14 @@
                 }).join('');
             }
 
-            // Renderiza Área Central
-            if(!adminTicketSelecionado) {
-                areaVazia.classList.remove('hidden'); areaAtiva.classList.add('hidden'); return;
-            }
+            if(!adminTicketSelecionado) { areaVazia.classList.remove('hidden'); areaAtiva.classList.add('hidden'); return; }
 
             const t = state.tickets.find(x => x.id === adminTicketSelecionado);
-            if(!t || t.status === 'fechado') {
-                adminTicketSelecionado = null; renderizarPainelTicketsAdmin(); return;
-            }
+            if(!t || t.status === 'fechado') { adminTicketSelecionado = null; renderizarPainelTicketsAdmin(); return; }
 
             areaVazia.classList.add('hidden'); areaAtiva.classList.remove('hidden'); areaAtiva.classList.add('flex');
             document.getElementById('admin-chat-user-email').innerText = t.userEmail;
 
-            // Botões do Ticket Admin
             const btnAceitar = document.getElementById('btn-admin-aceitar');
             const btnEncerrar = document.getElementById('btn-admin-encerrar');
             const inputArea = document.getElementById('admin-chat-input-area');
@@ -1398,7 +1447,6 @@
                 btnAceitar.classList.add('hidden'); btnEncerrar.classList.remove('hidden'); btnEncerrar.onclick = () => window.encerrarTicket(t.id);
                 inputArea.classList.remove('hidden');
             }
-
             renderizarMensagensAdminLocal(t);
         }
 
@@ -1418,7 +1466,6 @@
 
             if(ticket.mensagens.length === 0) html = `<div class="text-center text-xs text-slate-500 font-medium my-auto py-10">Aguardando a primeira mensagem.</div>`;
 
-            // Verificando digitação do Usuário
             if(ticket.typing && ticket.typing['user'] > Date.now() - 2500) {
                 html += `<div class="self-start bg-white dark:bg-zinc-800 rounded-[1.2rem] rounded-tl-sm px-4 py-3 max-w-[85%] border border-slate-200/50 dark:border-zinc-700/50 shadow-sm flex items-center gap-1 w-max h-10"><div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div><div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div><div class="w-1.5 h-1.5 bg-slate-400 rounded-full typing-dot"></div></div>`;
             }
@@ -1461,7 +1508,6 @@
 
             state.tickets[index].mensagens.push({ autor: currentUser.email, texto: texto, timestamp: new Date().toISOString() });
             if(state.tickets[index].typing) state.tickets[index].typing['admin'] = 0;
-
             input.value = '';
             if(docRef) await setDoc(docRef, state);
             
@@ -1469,7 +1515,6 @@
             setTimeout(() => { if(chatBox) chatBox.scrollTop = chatBox.scrollHeight; }, 50);
         };
 
-        // --- SISTEMA DE TYPING INDICATOR (DEBOUNCED) ---
         window.notificarDigitacao = (role) => {
             let ticketId = null;
             if(role === 'admin' && adminTicketSelecionado) ticketId = adminTicketSelecionado;
@@ -1487,11 +1532,10 @@
 
             clearTimeout(window.typingTimer);
             window.typingTimer = setTimeout(() => {
-                if(docRef) setDoc(docRef, state); // Salva na nuvem a cada 1.5s enquanto digita
+                if(docRef) setDoc(docRef, state);
             }, 1500);
         };
 
-        // Loop local para atualizar os "typing dots" sem perder o foco dos inputs
         setInterval(() => {
             const pageSuporte = document.getElementById('page-suporte');
             if(pageSuporte && !pageSuporte.classList.contains('hidden') && currentUser) {
@@ -1512,15 +1556,143 @@
             const badgeD = document.getElementById('badge-tickets-desktop'), badgeM = document.getElementById('badge-tickets-mobile');
             if(pendentes) { if(badgeD) badgeD.classList.remove('hidden'); if(badgeM) badgeM.classList.remove('hidden'); } 
             else { if(badgeD) badgeD.classList.add('hidden'); if(badgeM) badgeM.classList.add('hidden'); }
+
+            const badgeInsc = document.getElementById('badge-inscricoes');
+            if(state.inscricoes && state.inscricoes.length > 0) {
+                if(badgeInsc) { badgeInsc.classList.remove('hidden'); badgeInsc.innerText = state.inscricoes.length; }
+            } else {
+                if(badgeInsc) badgeInsc.classList.add('hidden');
+            }
         }
 
-        // --- FUNÇÕES DE ADMINISTRAÇÃO RESTAURADAS ---
+        // --- FUNÇÕES DE ADMINISTRAÇÃO ---
         function atualizarListasAdmin() {
             atualizarFormularioPartidas();
             atualizarListaTimesAdmin();
             atualizarListaTorneiosAdmin();
             atualizarListaNoticiasAdmin();
+            atualizarListaInscricoesAdmin();
         }
+
+        function atualizarListaInscricoesAdmin() {
+            const select = document.getElementById('admin-inscricoes-camp');
+            let options = '<option value="">Selecione o Torneio...</option>';
+            for(let id in state.campeonatos) {
+                options += `<option value="${id}">${state.campeonatos[id].nome}</option>`;
+            }
+            select.innerHTML = options;
+
+            const btnToggle = document.getElementById('btn-toggle-inscricoes');
+            if(state.inscricoesAbertas && state.inscricoesAbertas.status) {
+                if(select.options.length > 0) select.value = state.inscricoesAbertas.campId;
+                select.disabled = true;
+                btnToggle.innerText = "Encerrar Vagas";
+                btnToggle.classList.replace('bg-black', 'bg-red-500');
+                btnToggle.classList.replace('dark:bg-white', 'dark:bg-red-500');
+                btnToggle.classList.replace('dark:text-black', 'dark:text-white');
+            } else {
+                select.disabled = false;
+                select.value = '';
+                btnToggle.innerText = "Abrir Vagas";
+                btnToggle.classList.replace('bg-red-500', 'bg-black');
+                btnToggle.classList.replace('dark:bg-red-500', 'dark:bg-white');
+                btnToggle.classList.replace('dark:text-white', 'dark:text-black');
+            }
+
+            const container = document.getElementById('admin-lista-inscricoes');
+            const titleCount = document.getElementById('inscricoes-count-title');
+            
+            if(!state.inscricoes || state.inscricoes.length === 0) {
+                container.innerHTML = '<p class="text-sm text-slate-500 font-medium py-4">Nenhum clube na fila de aprovação no momento.</p>';
+                titleCount.innerText = '';
+            } else {
+                titleCount.innerText = `(${state.inscricoes.length})`;
+                container.innerHTML = state.inscricoes.map(insc => `
+                    <div class="bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[1.5rem] p-4 md:p-6 shadow-sm mb-4">
+                        <div class="flex flex-col md:flex-row gap-4 justify-between md:items-center border-b border-slate-100 dark:border-zinc-800/50 pb-4 mb-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-cover bg-center shadow-sm border border-slate-200 dark:border-zinc-700" style="background-image: url('${insc.logo}')"></div>
+                                <div>
+                                    <h4 class="font-display font-black text-xl text-slate-900 dark:text-white leading-tight">${insc.nome}</h4>
+                                    <span class="text-[10px] uppercase font-mono tracking-widest text-slate-500">${insc.tag} • Org: ${insc.capitao.split('@')[0]}</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button onclick="rejeitarInscricao(${insc.id})" class="px-4 py-2 bg-red-50 dark:bg-red-900/10 text-red-500 font-bold text-xs uppercase tracking-wider rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors border border-red-100 dark:border-red-900/30">Rejeitar</button>
+                                <button onclick="aprovarInscricao(${insc.id})" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-bold text-xs uppercase tracking-wider rounded-lg shadow-md transition-colors border border-green-600">Aprovar Clube</button>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 block">Elenco Sugerido (${insc.jogadores.length})</span>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+                                ${insc.jogadores.map(j => `
+                                    <div class="bg-slate-50 dark:bg-zinc-900/50 p-2.5 rounded-lg border border-slate-200 dark:border-zinc-700/50 flex items-center justify-between">
+                                        <span class="text-xs font-bold text-slate-800 dark:text-slate-200">${j.nick}</span>
+                                        <div class="text-right">
+                                            <span class="block text-[9px] text-slate-400 font-mono">ID: ${j.id}</span>
+                                            ${j.discord ? `<span class="block text-[9px] text-[#5865F2] font-bold">@${j.discord}</span>` : ''}
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        window.toggleStatusInscricoes = async () => {
+            const campId = document.getElementById('admin-inscricoes-camp').value;
+            
+            if(!state.inscricoesAbertas) state.inscricoesAbertas = { status: false, campId: null };
+
+            if(state.inscricoesAbertas.status) {
+                // Fechar Vagas
+                state.inscricoesAbertas.status = false;
+                state.inscricoesAbertas.campId = null;
+            } else {
+                // Abrir Vagas
+                if(!campId) return alert("Selecione um torneio para abrir as vagas!");
+                state.inscricoesAbertas.status = true;
+                state.inscricoesAbertas.campId = campId;
+            }
+
+            if(docRef) await setDoc(docRef, state);
+            atualizarListaInscricoesAdmin();
+            renderizarTudo();
+        };
+
+        window.aprovarInscricao = async (id) => {
+            const insc = state.inscricoes.find(i => i.id === id);
+            if(!insc) return;
+
+            const timeId = 'time_' + Date.now();
+            state.times[timeId] = {
+                nome: insc.nome,
+                tag: insc.tag,
+                cor: '#1f2937', 
+                logo: insc.logo,
+                jogadores: insc.jogadores
+            };
+
+            if(state.campeonatos[insc.campId]) {
+                if(!state.campeonatos[insc.campId].clubes) state.campeonatos[insc.campId].clubes = [];
+                state.campeonatos[insc.campId].clubes.push(timeId);
+            }
+
+            state.inscricoes = state.inscricoes.filter(i => i.id !== id);
+            if(docRef) await setDoc(docRef, state);
+            
+            atualizarListasAdmin();
+            alert("Clube aprovado e automaticamente adicionado ao torneio!");
+        };
+
+        window.rejeitarInscricao = async (id) => {
+            if(!confirm("Tem certeza que deseja rejeitar esta inscrição?")) return;
+            state.inscricoes = state.inscricoes.filter(i => i.id !== id);
+            if(docRef) await setDoc(docRef, state);
+            atualizarListasAdmin();
+        };
 
         function atualizarListaTimesAdmin() {
             let html = '';
@@ -1554,15 +1726,15 @@
                             </div>
                         </div>
                         <div class="pt-4 border-t border-slate-100 dark:border-zinc-800/50">
-                            <label class="block text-[10px] font-black text-slate-400 mb-3 uppercase tracking-widest">Elenco</label>
+                            <label class="block text-[10px] font-black text-slate-400 mb-3 uppercase tracking-widest">Elenco Oficial</label>
                             <div class="flex flex-col gap-2 mb-3">
                                 <div class="flex gap-2">
-                                    <input type="text" id="add-jog-nick-${id}" placeholder="Nick" class="flex-1 p-2.5 text-sm bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-lg outline-none">
-                                    <input type="text" id="add-jog-id-${id}" placeholder="ID" class="w-24 p-2.5 text-sm bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-lg outline-none">
+                                    <input type="text" id="add-jog-nick-${id}" placeholder="Nick" class="flex-1 p-2.5 text-sm bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-lg outline-none focus:border-slate-400">
+                                    <input type="text" id="add-jog-id-${id}" placeholder="ID" class="w-24 p-2.5 text-sm bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-lg outline-none focus:border-slate-400">
                                 </div>
                                 <div class="flex gap-2">
-                                    <input type="text" id="add-jog-discord-${id}" placeholder="Discord (opcional)" class="flex-1 p-2.5 text-sm bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-lg outline-none">
-                                    <button onclick="addJogadorTemp('${id}')" class="bg-black dark:bg-white text-white dark:text-black px-4 rounded-lg font-bold text-xs uppercase tracking-wider shrink-0">+</button>
+                                    <input type="text" id="add-jog-discord-${id}" placeholder="@discord" class="flex-1 p-2.5 text-sm bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-lg outline-none focus:border-slate-400">
+                                    <button onclick="addJogadorTemp('${id}')" class="bg-black dark:bg-white text-white dark:text-black px-4 rounded-lg font-bold text-xs uppercase tracking-wider shrink-0 transition-transform active:scale-95">+</button>
                                 </div>
                             </div>
                             <div id="lista-jogadores-${id}" class="space-y-2 max-h-40 overflow-y-auto custom-scrollbar pr-1"></div>
@@ -1585,7 +1757,7 @@
             
             const logoFile = document.getElementById(`time-logo-file-${id}`).files[0];
             if(logoFile) {
-                state.times[id].logo = await resizeImageAsync(logoFile, 400, 400); // Comprime a logo para max 400x400 garantindo leveza
+                state.times[id].logo = await resizeImageAsync(logoFile, 400, 400); 
             }
             
             if(docRef) await setDoc(docRef, state);
@@ -1594,7 +1766,37 @@
             renderizarTudo();
         };
 
-        // --- ADMIN GERENCIAMENTO (Estatuto, Torneios, Times, Noticias) ---
+        // Correção Importante: Salva o jogador na hora no Firebase, evitando perda de progresso 
+        window.addJogadorTemp = async (timeId) => {
+            if(!state.times[timeId].jogadores) state.times[timeId].jogadores = [];
+            const idInput = document.getElementById(`add-jog-id-${timeId}`), nickInput = document.getElementById(`add-jog-nick-${timeId}`), discordInput = document.getElementById(`add-jog-discord-${timeId}`);
+            if(!idInput.value || !nickInput.value) return alert("ID e Nick são obrigatórios!");
+            state.times[timeId].jogadores.push({ id: idInput.value, nick: nickInput.value, discord: discordInput.value });
+            idInput.value = ''; nickInput.value = ''; discordInput.value = '';
+            
+            if(docRef) await setDoc(docRef, state); // Salva na Nuvem imediatamente
+            window.renderJogadoresTemp(timeId);
+        };
+        window.remJogadorTemp = async (timeId, idx) => { 
+            state.times[timeId].jogadores.splice(idx, 1); 
+            if(docRef) await setDoc(docRef, state); // Salva na Nuvem imediatamente
+            window.renderJogadoresTemp(timeId); 
+        };
+
+        window.renderJogadoresTemp = (timeId) => {
+            const container = document.getElementById(`lista-jogadores-${timeId}`); if(!container) return;
+            const jogs = state.times[timeId].jogadores || [];
+            if(jogs.length === 0) { container.innerHTML = '<span class="text-xs text-slate-500 font-medium">Nenhum jogador cadastrado no elenco.</span>'; return; }
+            container.innerHTML = jogs.map((j, idx) => `
+                <div class="flex justify-between items-center bg-slate-50 dark:bg-zinc-800/50 p-3 rounded-xl border border-slate-200 dark:border-zinc-700/50">
+                    <div class="flex flex-col">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white">${j.nick} <span class="text-[9px] text-slate-400 font-mono ml-1">#${j.id}</span></span>
+                        ${j.discord ? `<span class="text-[10px] text-[#5865F2] font-medium flex items-center gap-1.5 mt-1">@${j.discord}</span>` : ''}
+                    </div>
+                    <button onclick="remJogadorTemp('${timeId}', ${idx})" class="text-red-500 font-bold px-3 py-1.5 text-[10px] uppercase tracking-wider bg-red-50 dark:bg-red-900/10 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg border border-red-100 dark:border-red-900/30 transition-colors">Remover</button>
+                </div>`).join('');
+        };
+
         function renderizarEstatuto() {
             const conteudo = state.estatuto || DEFAULT_ESTATUTO;
             document.getElementById('conteudo-regras').innerHTML = marked.parse(conteudo);
@@ -1781,29 +1983,6 @@
         window.excluirTime = async (id) => { if(confirm("Tem certeza?")) { delete state.times[id]; if(docRef) await setDoc(docRef, state); atualizarListasAdmin(); renderizarTudo(); } };
         window.toggleEditTime = (id) => { document.getElementById(`edit-time-${id}`).classList.toggle('hidden'); window.renderJogadoresTemp(id); };
 
-        window.addJogadorTemp = (timeId) => {
-            if(!state.times[timeId].jogadores) state.times[timeId].jogadores = [];
-            const idInput = document.getElementById(`add-jog-id-${timeId}`), nickInput = document.getElementById(`add-jog-nick-${timeId}`), discordInput = document.getElementById(`add-jog-discord-${timeId}`);
-            if(!idInput.value || !nickInput.value) return alert("ID e Nick são obrigatórios!");
-            state.times[timeId].jogadores.push({ id: idInput.value, nick: nickInput.value, discord: discordInput.value });
-            idInput.value = ''; nickInput.value = ''; discordInput.value = ''; window.renderJogadoresTemp(timeId);
-        };
-        window.remJogadorTemp = (timeId, idx) => { state.times[timeId].jogadores.splice(idx, 1); window.renderJogadoresTemp(timeId); };
-
-        window.renderJogadoresTemp = (timeId) => {
-            const container = document.getElementById(`lista-jogadores-${timeId}`); if(!container) return;
-            const jogs = state.times[timeId].jogadores || [];
-            if(jogs.length === 0) { container.innerHTML = '<span class="text-xs text-slate-500 font-medium">Nenhum jogador cadastrado no elenco.</span>'; return; }
-            container.innerHTML = jogs.map((j, idx) => `
-                <div class="flex justify-between items-center bg-slate-50 dark:bg-zinc-800/50 p-3 rounded-xl border border-slate-200 dark:border-zinc-700/50">
-                    <div class="flex flex-col">
-                        <span class="text-xs font-bold text-slate-900 dark:text-white">${j.nick} <span class="text-[9px] text-slate-400 font-mono ml-1">#${j.id}</span></span>
-                        ${j.discord ? `<span class="text-[10px] text-[#5865F2] font-medium flex items-center gap-1.5 mt-1"><svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg> ${j.discord}</span>` : ''}
-                    </div>
-                    <button onclick="remJogadorTemp('${timeId}', ${idx})" class="text-red-500 font-bold px-3 py-1.5 text-[10px] uppercase tracking-wider bg-red-50 dark:bg-red-900/10 hover:bg-red-100 dark:hover:bg-red-900/30 rounded-lg border border-red-100 dark:border-red-900/30 transition-colors">Remover</button>
-                </div>`).join('');
-        };
-
         window.abrirLogin = async () => {
             if(isProducao) { try { await signInWithPopup(auth, new GoogleAuthProvider()); } catch(e) { alert("Erro ao fazer login via Firebase."); } }
             else { const e = prompt("Email (simulação):"); if(e) { currentUser = { email: e.toLowerCase() }; verificarPermissoes(); renderizarSuporte(); } }
@@ -1815,9 +1994,16 @@
             const btnL = document.getElementById('btn-login'), uMenu = document.getElementById('user-menu'), btnA = document.getElementById('btn-admin'), btnAT = document.getElementById('btn-admin-tickets');
             const btnLM = document.getElementById('btn-login-mobile'), uMenuM = document.getElementById('user-menu-mobile'), btnAMH = document.getElementById('btn-admin-mobile-header'), btnATM = document.getElementById('btn-admin-tickets-mobile');
 
+            const inscNaoLogado = document.getElementById('inscricao-nao-logado');
+            const inscForm = document.getElementById('inscricao-form');
+
             if(currentUser && currentUser.email) {
                 if(btnL) btnL.classList.add('hidden'); if(uMenu) uMenu.classList.remove('hidden'); document.getElementById('user-email-display').innerText = currentUser.email;
                 if(btnLM) btnLM.classList.add('hidden'); if(uMenuM) { uMenuM.classList.remove('hidden'); uMenuM.classList.add('flex'); document.getElementById('user-email-display-mobile').innerText = currentUser.email; }
+                
+                if(inscNaoLogado) inscNaoLogado.classList.add('hidden');
+                if(inscForm) inscForm.classList.remove('hidden');
+
                 if(ADMIN_EMAILS.includes(currentUser.email)) {
                     if(btnA) btnA.classList.remove('hidden'); if(btnAT) btnAT.classList.remove('hidden');
                     if(btnAMH) { btnAMH.classList.remove('hidden'); btnAMH.classList.add('block'); } if(btnATM) { btnATM.classList.remove('hidden'); btnATM.classList.add('block'); }
@@ -1829,6 +2015,9 @@
                 if(btnL) btnL.classList.remove('hidden'); if(uMenu) uMenu.classList.add('hidden'); if(btnAT) btnAT.classList.add('hidden');
                 if(btnLM) btnLM.classList.remove('hidden'); if(uMenuM) { uMenuM.classList.add('hidden'); uMenuM.classList.remove('flex'); }
                 if(btnAMH) { btnAMH.classList.add('hidden'); btnAMH.classList.remove('block'); } if(btnATM) { btnATM.classList.add('hidden'); btnATM.classList.remove('block'); }
+                
+                if(inscNaoLogado) inscNaoLogado.classList.remove('hidden');
+                if(inscForm) inscForm.classList.add('hidden');
             }
             atualizarBadgeAdmin();
         }
@@ -1837,13 +2026,14 @@
         window.fecharAdminPanel = () => { document.getElementById('admin-panel').classList.add('hidden'); };
         
         window.abaAdmin = (aba) => {
-            const tabs = ['noticias', 'torneios', 'partidas', 'times', 'estatuto'];
+            const tabs = ['noticias', 'torneios', 'partidas', 'times', 'estatuto', 'inscricoes'];
             tabs.forEach(a => {
                 document.getElementById(`aba-${a}`).classList.add('hidden');
                 document.getElementById(`btn-aba-${a}`).className = "admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl text-slate-500 hover:bg-slate-50 dark:hover:bg-zinc-900 font-medium transition-all text-sm md:text-base";
+                if(a === 'inscricoes') document.getElementById('btn-aba-inscricoes').classList.add('flex', 'justify-between', 'items-center', 'gap-2');
             });
             document.getElementById(`aba-${aba}`).classList.remove('hidden');
-            document.getElementById(`btn-aba-${aba}`).className = "admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white font-bold transition-all text-sm md:text-base";
+            document.getElementById(`btn-aba-${aba}`).className = "admin-tab shrink-0 text-center md:text-left px-4 py-3 md:py-3.5 rounded-xl bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-white font-bold transition-all text-sm md:text-base flex justify-between items-center gap-2";
         };
 
         window.responderCookies = (aceitou) => { localStorage.setItem('cfm_cookies', aceitou ? 'aceito' : 'recusado'); document.getElementById('cookie-banner').classList.add('translate-y-[150%]'); };
