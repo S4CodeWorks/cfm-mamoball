@@ -24,7 +24,8 @@
                     },
                     colors: { 
                         cfm: { dark: '#050505', card: '#0f0f11', border: '#1f1f22' },
-                        brand: { 400: '#34d399', 500: '#10b981', 600: '#059669' }
+                        // Cores da marca atualizadas para tons monocromáticos (Preto/Branco/Cinza)
+                        brand: { 400: '#9ca3af', 500: '#4b5563', 600: '#1f2937' }
                     }
                 }
             }
@@ -32,22 +33,18 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;700;900&family=JetBrains+Mono:wght@400;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #f6f8fa; overflow-x: hidden; }
-        @media (prefers-color-scheme: dark) { body { background-color: #09090b; } }
+        body { background-color: #fafafa; overflow-x: hidden; }
+        @media (prefers-color-scheme: dark) { body { background-color: #050505; } }
 
-        /* Fundo mesh gradient 2026, mais vivo e dinâmico */
+        /* Fundo limpo e sofisticado - Preto e Branco */
         body::before {
             content: ''; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
-            background: radial-gradient(ellipse 60% 40% at 20% 30%, rgba(16,185,129,0.10), transparent 70%),
-                        radial-gradient(ellipse 50% 30% at 80% 20%, rgba(59,130,246,0.10), transparent 70%),
-                        radial-gradient(ellipse 40% 60% at 60% 80%, rgba(236,72,153,0.08), transparent 70%);
+            background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,0,0,0.04), transparent 70%);
             transition: background 1s;
         }
         @media (prefers-color-scheme: dark) {
             body::before {
-                background: radial-gradient(ellipse 60% 40% at 20% 30%, rgba(16,185,129,0.18), transparent 70%),
-                            radial-gradient(ellipse 50% 30% at 80% 20%, rgba(59,130,246,0.18), transparent 70%),
-                            radial-gradient(ellipse 40% 60% at 60% 80%, rgba(236,72,153,0.13), transparent 70%);
+                background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(255,255,255,0.05), transparent 70%);
             }
         }
 
@@ -182,32 +179,46 @@
 
         <!-- CONTEÚDO DINÂMICO DO SITE -->
         <main id="main-content" class="pt-24 md:pt-28 flex-1">
-            <!-- Início (Home) -->
+            <!-- Início (Home) - Redesenhada Mobile First B&W -->
             <div id="page-home" class="fade-in">
-                <section class="max-w-7xl mx-auto px-6 py-8 md:py-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-16 min-h-[75vh]">
-                    <div class="lg:w-5/12 space-y-6 md:space-y-8 relative z-10 text-center lg:text-left">
-                        <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-slate-200/60 dark:border-zinc-800/60 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-md text-xs font-bold uppercase tracking-[0.2em] text-slate-600 dark:text-zinc-400 shadow-sm mx-auto lg:mx-0">
-                            <span id="status-nuvem" class="w-2.5 h-2.5 rounded-full bg-yellow-400 animate-pulse shadow-[0_0_10px_rgba(250,204,21,0.5)]"></span> Federação Oficial
+                <section class="max-w-7xl mx-auto px-4 sm:px-6 py-6 md:py-20 flex flex-col lg:flex-row items-center gap-8 lg:gap-16 min-h-[75vh]">
+                    
+                    <!-- Textos e Chamadas -->
+                    <div class="w-full lg:w-5/12 space-y-5 md:space-y-8 relative z-10 pt-2 lg:pt-0 flex flex-col items-start text-left">
+                        <div class="inline-flex items-center gap-2.5 px-3 py-1.5 md:px-4 md:py-2 rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#0f0f11] text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-slate-900 dark:text-white shadow-sm">
+                            <span id="status-nuvem" class="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse"></span> Sistema Oficial CFM
                         </div>
-                        <h1 class="text-5xl md:text-[5.5rem] font-display font-black leading-[1.05] md:leading-[1.02] tracking-tight">
+                        
+                        <h1 class="text-[2.75rem] leading-[1.05] sm:text-6xl md:text-[5.5rem] font-display font-black md:leading-[1.02] tracking-tight text-slate-900 dark:text-white">
                             A elite do <br>
-                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 via-brand-500 to-blue-500">MamoBall.</span>
+                            <span class="text-slate-400 dark:text-zinc-500">MamoBall.</span>
                         </h1>
-                        <p class="text-base md:text-xl text-slate-600 dark:text-zinc-400 leading-relaxed max-w-md mx-auto lg:mx-0 font-medium">Bem-vindos ao site da CFM - MamoBall. Tabelas atualizadas, resultados ao vivo e as últimas notícias do cenário da CFM.</p>
-                        <div class="flex justify-center lg:justify-start gap-4 pt-2 md:pt-4">
-                            <button onclick="navegar('tabelas')" class="w-full sm:w-auto px-8 py-4 text-sm font-bold text-slate-900 bg-white border border-slate-200 dark:border-zinc-800 dark:bg-cfm-card dark:text-white rounded-2xl hover:scale-105 transition-transform shadow-xl shadow-black/5 dark:shadow-black/50">Explorar Competições</button>
+                        
+                        <p class="text-sm sm:text-base md:text-xl text-slate-600 dark:text-zinc-400 leading-relaxed max-w-md font-medium">
+                            Tabelas atualizadas, resultados ao vivo e as últimas notícias do cenário competitivo na palma da sua mão.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-3 pt-2 md:pt-4 w-full sm:w-auto">
+                            <button onclick="navegar('tabelas')" class="w-full sm:w-auto px-8 py-4 text-sm font-bold text-white bg-black dark:bg-white dark:text-black rounded-2xl md:hover:scale-105 transition-transform shadow-xl shadow-black/10 dark:shadow-white/10 flex items-center justify-center gap-3">
+                                Explorar Competições
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                            </button>
                         </div>
                     </div>
 
-                    <div class="lg:w-7/12 w-full relative group cursor-pointer mt-8 lg:mt-0" onclick="abrirUltimaNoticia()">
-                        <div class="absolute -inset-4 bg-gradient-to-r from-brand-500 to-blue-600 rounded-[3rem] blur-3xl opacity-10 group-hover:opacity-30 transition duration-1000 hidden md:block"></div>
-                        <div class="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] aspect-[4/3] md:aspect-[16/10] border border-slate-200/50 dark:border-zinc-800/50 bg-slate-900 shadow-2xl">
-                            <img id="hero-banner" src="https://images.unsplash.com/photo-1542652694-40abf526446e?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover md:group-hover:scale-110 transition duration-[1.5s] ease-out opacity-80" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent flex flex-col justify-end p-6 md:p-12">
-                                <span class="text-[10px] font-black uppercase tracking-widest text-brand-400 mb-3 md:mb-4 bg-black/40 backdrop-blur-xl px-4 py-2 rounded-xl w-max border border-white/10">Destaque</span>
-                                <h2 id="hero-titulo" class="text-2xl md:text-5xl font-display font-black text-white mb-2 md:mb-3 leading-tight drop-shadow-lg">Bem-vindo à Federação</h2>
-                                <p id="hero-resumo" class="text-slate-300 text-xs md:text-base line-clamp-2 mb-4 md:mb-6 max-w-2xl font-medium">Aguardando a publicação das primeiras notícias da confederação.</p>
-                                <span class="text-white font-bold text-xs md:text-sm flex items-center gap-2 md:group-hover:text-brand-400 transition-colors">Ler artigo <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></span>
+                    <!-- Banner de Notícia Destacada -->
+                    <div class="w-full lg:w-7/12 relative group cursor-pointer mt-4 lg:mt-0" onclick="abrirUltimaNoticia()">
+                        <div class="relative overflow-hidden rounded-[1.5rem] md:rounded-[2.5rem] aspect-[4/5] sm:aspect-[4/3] md:aspect-[16/10] border border-slate-200 dark:border-zinc-800 bg-slate-900 shadow-2xl">
+                            <img id="hero-banner" src="https://images.unsplash.com/photo-1542652694-40abf526446e?auto=format&fit=crop&w=1200&q=80" class="w-full h-full object-cover md:group-hover:scale-105 transition duration-[1.5s] ease-out opacity-80" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzMzMiLz48L3N2Zz4='">
+                            
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent flex flex-col justify-end p-5 md:p-10">
+                                <span class="text-[9px] md:text-[10px] font-black uppercase tracking-widest text-black bg-white mb-3 md:mb-4 px-3 py-1.5 rounded-lg w-max shadow-sm">Destaque Oficial</span>
+                                
+                                <h2 id="hero-titulo" class="text-2xl sm:text-3xl md:text-5xl font-display font-black text-white mb-2 md:mb-3 leading-tight drop-shadow-lg">Bem-vindo à Federação</h2>
+                                
+                                <p id="hero-resumo" class="text-slate-300 text-xs sm:text-sm md:text-base line-clamp-2 mb-4 md:mb-6 max-w-xl font-medium">Aguardando a publicação das primeiras notícias da confederação.</p>
+                                
+                                <span class="text-white font-bold text-xs md:text-sm flex items-center gap-2 md:group-hover:text-slate-300 transition-colors">Ler artigo completo <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></span>
                             </div>
                         </div>
                     </div>
