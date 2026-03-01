@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CFM - Campeonato da Federação MamoBall</title>
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Adicionado o plugin 'typography' para formatar o texto do Markdown perfeitamente -->
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    
+    <!-- Adicionando Marked.js para interpretar o Markdown e Emojis -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     
     <script>
         tailwind.config = {
@@ -239,8 +243,8 @@
                 <h1 id="modal-noticia-titulo" class="text-3xl md:text-5xl lg:text-6xl font-display font-black leading-[1.1] mb-8 md:mb-10 tracking-tight text-slate-900 dark:text-white"></h1>
                 
                 <!-- Conteúdo de texto com fonte modernizada e melhor espaçamento -->
-                <div class="prose prose-slate dark:prose-invert max-w-none font-sans text-lg md:text-xl leading-loose text-slate-700 dark:text-slate-300 font-medium">
-                    <p id="modal-noticia-texto" class="whitespace-pre-line"></p>
+                <div id="modal-noticia-texto" class="prose prose-slate dark:prose-invert max-w-none font-sans text-lg md:text-xl leading-loose text-slate-700 dark:text-slate-300 font-medium">
+                    <!-- O texto renderizado com Markdown entrará aqui -->
                 </div>
                 
                 <div id="modal-noticia-btn-container" class="mt-12 md:mt-16 hidden">
@@ -417,6 +421,15 @@
         import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // ========================================================
+        // CONFIGURAÇÃO DO BOT DO DISCORD (WEBHOOK)
+        // Cole aqui o link do Webhook do canal de notícias do seu Discord
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1477467241812463824/ts5hbr3_vtYOq3qji6umfgkWeLPp993KULguyCg4kps19grMyUGaWJWhKBcuwTmBu_ED"; 
+        
+        // Link do seu site para o bot colocar no final da mensagem
+        const URL_DO_SEU_SITE = "https://s4codeworks.github.io/cfm-mamoball/"; 
+        // ========================================================
+
         const myFirebaseConfig = {
             apiKey: "AIzaSyAdndD_kOO1svVoxPbtXDNE1nTJ9mQ1gdE",
             authDomain: "cfm-mamoball.firebaseapp.com",
@@ -531,7 +544,7 @@
             if (ultima) {
                 document.getElementById('hero-banner').src = ultima.banner;
                 document.getElementById('hero-titulo').innerText = ultima.titulo;
-                document.getElementById('hero-resumo').innerText = ultima.resumo;
+                document.getElementById('hero-resumo').innerHTML = marked.parseInline(ultima.resumo);
             } else {
                 document.getElementById('hero-banner').src = "https://images.unsplash.com/photo-1542652694-40abf526446e?auto=format&fit=crop&w=1200&q=80";
                 document.getElementById('hero-titulo').innerText = "Bem-vindo à Federação";
@@ -552,7 +565,8 @@
             const dataObj = new Date(n.data);
             document.getElementById('modal-noticia-data').innerText = isNaN(dataObj) ? 'Publicado recentemente' : dataObj.toLocaleDateString('pt-BR');
             
-            document.getElementById('modal-noticia-texto').innerText = n.texto;
+            // Renderiza o texto da notícia usando Marked.js para converter **negrito**, etc.
+            document.getElementById('modal-noticia-texto').innerHTML = marked.parse(n.texto);
             
             const btnContainer = document.getElementById('modal-noticia-btn-container');
             const btnLink = document.getElementById('modal-noticia-link');
@@ -903,7 +917,7 @@
                         <img src="${n.banner}" class="w-full h-full object-cover group-hover:scale-110 transition duration-700 ease-out">
                     </div>
                     <h3 class="text-xl md:text-2xl font-display font-black mb-2 md:mb-3 group-hover:text-brand-500 transition-colors leading-tight tracking-tight">${n.titulo}</h3>
-                    <p class="text-slate-500 text-xs md:text-sm line-clamp-3 mb-4 md:mb-6 flex-1 font-serif">${n.texto}</p>
+                    <div class="text-slate-500 text-xs md:text-sm line-clamp-3 mb-4 md:mb-6 flex-1 font-sans leading-relaxed">${marked.parseInline(n.resumo)}</div>
                     <span class="text-[9px] md:text-[11px] font-black uppercase tracking-widest text-brand-500 mt-auto flex items-center gap-2">Ler matéria completa <svg class="w-3 h-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg></span>
                 </div>
             `).join('');
@@ -951,6 +965,42 @@
             
             state.noticias = [nova, ...(state.noticias || [])].slice(0, 15);
             if(docRef) await setDoc(docRef, state);
+            
+            // --- ENVIO AUTOMÁTICO PARA O DISCORD ---
+            if(DISCORD_WEBHOOK_URL && DISCORD_WEBHOOK_URL !== "") {
+                try {
+                    btn.innerText = "Enviando pro Discord...";
+                    
+                    // Converte a imagem base64 para um arquivo real para o Discord ler
+                    const byteString = atob(bannerBase64.split(',')[1]);
+                    const mimeString = bannerBase64.split(',')[0].split(':')[1].split(';')[0];
+                    const ab = new ArrayBuffer(byteString.length);
+                    const ia = new Uint8Array(ab);
+                    for (let i = 0; i < byteString.length; i++) ia[i] = byteString.charCodeAt(i);
+                    const blob = new Blob([ab], {type: mimeString});
+
+                    const formData = new FormData();
+                    formData.append('file', blob, 'banner.webp');
+                    
+                    // Monta o visual da mensagem no Discord (Embed)
+                    const embed = {
+                        title: titulo,
+                        description: nova.resumo + `\n\n🔗 **[Ler matéria completa no site oficial!](${URL_DO_SEU_SITE})**`,
+                        color: 1093160, // Cor verde da CFM
+                        image: { url: 'attachment://banner.webp' }
+                    };
+
+                    formData.append('payload_json', JSON.stringify({
+                        content: "📰 **Nova Notícia na Federação!** @everyone", // Mensagem principal
+                        embeds: [embed]
+                    }));
+
+                    await fetch(DISCORD_WEBHOOK_URL, { method: 'POST', body: formData });
+                } catch(e) { 
+                    console.error("Erro ao enviar pro Discord:", e); 
+                }
+            }
+            // ----------------------------------------
             
             btn.disabled = false; btn.innerText = "Publicar na CFM";
             alert("Sucesso!");
@@ -1354,6 +1404,3 @@
     </script>
 </body>
 </html>
-
-
-
