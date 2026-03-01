@@ -134,12 +134,25 @@
                     <div id="user-menu" class="hidden flex items-center gap-4 ml-4">
                         <span id="user-email-display" class="text-xs border border-slate-200 dark:border-zinc-800 px-3 py-1.5 rounded-full text-ellipsis overflow-hidden max-w-[150px] font-medium bg-white/50 dark:bg-black/50"></span>
                         <button id="btn-admin" onclick="abrirAdminPanel()" class="hidden bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-xl transition-all font-bold text-xs uppercase tracking-widest shadow-lg shadow-brand-500/20 active:scale-95">Admin</button>
+                        
+                        <!-- ÍCONE DE NOTIFICAÇÃO (SINO) PARA TICKETS -->
+                        <div id="btn-admin-tickets" class="hidden relative cursor-pointer hover:bg-slate-200 dark:hover:bg-zinc-800 p-2 rounded-full transition-colors" onclick="abrirPainelTickets()">
+                            <svg class="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                            <span id="badge-tickets-desktop" class="hidden absolute top-0 right-0 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 border-2 border-white dark:border-black"></span></span>
+                        </div>
+                        
                         <button onclick="fazerLogout()" class="text-xs text-red-500 font-bold hover:text-red-600 transition-colors p-2">Sair</button>
                     </div>
                 </nav>
 
                 <!-- Área Mobile Header -->
                 <div class="md:hidden flex items-center gap-2 md:gap-3">
+                    <!-- ÍCONE DE NOTIFICAÇÃO MOBILE -->
+                    <div id="btn-admin-tickets-mobile" class="hidden relative cursor-pointer bg-slate-100 dark:bg-zinc-800 p-1.5 rounded-lg shadow-sm" onclick="abrirPainelTickets()">
+                        <svg class="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        <span id="badge-tickets-mobile" class="hidden absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-red-500 border border-white dark:border-black"></span></span>
+                    </div>
+
                     <!-- Botão Admin Mobile Organizado e Limpo -->
                     <button id="btn-admin-mobile-header" onclick="abrirAdminPanel();" class="hidden bg-brand-500 text-white py-1.5 px-3 rounded-lg font-bold text-[10px] uppercase tracking-widest shadow-md shadow-brand-500/20 transition-all hover:bg-brand-600 active:scale-95">Admin</button>
                     <button onclick="toggleMenuMobile()" class="p-1.5 text-slate-600 dark:text-slate-300 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg shadow-sm hover:bg-slate-50 dark:hover:bg-zinc-700 transition-colors">
@@ -154,6 +167,7 @@
                     <button onclick="navegarMobile('home')" class="text-left font-bold text-lg text-slate-700 dark:text-slate-200">Início</button>
                     <button onclick="navegarMobile('tabelas')" class="text-left font-bold text-lg text-slate-700 dark:text-slate-200">Competições</button>
                     <button onclick="navegarMobile('noticias')" class="text-left font-bold text-lg text-slate-700 dark:text-slate-200">Notícias</button>
+                    <button onclick="navegarMobile('suporte')" class="text-left font-bold text-lg text-brand-500">Central de Suporte</button>
                     
                     <div class="border-t border-slate-200 dark:border-zinc-800 pt-5 mt-2 flex flex-col gap-3">
                         <button id="btn-login-mobile" onclick="abrirLogin(); toggleMenuMobile()" class="bg-slate-900 dark:bg-white text-white dark:text-black py-3.5 rounded-xl font-bold text-center w-full">Fazer Login</button>
@@ -232,11 +246,27 @@
                     </div>
                 </div>
             </div>
+
+            <!-- NOVA ABA: TICKET DE SUPORTE (PÚBLICO) -->
+            <div id="page-suporte" class="hidden max-w-4xl mx-auto px-4 md:px-6 py-8 md:py-12 fade-in min-h-[60vh] flex flex-col">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl md:text-4xl font-display font-black tracking-tight mb-2">Central de Ajuda</h2>
+                    <p class="text-slate-500 font-medium">Fale diretamente com a organização.</p>
+                </div>
+
+                <div id="suporte-container" class="flex-1 bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[2rem] shadow-xl overflow-hidden flex flex-col min-h-[500px]">
+                    <!-- Será preenchido via JS dependendo do estado do usuário -->
+                </div>
+            </div>
         </main>
 
-        <!-- RODAPÉ DA PÁGINA COM O LINK DE REGRAS DISCRETO -->
-        <footer class="mt-auto py-8 border-t border-slate-200 dark:border-zinc-800 text-center bg-slate-50 dark:bg-[#050505]">
-            <button onclick="navegar('regras')" class="text-xs font-bold text-slate-500 hover:text-brand-500 dark:text-zinc-500 dark:hover:text-brand-400 transition-colors uppercase tracking-[0.15em] hover:underline">Estatuto e Regras Oficiais</button>
+        <!-- RODAPÉ DA PÁGINA COM O LINK DE REGRAS E SUPORTE DISCRETO -->
+        <footer class="mt-auto py-8 border-t border-slate-200 dark:border-zinc-800 text-center bg-slate-50 dark:bg-[#050505] flex flex-col items-center justify-center gap-3">
+            <div class="flex items-center gap-4">
+                <button onclick="navegar('regras')" class="text-[10px] md:text-xs font-bold text-slate-500 hover:text-brand-500 dark:text-zinc-500 dark:hover:text-brand-400 transition-colors uppercase tracking-[0.15em] hover:underline">Estatuto Oficial</button>
+                <span class="text-slate-300 dark:text-zinc-700">|</span>
+                <button onclick="navegar('suporte')" class="text-[10px] md:text-xs font-bold text-slate-500 hover:text-blue-500 dark:text-zinc-500 dark:hover:text-blue-400 transition-colors uppercase tracking-[0.15em] hover:underline">Central de Suporte</button>
+            </div>
             <p class="text-[10px] text-slate-400 dark:text-zinc-600 mt-2">&copy; CFM - Todos os direitos reservados.</p>
         </footer>
     </div>
@@ -310,6 +340,61 @@
                     <!-- renderizado via JS -->
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- PAINEL DE TICKETS PARA O ADMIN (CHAT TOOL) -->
+    <div id="modal-tickets-admin" class="fixed inset-0 z-[160] hidden flex-col bg-slate-50 dark:bg-[#050505] overflow-hidden fade-in">
+        <header class="bg-white dark:bg-cfm-card border-b border-slate-200 dark:border-zinc-800 px-4 md:px-6 py-4 flex justify-between items-center shadow-sm z-10 shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-blue-500 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-lg shadow-blue-500/30"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg></div>
+                <span class="font-bold text-lg font-display">Central de Atendimento</span>
+            </div>
+            <button onclick="fecharPainelTickets()" class="text-xs md:text-sm font-bold bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 px-4 md:px-5 py-2.5 rounded-xl transition-colors shrink-0">Fechar Central</button>
+        </header>
+
+        <div class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
+            <!-- Lista de Tickets Laterais -->
+            <aside class="w-full md:w-80 bg-white dark:bg-cfm-card border-b md:border-b-0 md:border-r border-slate-200 dark:border-zinc-800 flex flex-col z-10 shrink-0 h-1/3 md:h-full">
+                <div class="p-4 border-b border-slate-100 dark:border-zinc-800">
+                    <h3 class="text-xs font-black uppercase tracking-widest text-slate-400">Tickets Pendentes</h3>
+                </div>
+                <div id="admin-lista-tickets" class="flex-1 overflow-y-auto custom-scrollbar p-2 space-y-2">
+                    <!-- Preenchido via JS -->
+                </div>
+            </aside>
+
+            <!-- Área de Chat do Admin -->
+            <main id="admin-chat-area" class="flex-1 bg-slate-50/50 dark:bg-[#050505] flex flex-col relative h-2/3 md:h-full">
+                <div class="absolute inset-0 flex flex-col items-center justify-center opacity-50" id="admin-chat-empty">
+                    <svg class="w-16 h-16 text-slate-300 dark:text-zinc-700 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                    <p class="font-medium text-slate-500">Selecione um ticket ao lado para iniciar.</p>
+                </div>
+                
+                <div id="admin-chat-active" class="hidden flex-1 flex flex-col w-full h-full relative z-10">
+                    <div class="bg-white dark:bg-cfm-card border-b border-slate-200 dark:border-zinc-800 p-4 flex justify-between items-center shrink-0">
+                        <div>
+                            <p class="text-xs text-slate-500 uppercase font-black tracking-widest mb-1">Ticket Aberto</p>
+                            <p id="admin-chat-user-email" class="font-bold text-slate-900 dark:text-white"></p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button id="btn-admin-aceitar" class="hidden bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest shadow-md transition-all active:scale-95">Assumir Ticket</button>
+                            <button id="btn-admin-encerrar" class="hidden bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-xs uppercase tracking-widest shadow-md transition-all active:scale-95">Encerrar Atendimento</button>
+                        </div>
+                    </div>
+                    
+                    <div id="admin-chat-messages" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 custom-scrollbar">
+                        <!-- Mensagens renderizadas aqui -->
+                    </div>
+
+                    <div id="admin-chat-input-area" class="p-4 bg-white dark:bg-cfm-card border-t border-slate-200 dark:border-zinc-800 shrink-0 hidden">
+                        <form onsubmit="enviarMensagemAdmin(event)" class="flex gap-3">
+                            <input type="text" id="admin-chat-input" placeholder="Digite sua resposta..." class="flex-1 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 outline-none focus:border-blue-500 transition-colors" autocomplete="off">
+                            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-6 rounded-xl font-bold shadow-md transition-all active:scale-95">Enviar</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 
@@ -426,7 +511,7 @@
                     <div id="admin-lista-times" class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5"></div>
                 </div>
 
-                <!-- Nova Aba Estatuto / Regras -->
+                <!-- Aba Estatuto / Regras -->
                 <div id="aba-estatuto" class="hidden max-w-4xl mx-auto fade-in">
                     <h2 class="text-3xl md:text-4xl font-display font-black mb-2">Regras e Estatuto</h2>
                     <p class="text-sm md:text-base text-slate-500 mb-6 md:mb-8">Gerencie o regulamento que aparece no site e envie para o Discord.</p>
@@ -546,13 +631,15 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
             campeonatos: {},
             partidas: [],
             noticias: [],
-            estatuto: ""
+            estatuto: "",
+            tickets: [] // Novo: Sistema de tickets
         };
 
         let currentUser = null; 
         let db, docRef, auth, app;
         let campeonatoAbertoPublico = null; 
         let urlDiretaVerificada = false; 
+        let adminTicketSelecionado = null; // Controle interno do admin
         
         const isProducao = myFirebaseConfig.apiKey !== "COLE_AQUI";
         const firebaseConfig = isProducao ? myFirebaseConfig : JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : "{}");
@@ -566,6 +653,7 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
             onAuthStateChanged(auth, (user) => {
                 currentUser = (user && user.email) ? { email: user.email.toLowerCase() } : null;
                 verificarPermissoes();
+                renderizarSuporte(); // Renderiza suporte após mudar login
             });
 
             const initDb = async () => {
@@ -583,6 +671,7 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
                         if(!data.partidas) data.partidas = [];
                         if(!data.noticias) data.noticias = [];
                         if(!data.estatuto) data.estatuto = DEFAULT_ESTATUTO;
+                        if(!data.tickets) data.tickets = [];
                         state = data;
                         renderizarTudo();
 
@@ -597,6 +686,8 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
                                 setTimeout(() => abrirNoticia(Number(idDaNoticiaNaUrl)), 300);
                             } else if (paginaNaUrl === 'regras') {
                                 setTimeout(() => navegar('regras'), 100);
+                            } else if (paginaNaUrl === 'suporte') {
+                                setTimeout(() => navegar('suporte'), 100);
                             }
                         }
 
@@ -642,7 +733,7 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
         };
 
         window.navegar = function(pagina) {
-            ['home', 'tabelas', 'noticias', 'regras'].forEach(p => {
+            ['home', 'tabelas', 'noticias', 'regras', 'suporte'].forEach(p => {
                 const el = document.getElementById(`page-${p}`);
                 if (el) el.classList.add('hidden');
             });
@@ -650,14 +741,15 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
             if (targetPage) targetPage.classList.remove('hidden');
             window.scrollTo({top: 0, behavior: 'smooth'});
 
-            // Se for navegar pras regras pelo botão no footer, atualiza a url tb
-            if(pagina === 'regras') {
-                const baseUrl = window.location.href.split('?')[0];
-                window.history.replaceState({}, '', `${baseUrl}?pagina=regras`);
+            // Atualiza URL discretamente
+            const baseUrl = window.location.href.split('?')[0];
+            if(pagina === 'regras' || pagina === 'suporte') {
+                window.history.replaceState({}, '', `${baseUrl}?pagina=${pagina}`);
             } else {
-                const baseUrl = window.location.href.split('?')[0];
                 window.history.replaceState({}, '', baseUrl);
             }
+
+            if(pagina === 'suporte') renderizarSuporte();
         };
 
         function renderizarTudo() {
@@ -666,20 +758,14 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
             renderizarTabelaPublica();
             renderizarNoticias();
             renderizarEstatuto();
+            renderizarSuporte();
+            atualizarBadgeAdmin();
             
             if(!document.getElementById('admin-panel').classList.contains('hidden')) {
                 atualizarListasAdmin();
             }
-        }
-
-        function renderizarEstatuto() {
-            // Renderiza o texto do estatuto na página pública
-            const conteudo = state.estatuto || DEFAULT_ESTATUTO;
-            document.getElementById('conteudo-regras').innerHTML = marked.parse(conteudo);
-            
-            // Renderiza na aba do admin (caso a pessoa queira editar)
-            if (!document.getElementById('admin-panel').classList.contains('hidden')) {
-                document.getElementById('estatuto-texto').value = conteudo;
+            if(!document.getElementById('modal-tickets-admin').classList.contains('hidden')) {
+                renderizarPainelTicketsAdmin();
             }
         }
 
@@ -1093,6 +1179,301 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
             atualizarListaTimesAdmin();
             atualizarListaTorneiosAdmin();
             atualizarListaNoticiasAdmin();
+        }
+
+        // =========================================================
+        // SISTEMA DE TICKETS E SUPORTE
+        // =========================================================
+        
+        // 1. Lógica do Usuário (Página Pública)
+        window.renderizarSuporte = function() {
+            const container = document.getElementById('suporte-container');
+            if (!container) return;
+
+            if (!currentUser) {
+                container.innerHTML = `
+                <div class="flex-1 flex flex-col items-center justify-center p-8 text-center bg-slate-50/50 dark:bg-transparent">
+                    <div class="w-16 h-16 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center mb-6"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div>
+                    <h3 class="text-2xl font-display font-black mb-2">Login Necessário</h3>
+                    <p class="text-slate-500 mb-6 max-w-sm">Para abrir um ticket e conversar com o suporte da liga, você precisa estar logado.</p>
+                    <button onclick="abrirLogin()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all active:scale-95">Fazer Login Agora</button>
+                </div>`;
+                return;
+            }
+
+            // Verifica se o usuário tem um ticket ativo (aberto ou em_atendimento)
+            const meuTicketAtivo = state.tickets.find(t => t.userEmail === currentUser.email && t.status !== 'fechado');
+
+            if (!meuTicketAtivo) {
+                container.innerHTML = `
+                <div class="flex-1 flex flex-col items-center justify-center p-8 text-center bg-slate-50/50 dark:bg-transparent">
+                    <div class="w-16 h-16 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center mb-6"><svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg></div>
+                    <h3 class="text-2xl font-display font-black mb-2">Precisa de Ajuda?</h3>
+                    <p class="text-slate-500 mb-6 max-w-sm">Abra um ticket para falar diretamente com os administradores da CFM.</p>
+                    <button onclick="criarTicket()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg transition-all active:scale-95 flex items-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg> Abrir Ticket de Suporte</button>
+                </div>`;
+                return;
+            }
+
+            // Se tem ticket, mostra a interface de Chat
+            const isAtendido = meuTicketAtivo.status === 'em_atendimento';
+            
+            let statusBanner = isAtendido 
+                ? `<div class="bg-green-500/10 border-b border-green-500/20 px-4 py-3 flex items-center gap-2 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wider shrink-0"><span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span> Em atendimento por: ${meuTicketAtivo.admin}</div>`
+                : `<div class="bg-yellow-500/10 border-b border-yellow-500/20 px-4 py-3 flex items-center gap-2 text-yellow-700 dark:text-yellow-500 text-xs font-bold uppercase tracking-wider shrink-0"><svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Aguardando um administrador assumir...</div>`;
+
+            let mensagensHtml = meuTicketAtivo.mensagens.map(m => {
+                const souEu = m.autor === currentUser.email;
+                const hora = new Date(m.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                if (souEu) {
+                    return `<div class="self-end bg-blue-600 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 max-w-[85%] shadow-sm"><p class="text-sm md:text-base">${m.texto}</p><span class="text-[9px] opacity-70 mt-1 block text-right">${hora}</span></div>`;
+                } else {
+                    return `<div class="self-start bg-slate-100 dark:bg-zinc-800 text-slate-800 dark:text-slate-200 rounded-2xl rounded-tl-sm px-4 py-2.5 max-w-[85%] border border-slate-200 dark:border-zinc-700 shadow-sm"><p class="text-[10px] text-brand-500 font-bold mb-1 uppercase tracking-widest">Admin</p><p class="text-sm md:text-base">${m.texto}</p><span class="text-[9px] text-slate-400 mt-1 block">${hora}</span></div>`;
+                }
+            }).join('');
+
+            if(meuTicketAtivo.mensagens.length === 0) {
+                mensagensHtml = `<div class="text-center text-xs text-slate-400 my-auto">Escreva a sua dúvida ou problema abaixo para iniciar.</div>`;
+            }
+
+            container.innerHTML = `
+                ${statusBanner}
+                <div id="suporte-chat-mensagens" class="flex-1 bg-slate-50/50 dark:bg-[#050505] overflow-y-auto p-4 md:p-6 flex flex-col gap-3 custom-scrollbar">
+                    ${mensagensHtml}
+                </div>
+                <div class="p-3 md:p-4 bg-white dark:bg-cfm-card border-t border-slate-200 dark:border-zinc-800 shrink-0">
+                    <form onsubmit="enviarMensagemSuporte(event, ${meuTicketAtivo.id})" class="flex gap-2 md:gap-3">
+                        <input type="text" id="suporte-input" placeholder="Digite sua mensagem..." class="flex-1 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 md:py-3.5 outline-none focus:border-blue-500 transition-colors text-sm" autocomplete="off" required>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white px-5 md:px-6 rounded-xl font-bold shadow-md transition-all active:scale-95"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
+                    </form>
+                </div>
+            `;
+            
+            // Rola para o final do chat
+            const chatBox = document.getElementById('suporte-chat-mensagens');
+            if(chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+        };
+
+        window.criarTicket = async () => {
+            if (!currentUser) return;
+            const novoTicket = {
+                id: Date.now(),
+                userEmail: currentUser.email,
+                status: 'aberto',
+                admin: null,
+                createdAt: new Date().toISOString(),
+                mensagens: []
+            };
+            state.tickets.push(novoTicket);
+            if(docRef) await setDoc(docRef, state);
+        };
+
+        window.enviarMensagemSuporte = async (e, ticketId) => {
+            e.preventDefault();
+            const input = document.getElementById('suporte-input');
+            const texto = input.value.trim();
+            if(!texto || !currentUser) return;
+
+            const ticketIndex = state.tickets.findIndex(t => t.id === ticketId);
+            if(ticketIndex === -1) return;
+
+            state.tickets[ticketIndex].mensagens.push({
+                autor: currentUser.email,
+                texto: texto,
+                timestamp: new Date().toISOString()
+            });
+
+            input.value = '';
+            if(docRef) await setDoc(docRef, state);
+        };
+
+        // 2. Lógica do Administrador (Painel e Badges)
+        function atualizarBadgeAdmin() {
+            if(!currentUser || !ADMIN_EMAILS.includes(currentUser.email)) return;
+            
+            // Verifica se tem algum ticket esperando para ser assumido ('aberto')
+            const pendentes = state.tickets.some(t => t.status === 'aberto');
+            
+            const badgeDesktop = document.getElementById('badge-tickets-desktop');
+            const badgeMobile = document.getElementById('badge-tickets-mobile');
+            
+            if(pendentes) {
+                if(badgeDesktop) badgeDesktop.classList.remove('hidden');
+                if(badgeMobile) badgeMobile.classList.remove('hidden');
+            } else {
+                if(badgeDesktop) badgeDesktop.classList.add('hidden');
+                if(badgeMobile) badgeMobile.classList.add('hidden');
+            }
+        }
+
+        window.abrirPainelTickets = () => {
+            document.getElementById('modal-tickets-admin').classList.remove('hidden');
+            document.getElementById('modal-tickets-admin').classList.add('flex');
+            renderizarPainelTicketsAdmin();
+        };
+
+        window.fecharPainelTickets = () => {
+            document.getElementById('modal-tickets-admin').classList.add('hidden');
+            document.getElementById('modal-tickets-admin').classList.remove('flex');
+            adminTicketSelecionado = null;
+        };
+
+        window.selecionarTicketAdmin = (id) => {
+            adminTicketSelecionado = id;
+            renderizarPainelTicketsAdmin();
+        };
+
+        function renderizarPainelTicketsAdmin() {
+            // Renderiza Lista Lateral
+            const listaEl = document.getElementById('admin-lista-tickets');
+            
+            // Filtra tickets que precisam de atenção (abertos ou meus em atendimento)
+            let ticketsAtivos = state.tickets.filter(t => t.status === 'aberto' || (t.status === 'em_atendimento' && t.admin === currentUser.email));
+            
+            // Ordena os abertos primeiro
+            ticketsAtivos.sort((a,b) => {
+                if(a.status === 'aberto' && b.status !== 'aberto') return -1;
+                if(b.status === 'aberto' && a.status !== 'aberto') return 1;
+                return b.id - a.id;
+            });
+
+            if(ticketsAtivos.length === 0) {
+                listaEl.innerHTML = '<p class="text-[10px] text-slate-400 text-center py-4">Nenhum ticket pendente no momento.</p>';
+            } else {
+                listaEl.innerHTML = ticketsAtivos.map(t => {
+                    const isSelecionado = adminTicketSelecionado === t.id;
+                    const bgClass = isSelecionado ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-500' : 'bg-slate-50 dark:bg-zinc-800/50 border-transparent hover:border-slate-300 dark:hover:border-zinc-600';
+                    const icon = t.status === 'aberto' 
+                        ? `<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0"></span>` 
+                        : `<span class="w-2 h-2 rounded-full bg-green-500 shrink-0"></span>`;
+                    
+                    return `
+                    <div onclick="selecionarTicketAdmin(${t.id})" class="cursor-pointer p-3 rounded-xl border ${bgClass} transition-all flex items-center gap-3">
+                        ${icon}
+                        <div class="min-w-0 flex-1">
+                            <p class="text-xs font-bold text-slate-900 dark:text-white truncate">${t.userEmail}</p>
+                            <p class="text-[9px] text-slate-500 mt-0.5 truncate">${t.status === 'aberto' ? 'Aguardando atendimento' : 'Em atendimento'}</p>
+                        </div>
+                    </div>`;
+                }).join('');
+            }
+
+            // Renderiza Área Central
+            const areaVazia = document.getElementById('admin-chat-empty');
+            const areaAtiva = document.getElementById('admin-chat-active');
+            
+            if(!adminTicketSelecionado) {
+                areaVazia.classList.remove('hidden');
+                areaAtiva.classList.add('hidden');
+                return;
+            }
+
+            const t = state.tickets.find(x => x.id === adminTicketSelecionado);
+            if(!t || t.status === 'fechado') {
+                adminTicketSelecionado = null;
+                renderizarPainelTicketsAdmin();
+                return;
+            }
+
+            areaVazia.classList.add('hidden');
+            areaAtiva.classList.remove('hidden');
+
+            document.getElementById('admin-chat-user-email').innerText = t.userEmail;
+
+            // Controle dos Botões do Header do Ticket
+            const btnAceitar = document.getElementById('btn-admin-aceitar');
+            const btnEncerrar = document.getElementById('btn-admin-encerrar');
+            const inputArea = document.getElementById('admin-chat-input-area');
+
+            if (t.status === 'aberto') {
+                btnAceitar.classList.remove('hidden');
+                btnAceitar.onclick = () => window.aceitarTicket(t.id);
+                btnEncerrar.classList.add('hidden');
+                inputArea.classList.add('hidden'); // Só pode digitar se aceitar
+            } else {
+                btnAceitar.classList.add('hidden');
+                btnEncerrar.classList.remove('hidden');
+                btnEncerrar.onclick = () => window.encerrarTicket(t.id);
+                inputArea.classList.remove('hidden'); // Pode digitar
+            }
+
+            // Renderiza Mensagens
+            const chatBox = document.getElementById('admin-chat-messages');
+            let mensagensHtml = t.mensagens.map(m => {
+                const isAdmin = m.autor !== t.userEmail;
+                const hora = new Date(m.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                if (isAdmin) {
+                    return `<div class="self-end bg-blue-600 text-white rounded-2xl rounded-tr-sm px-4 py-2.5 max-w-[85%] shadow-sm"><p class="text-[10px] text-blue-200 font-bold mb-1 uppercase tracking-widest">Você</p><p class="text-sm">${m.texto}</p><span class="text-[9px] opacity-70 mt-1 block text-right">${hora}</span></div>`;
+                } else {
+                    return `<div class="self-start bg-white dark:bg-zinc-800 text-slate-800 dark:text-slate-200 rounded-2xl rounded-tl-sm px-4 py-2.5 max-w-[85%] border border-slate-200 dark:border-zinc-700 shadow-sm"><p class="text-sm">${m.texto}</p><span class="text-[9px] text-slate-400 mt-1 block">${hora}</span></div>`;
+                }
+            }).join('');
+
+            if(t.mensagens.length === 0) mensagensHtml = `<div class="text-center text-xs text-slate-400 my-auto py-10">O usuário iniciou o ticket mas ainda não enviou mensagem.</div>`;
+            
+            chatBox.innerHTML = mensagensHtml;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        window.aceitarTicket = async (id) => {
+            const index = state.tickets.findIndex(t => t.id === id);
+            if(index === -1 || !currentUser) return;
+            
+            state.tickets[index].status = 'em_atendimento';
+            state.tickets[index].admin = currentUser.email;
+            
+            // Manda uma mensagem automática avisando
+            state.tickets[index].mensagens.push({
+                autor: 'sistema',
+                texto: `👋 Um administrador (${currentUser.email}) assumiu o seu atendimento. Como podemos ajudar?`,
+                timestamp: new Date().toISOString()
+            });
+
+            if(docRef) await setDoc(docRef, state);
+        };
+
+        window.encerrarTicket = async (id) => {
+            if(!confirm("Tem certeza que deseja encerrar e fechar este atendimento?")) return;
+            const index = state.tickets.findIndex(t => t.id === id);
+            if(index === -1) return;
+            
+            state.tickets[index].status = 'fechado';
+            adminTicketSelecionado = null; // Tira a seleção
+            
+            if(docRef) await setDoc(docRef, state);
+        };
+
+        window.enviarMensagemAdmin = async (e) => {
+            e.preventDefault();
+            if(!adminTicketSelecionado || !currentUser) return;
+            
+            const input = document.getElementById('admin-chat-input');
+            const texto = input.value.trim();
+            if(!texto) return;
+
+            const index = state.tickets.findIndex(t => t.id === adminTicketSelecionado);
+            if(index === -1) return;
+
+            state.tickets[index].mensagens.push({
+                autor: currentUser.email,
+                texto: texto,
+                timestamp: new Date().toISOString()
+            });
+
+            input.value = '';
+            if(docRef) await setDoc(docRef, state);
+        };
+
+
+        function renderizarEstatuto() {
+            // Renderiza o texto do estatuto na página pública
+            const conteudo = state.estatuto || DEFAULT_ESTATUTO;
+            document.getElementById('conteudo-regras').innerHTML = marked.parse(conteudo);
+            
+            // Renderiza na aba do admin (caso a pessoa queira editar)
+            if (!document.getElementById('admin-panel').classList.contains('hidden')) {
+                document.getElementById('estatuto-texto').value = conteudo;
+            }
         }
 
         // --- SALVAR ESTATUTO NO BD E DISCORD ---
@@ -1526,23 +1907,25 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
                 try { await signInWithPopup(auth, new GoogleAuthProvider()); } 
                 catch(e) { alert("Erro de autorização. Certifique-se de adicionar o domínio no Firebase."); } 
             }
-            else { const e = prompt("Email:"); if(e) { currentUser = { email: e.toLowerCase() }; verificarPermissoes(); } }
+            else { const e = prompt("Email:"); if(e) { currentUser = { email: e.toLowerCase() }; verificarPermissoes(); renderizarSuporte(); } }
         };
 
-        window.fazerLogout = async () => { if(isProducao) await signOut(auth); else currentUser = null; verificarPermissoes(); fecharAdminPanel(); };
+        window.fazerLogout = async () => { if(isProducao) await signOut(auth); else currentUser = null; verificarPermissoes(); fecharAdminPanel(); renderizarSuporte(); };
 
         function verificarPermissoes() {
             // Desktop 
             const btnLogin = document.getElementById('btn-login');
             const userMenu = document.getElementById('user-menu');
             const btnAdmin = document.getElementById('btn-admin');
+            const btnAdminTickets = document.getElementById('btn-admin-tickets');
             
             // Mobile Menu Lateral
             const btnLoginMob = document.getElementById('btn-login-mobile');
             const userMenuMob = document.getElementById('user-menu-mobile');
             
-            // Mobile Menu Cabeçalho (Botão isolado)
+            // Mobile Menu Cabeçalho (Botões isolados)
             const btnAdminMobHeader = document.getElementById('btn-admin-mobile-header');
+            const btnAdminTicketsMob = document.getElementById('btn-admin-tickets-mobile');
 
             if(currentUser && currentUser.email) {
                 // Desktop Toggle
@@ -1559,22 +1942,37 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
                 }
 
                 if(ADMIN_EMAILS.includes(currentUser.email)) {
+                    // Liga opções de admin
                     if(btnAdmin) btnAdmin.classList.remove('hidden');
+                    if(btnAdminTickets) btnAdminTickets.classList.remove('hidden');
+                    
                     if(btnAdminMobHeader) {
                         btnAdminMobHeader.classList.remove('hidden');
                         btnAdminMobHeader.classList.add('block');
                     }
+                    if(btnAdminTicketsMob) {
+                        btnAdminTicketsMob.classList.remove('hidden');
+                        btnAdminTicketsMob.classList.add('block');
+                    }
                 } else {
+                    // Desliga opções de admin
                     if(btnAdmin) btnAdmin.classList.add('hidden');
+                    if(btnAdminTickets) btnAdminTickets.classList.add('hidden');
+                    
                     if(btnAdminMobHeader) {
                         btnAdminMobHeader.classList.add('hidden');
                         btnAdminMobHeader.classList.remove('block');
+                    }
+                    if(btnAdminTicketsMob) {
+                        btnAdminTicketsMob.classList.add('hidden');
+                        btnAdminTicketsMob.classList.remove('block');
                     }
                 }
             } else {
                 // Desktop Toggle
                 if(btnLogin) btnLogin.classList.remove('hidden'); 
                 if(userMenu) userMenu.classList.add('hidden');
+                if(btnAdminTickets) btnAdminTickets.classList.add('hidden');
                 
                 // Mobile Toggle
                 if(btnLoginMob) btnLoginMob.classList.remove('hidden');
@@ -1587,7 +1985,13 @@ Apenas em **SEMIS-FINAIS OU FINAL** Ou Em Outro Caso ( **Jogo de GIGANTES** )
                     btnAdminMobHeader.classList.add('hidden');
                     btnAdminMobHeader.classList.remove('block');
                 }
+                if(btnAdminTicketsMob) {
+                    btnAdminTicketsMob.classList.add('hidden');
+                    btnAdminTicketsMob.classList.remove('block');
+                }
             }
+            
+            atualizarBadgeAdmin();
         }
 
         window.responderCookies = (aceitou) => { 
