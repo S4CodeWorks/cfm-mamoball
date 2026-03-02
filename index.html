@@ -962,7 +962,7 @@
         };
 
         // --- SISTEMA DE NAVEGAÇÃO INTERNA DO TORNEIO PÚBLICO ---
-        window.mudarAbaTorneioPublico = function(aba) {
+        window.mudarAbaTorneioPublico = function(aba, skipRenderTabela = false) {
             abaPublicaTorneio = aba;
             
             // Estilizar os botões do submenu
@@ -977,7 +977,11 @@
                 }
             });
 
-            renderizarTabelaPublica();
+            // Quando chamado a partir do clique do usuário, também re-renderiza a tabela.
+            // Quando chamado internamente pela própria tabela, apenas atualiza o visual das abas.
+            if (!skipRenderTabela) {
+                renderizarTabelaPublica();
+            }
         };
 
         function resolverMataMata(camp) {
@@ -1050,7 +1054,8 @@
             }
 
             // GESTÃO DAS ABAS (CLASSIFICAÇÃO, ARTILHARIA, HISTÓRICO)
-            mudarAbaTorneioPublico(abaPublicaTorneio); // Garante que a UI do botão tá correta
+            // Atualiza apenas o visual do submenu sem re-renderizar a tabela para evitar recursão.
+            mudarAbaTorneioPublico(abaPublicaTorneio, true);
             
             if(abaPublicaTorneio === 'artilharia') {
                 renderizarArtilhariaPublica(camp.id);
