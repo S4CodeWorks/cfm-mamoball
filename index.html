@@ -741,45 +741,92 @@
                 if(!isProducao && typeof __initial_auth_token !== 'undefined' && __initial_auth_token) await signInWithCustomToken(auth, __initial_auth_token);
                 else if(!isProducao && !auth.currentUser) await signInAnonymously(auth);
 
-                docRef = isProducao ? doc(db, 'campeonatos', 'federacao_mamo_v1') : doc(db, 'artifacts', appIdGlobal, 'public', 'data', 'cfm', 'estado_v11');
-                
-                onSnapshot(docRef, (docSnap) => {
-                    if (docSnap.exists()) {
-                        let data = docSnap.data();
-                        state = {
-                            times: data.times || {}, 
-                            campeonatos: data.campeonatos || {}, 
-                            partidas: data.partidas || [],
-                            noticias: data.noticias || [], 
-                            estatuto: data.estatuto || DEFAULT_ESTATUTO, 
-                            tickets: data.tickets || [],
-                            inscricoes: data.inscricoes || [], 
-                            inscricoesAbertas: data.inscricoesAbertas || { status: false, campId: null },
-                            perfis: data.perfis || {},
-                            notificacoes: data.notificacoes || []
-                        };
-                        estadoCarregado = true;
-                        renderizarTudo();
-                        abrirModalPerfilSeNecessario();
-                        verificarNotificacoesUsuario();
+                const docRefPrimario = doc(db, 'campeonatos', 'federacao_mamo_v1');
+                const docRefFallback = doc(db, 'artifacts', appIdGlobal, 'public', 'data', 'cfm', 'estado_v11');
 
-                        if (!urlDiretaVerificada) {
-                            urlDiretaVerificada = true;
-                            const params = new URLSearchParams(window.location.search);
-                            if (params.get('noticia') && state.noticias.length > 0) setTimeout(() => abrirNoticia(Number(params.get('noticia'))), 300);
-                            else if (params.get('pagina')) setTimeout(() => navegar(params.get('pagina')), 100);
-                        }
-                    } else if (isProducao) {
-                        setDoc(docRef, state);
+                // Por segurança: escolhe automaticamente a fonte que contém dados reais.
+                // Isso evita o "site vazio" caso o documento principal esteja vazio/ausente.
+                let melhorScore = -1;
+
+                const scoreData = (data) => {
+                    if(!data) return 0;
+                    const campeonatosCount = data.campeonatos ? Object.keys(data.campeonatos).length : 0;
+                    const timesCount = data.times ? Object.keys(data.times).length : 0;
+                    const noticiasCount = Array.isArray(data.noticias) ? data.noticias.length : 0;
+                    const partidasCount = Array.isArray(data.partidas) ? data.partidas.length : 0;
+                    return campeonatosCount + timesCount + noticiasCount + partidasCount;
+                };
+
+                const aplicarSnapshot = (origemRef, docSnap) => {
+                    if (!docSnap.exists()) return;
+                    const data = docSnap.data();
+                    const score = scoreData(data);
+                    if (score < melhorScore) return;
+
+                    melhorScore = score;
+                    docRef = origemRef; // doc ativo para futuras gravações
+
+                    state = {
+                        times: data.times || {}, 
+                        campeonatos: data.campeonatos || {}, 
+                        partidas: data.partidas || [],
+                        noticias: data.noticias || [], 
+                        estatuto: data.estatuto || DEFAULT_ESTATUTO, 
+                        tickets: data.tickets || [],
+                        inscricoes: data.inscricoes || [], 
+                        inscricoesAbertas: data.inscricoesAbertas || { status: false, campId: null },
+                        perfis: data.perfis || {},
+                        notificacoes: data.notificacoes || []
+                    };
+
+                    estadoCarregado = true;
+                    renderizarTudo();
+                    abrirModalPerfilSeNecessario();
+                    verificarNotificacoesUsuario();
+
+                    if (!urlDiretaVerificada) {
+                        urlDiretaVerificada = true;
+                        const params = new URLSearchParams(window.location.search);
+                        if (params.get('noticia') && state.noticias.length > 0) setTimeout(() => abrirNoticia(Number(params.get('noticia'))), 300);
+                        else if (params.get('pagina')) setTimeout(() => navegar(params.get('pagina')), 100);
                     }
-                    
-                    document.getElementById('status-nuvem-desktop').classList.replace('bg-black', 'bg-brand-500');
-                    document.getElementById('status-nuvem-desktop').classList.replace('dark:bg-white', 'dark:bg-brand-500');
-                    if(document.getElementById('status-nuvem-mobile')){
-                        document.getElementById('status-nuvem-mobile').classList.replace('bg-black', 'bg-brand-500');
-                        document.getElementById('status-nuvem-mobile').classList.replace('dark:bg-white', 'dark:bg-brand-500');
+
+                    const sDesk = document.getElementById('status-nuvem-desktop');
+                    if (sDesk) {
+                        sDesk.classList.replace('bg-black', 'bg-brand-500');
+                        sDesk.classList.replace('dark:bg-white', 'dark:bg-brand-500');
                     }
-                });
+                    const sMob = document.getElementById('status-nuvem-mobile');
+                    if (sMob) {
+                        sMob.classList.replace('bg-black', 'bg-brand-500');
+                        sMob.classList.replace('dark:bg-white', 'dark:bg-brand-500');
+                    }
+                };
+
+                const onErroSnapshot = (err) => {
+                    console.error("Erro ao sincronizar com a nuvem:", err);
+                    const sDesk = document.getElementById('status-nuvem-desktop');
+                    if (sDesk) sDesk.classList.replace('bg-black', 'bg-red-500');
+                    const sMob = document.getElementById('status-nuvem-mobile');
+                    if (sMob) sMob.classList.replace('bg-black', 'bg-red-500');
+                };
+
+                if (isProducao) {
+                    onSnapshot(docRefPrimario, (snap) => aplicarSnapshot(docRefPrimario, snap), onErroSnapshot);
+                    onSnapshot(docRefFallback, (snap) => aplicarSnapshot(docRefFallback, snap), onErroSnapshot);
+                } else {
+                    docRef = docRefFallback;
+                    onSnapshot(docRef, (snap) => aplicarSnapshot(docRef, snap), onErroSnapshot);
+                }
+
+                setTimeout(() => {
+                    if (estadoCarregado) return;
+                    console.warn("Aviso: não foi possível carregar dados da nuvem (documento ausente ou sem permissão).");
+                    const sDesk = document.getElementById('status-nuvem-desktop');
+                    if (sDesk) sDesk.classList.replace('bg-black', 'bg-yellow-500');
+                    const sMob = document.getElementById('status-nuvem-mobile');
+                    if (sMob) sMob.classList.replace('bg-black', 'bg-yellow-500');
+                }, 4000);
             };
             initDb();
         } catch (e) { console.error(e); }
