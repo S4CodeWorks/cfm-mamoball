@@ -166,7 +166,6 @@
                 </div>
 
                 <section class="max-w-7xl mx-auto px-4 sm:px-6 py-2 md:py-20 flex flex-col lg:flex-row items-center gap-6 lg:gap-16 min-h-[75vh]">
-                    <!-- VERSÃO MOBILE: Cabeçalho Dashboard e Grid de Ações -->
                     <div class="w-full lg:hidden flex flex-col pt-2 relative z-0">
                         <div class="flex items-center justify-between mb-6">
                             <div>
@@ -210,7 +209,6 @@
                         </div>
                     </div>
 
-                    <!-- VERSÃO DESKTOP: Textos e Chamadas Clássicos -->
                     <div class="hidden lg:flex w-full lg:w-5/12 space-y-5 md:space-y-8 relative z-10 pt-2 lg:pt-0 flex-col items-start text-left">
                         <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#0f0f11] text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-slate-900 dark:text-white shadow-sm">
                             <span id="status-nuvem-desktop" class="w-2 h-2 rounded-full bg-black dark:bg-white animate-pulse"></span> Sistema Oficial CFM
@@ -244,12 +242,20 @@
             </div>
 
             <div id="page-tabelas" class="hidden max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12 fade-in">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 md:mb-12 gap-6">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 md:mb-8 gap-6">
                     <div class="w-full">
                         <h2 class="text-4xl md:text-5xl font-display font-black tracking-tight mb-6">Torneios</h2>
                         <div class="flex flex-row md:flex-wrap gap-3 overflow-x-auto no-scrollbar pb-2 w-full" id="menu-campeonatos"></div>
                     </div>
                 </div>
+                
+                <!-- NOVO SUBMENU: Tabelas, Artilharia e Histórico -->
+                <div id="submenu-torneio" class="flex gap-2 overflow-x-auto no-scrollbar mb-6 hidden">
+                    <button onclick="mudarAbaTorneioPublico('classificacao')" id="btn-sub-classificacao" class="sub-tab-public px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm bg-black dark:bg-white text-white dark:text-black">Classificação</button>
+                    <button onclick="mudarAbaTorneioPublico('artilharia')" id="btn-sub-artilharia" class="sub-tab-public px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-white dark:bg-zinc-800/50 text-slate-500 border border-slate-200 dark:border-zinc-700">Artilharia</button>
+                    <button onclick="mudarAbaTorneioPublico('historico')" id="btn-sub-historico" class="sub-tab-public px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-white dark:bg-zinc-800/50 text-slate-500 border border-slate-200 dark:border-zinc-700">Histórico de Jogos</button>
+                </div>
+
                 <div id="conteudo-tabela" class="glass-panel rounded-[1.5rem] md:rounded-[2rem] p-3 md:p-8 overflow-x-auto shadow-2xl w-full"></div>
             </div>
 
@@ -375,7 +381,7 @@
         </footer>
     </div>
 
-    <!-- MODAL NOTICIA E CLUBE (MANTIDOS) -->
+    <!-- MODAL NOTICIA E CLUBE -->
     <div id="modal-noticia" class="fixed inset-0 z-[100] hidden flex-col bg-slate-50 dark:bg-black overflow-y-auto fade-in">
         <div class="sticky top-0 z-30 glass-panel border-b-0 m-2 md:m-4 rounded-2xl shadow-sm shrink-0">
             <div class="max-w-4xl mx-auto px-4 md:px-6 py-3 md:py-4 flex justify-between items-center">
@@ -529,17 +535,45 @@
                     <div id="admin-lista-torneios" class="space-y-6"></div>
                 </div>
 
+                <!-- ABA REGISTRAR PARTIDA MELHORADA -->
                 <div id="aba-partidas" class="hidden max-w-3xl mx-auto fade-in">
                     <h2 class="text-3xl md:text-4xl font-display font-black mb-2">Registrar Jogo</h2>
-                    <p class="text-sm md:text-base text-slate-500 mb-6 md:mb-8">A tabela atualiza-se em tempo real.</p>
+                    <p class="text-sm md:text-base text-slate-500 mb-6 md:mb-8">A tabela atualiza-se em tempo real, junto com a Artilharia.</p>
                     <div class="bg-white dark:bg-cfm-card p-5 md:p-8 rounded-[1.5rem] md:rounded-[2rem] border border-slate-200 dark:border-zinc-800 shadow-sm">
-                        <div class="mb-6 md:mb-8"><label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Selecione o Torneio</label><select id="form-partida-camp" onchange="atualizarSelectsPartida()" class="w-full p-3 md:p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-sm md:text-base"></select></div>
-                        <div class="flex flex-col sm:flex-row items-center gap-4 bg-slate-50 dark:bg-zinc-900 p-4 md:p-6 rounded-2xl border border-slate-200 dark:border-zinc-800">
-                            <select id="form-home-team" class="w-full sm:flex-1 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-center sm:text-left"></select>
-                            <div class="flex items-center gap-3 shrink-0"><input type="number" id="form-home-score" placeholder="0" class="w-16 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-center font-black text-xl focus:border-slate-400 outline-none"><span class="font-black text-slate-300 dark:text-zinc-600">X</span><input type="number" id="form-away-score" placeholder="0" class="w-16 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-center font-black text-xl focus:border-slate-400 outline-none"></div>
-                            <select id="form-away-team" class="w-full sm:flex-1 p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-center sm:text-left"></select>
+                        <div class="mb-6 md:mb-8">
+                            <label class="block text-[10px] md:text-[11px] font-black text-slate-400 mb-2 uppercase tracking-widest">Selecione o Torneio</label>
+                            <select id="form-partida-camp" onchange="atualizarSelectsPartida()" class="w-full p-3 md:p-4 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-sm md:text-base"></select>
                         </div>
-                        <p class="text-[10px] text-slate-400 mt-4 text-center font-medium">Em Mata-Mata, registre o placar final (ex: Pênaltis).</p>
+                        
+                        <!-- Caixas de Placares e Seletores de Gols -->
+                        <div class="flex flex-col sm:flex-row items-start gap-4 bg-slate-50 dark:bg-zinc-900 p-4 md:p-6 rounded-2xl border border-slate-200 dark:border-zinc-800">
+                            
+                            <!-- TIME CASA -->
+                            <div class="flex flex-col w-full sm:flex-1">
+                                <select id="form-home-team" onchange="window.atualizarCamposDeGols()" class="w-full p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-center sm:text-left mb-3"></select>
+                                <div class="bg-slate-100 dark:bg-zinc-900/50 p-3 rounded-xl border border-slate-200 dark:border-zinc-800">
+                                    <label class="block text-center text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Gols</label>
+                                    <input type="number" id="form-home-score" oninput="window.atualizarCamposDeGols()" placeholder="0" min="0" class="w-full p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-center font-black text-2xl focus:border-slate-400 outline-none mb-3">
+                                    <div id="container-gols-home" class="flex flex-col gap-2"></div>
+                                </div>
+                            </div>
+
+                            <div class="hidden sm:flex items-center self-center shrink-0">
+                                <span class="font-black text-slate-300 dark:text-zinc-600 text-xl">X</span>
+                            </div>
+
+                            <!-- TIME FORA -->
+                            <div class="flex flex-col w-full sm:flex-1">
+                                <select id="form-away-team" onchange="window.atualizarCamposDeGols()" class="w-full p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl outline-none focus:border-slate-400 font-bold cursor-pointer text-center sm:text-left mb-3"></select>
+                                <div class="bg-slate-100 dark:bg-zinc-900/50 p-3 rounded-xl border border-slate-200 dark:border-zinc-800">
+                                    <label class="block text-center text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2">Gols</label>
+                                    <input type="number" id="form-away-score" oninput="window.atualizarCamposDeGols()" placeholder="0" min="0" class="w-full p-3 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-xl text-center font-black text-2xl focus:border-slate-400 outline-none mb-3">
+                                    <div id="container-gols-away" class="flex flex-col gap-2"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-[10px] text-slate-400 mt-4 text-center font-medium">Os jogadores listados nos menus de gols pertencem aos dois times. Se selecionar um jogador do time adversário, contará como Gol Contra.</p>
                         <button onclick="salvarPartida()" class="w-full mt-6 bg-black hover:bg-slate-800 dark:bg-white dark:text-black text-white py-3.5 md:py-4 rounded-xl font-bold transition-colors shadow-lg active:scale-95">Gravar Resultado</button>
                     </div>
                 </div>
@@ -555,7 +589,6 @@
                     <div id="admin-lista-times" class="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-5"></div>
                 </div>
 
-                <!-- NOVA ABA ADMIN: INSCRIÇÕES -->
                 <div id="aba-inscricoes" class="hidden max-w-4xl mx-auto fade-in">
                     <h2 class="text-3xl md:text-4xl font-display font-black mb-2">Controle de Inscrições</h2>
                     <p class="text-sm md:text-base text-slate-500 mb-6 md:mb-8">Libere vagas para o público criar times direto no site.</p>
@@ -629,14 +662,14 @@
 
         const ADMIN_EMAILS = ['samueldossantosramos123@gmail.com', 'inoha0792@gmail.com', 'essiquatru@gmail.com', 'joaopalmeiras1201@gmail.com'];
 
-        // Add inscricoes & inscricoesAbertas to initial state
         let state = { times: {}, campeonatos: {}, partidas: [], noticias: [], estatuto: "", tickets: [], inscricoes: [], inscricoesAbertas: { status: false, campId: null } };
         let currentUser = null; 
         let db, docRef, auth, app;
         let campeonatoAbertoPublico = null; 
+        let abaPublicaTorneio = 'classificacao'; // Pode ser: 'classificacao', 'artilharia', 'historico'
         let urlDiretaVerificada = false; 
         let adminTicketSelecionado = null;
-        let jogadoresInscricaoLocal = []; // Elenco do formulário público
+        let jogadoresInscricaoLocal = []; 
         
         const isProducao = myFirebaseConfig.apiKey !== "COLE_AQUI";
         const firebaseConfig = isProducao ? myFirebaseConfig : JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : "{}");
@@ -762,7 +795,6 @@
             heroTitulos.forEach(el => el.innerText = ultima ? ultima.titulo : "Bem-vindo à Federação");
             heroResumos.forEach(el => el.innerHTML = ultima ? marked.parseInline(ultima.resumo) : "Acompanhe tudo sobre o Campeonato da Federação de MamoBall.");
 
-            // Banner Dinâmico de Inscrições
             const bannerInsc = document.getElementById('banner-inscricoes');
             if(state.inscricoesAbertas && state.inscricoesAbertas.status && state.campeonatos[state.inscricoesAbertas.campId]) {
                 document.getElementById('banner-inscricoes-texto').innerText = state.campeonatos[state.inscricoesAbertas.campId].nome;
@@ -903,10 +935,12 @@
             
             if(chaves.length === 0) {
                 container.innerHTML = '<span class="text-sm text-slate-400 font-medium">Nenhuma competição a decorrer no momento.</span>';
+                document.getElementById('submenu-torneio').classList.add('hidden');
                 return;
             }
             
             if(!state.campeonatos[campeonatoAbertoPublico]) campeonatoAbertoPublico = chaves[0];
+            document.getElementById('submenu-torneio').classList.remove('hidden');
 
             container.innerHTML = chaves.map(id => {
                 const c = state.campeonatos[id];
@@ -922,13 +956,33 @@
 
         window.trocarCampeonatoPublico = function(id) {
             campeonatoAbertoPublico = id;
+            abaPublicaTorneio = 'classificacao'; // reseta a aba
             renderizarMenuCampeonatos();
+            renderizarTabelaPublica();
+        };
+
+        // --- SISTEMA DE NAVEGAÇÃO INTERNA DO TORNEIO PÚBLICO ---
+        window.mudarAbaTorneioPublico = function(aba) {
+            abaPublicaTorneio = aba;
+            
+            // Estilizar os botões do submenu
+            const abas = ['classificacao', 'artilharia', 'historico'];
+            abas.forEach(a => {
+                const btn = document.getElementById(`btn-sub-${a}`);
+                if(!btn) return;
+                if(a === aba) {
+                    btn.className = "sub-tab-public shrink-0 px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-sm bg-black dark:bg-white text-white dark:text-black";
+                } else {
+                    btn.className = "sub-tab-public shrink-0 px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-white dark:bg-zinc-800/50 text-slate-500 border border-slate-200 dark:border-zinc-700 hover:bg-slate-50 dark:hover:bg-zinc-800";
+                }
+            });
+
             renderizarTabelaPublica();
         };
 
         function resolverMataMata(camp) {
             const clubes = camp.clubes || [];
-            if(clubes.length === 0) return [];
+            if(clubes.length === 0) return { arvore: [], campeao: null };
 
             const numFases = Math.max(1, Math.ceil(Math.log2(clubes.length)));
             const slotsIniciais = Math.pow(2, numFases);
@@ -995,10 +1049,23 @@
                 return;
             }
 
+            // GESTÃO DAS ABAS (CLASSIFICAÇÃO, ARTILHARIA, HISTÓRICO)
+            mudarAbaTorneioPublico(abaPublicaTorneio); // Garante que a UI do botão tá correta
+            
+            if(abaPublicaTorneio === 'artilharia') {
+                renderizarArtilhariaPublica(camp.id);
+                return;
+            }
+            if(abaPublicaTorneio === 'historico') {
+                renderizarHistoricoPublico(camp.id);
+                return;
+            }
+
+            // --- RENDERIZAÇÃO DA CLASSIFICAÇÃO / MATA MATA ---
             if(camp.formato === 'mata-mata') {
                 const { arvore, campeao } = resolverMataMata(camp);
                 
-                let html = '<div class="flex gap-8 md:gap-12 overflow-x-auto py-6 md:py-8 no-scrollbar items-center px-2 md:px-4 relative">';
+                let html = '<div class="flex gap-8 md:gap-12 overflow-x-auto py-6 md:py-8 no-scrollbar items-center px-2 md:px-4 relative fade-in">';
                 
                 arvore.forEach((fase, rIdx) => {
                     let isFinal = rIdx === arvore.length - 1;
@@ -1120,7 +1187,7 @@
             }).join('');
 
             container.innerHTML = `
-                <div class="w-full overflow-x-auto no-scrollbar">
+                <div class="w-full overflow-x-auto no-scrollbar fade-in">
                     <table class="w-full text-left border-collapse min-w-[320px]">
                         <thead>
                             <tr class="text-[9px] md:text-[11px] uppercase tracking-[0.15em] text-slate-400 border-b-2 border-slate-200 dark:border-zinc-800">
@@ -1136,6 +1203,137 @@
                     </table>
                 </div>
             `;
+        }
+
+        function renderizarArtilhariaPublica() {
+            const container = document.getElementById('conteudo-tabela');
+            if(!container) return;
+
+            let artilhariaMap = {};
+            
+            // Somar todos os gols
+            const partidasDoCamp = state.partidas.filter(p => p.campeonatoId === campeonatoAbertoPublico);
+            partidasDoCamp.forEach(p => {
+                if(p.golsHome) {
+                    p.golsHome.forEach(g => {
+                        if(g.isContra) return; // Não conta gol contra
+                        if(!artilhariaMap[g.id]) artilhariaMap[g.id] = { id: g.id, nick: g.nick, timeId: g.timeId, gols: 0 };
+                        artilhariaMap[g.id].gols++;
+                    });
+                }
+                if(p.golsAway) {
+                    p.golsAway.forEach(g => {
+                        if(g.isContra) return; // Não conta gol contra
+                        if(!artilhariaMap[g.id]) artilhariaMap[g.id] = { id: g.id, nick: g.nick, timeId: g.timeId, gols: 0 };
+                        artilhariaMap[g.id].gols++;
+                    });
+                }
+            });
+
+            const artilheiros = Object.values(artilhariaMap).sort((a,b) => b.gols - a.gols);
+
+            if(artilheiros.length === 0) {
+                container.innerHTML = `
+                    <div class="py-16 text-center fade-in">
+                        <h3 class="text-xl font-display font-black tracking-tight mb-2">Sem Gols</h3>
+                        <p class="text-sm text-slate-500 font-medium">Ainda não houve gols registrados neste torneio.</p>
+                    </div>`;
+                return;
+            }
+
+            let html = artilheiros.map((a, i) => {
+                const t = state.times[a.timeId];
+                let bgStyle = t && t.logo ? `background-image: url('${t.logo}');` : `background-color: ${t ? t.cor : '#333'};`;
+                let tagLetras = t && t.logo ? '' : (t ? t.tag.replace(/\[|\]/g, '') : '?');
+                let medalha = '';
+                if(i === 0) medalha = '🥇';
+                else if(i === 1) medalha = '🥈';
+                else if(i === 2) medalha = '🥉';
+
+                return `
+                <div class="flex items-center justify-between p-4 border-b border-slate-100 dark:border-zinc-800/50 hover:bg-slate-50 dark:hover:bg-zinc-800/40 transition-colors">
+                    <div class="flex items-center gap-4">
+                        <span class="w-8 text-center font-black text-slate-400 dark:text-zinc-500 text-lg">${medalha || i+1}</span>
+                        <div class="w-10 h-10 rounded-xl flex items-center justify-center text-[10px] font-black text-white bg-cover bg-center shadow-sm border border-slate-200/50 dark:border-zinc-700/50" style="${bgStyle}">${tagLetras}</div>
+                        <div class="flex flex-col">
+                            <span class="font-bold text-slate-900 dark:text-white">${a.nick}</span>
+                            <span class="text-[10px] text-slate-500">${t ? t.nome : 'Sem Clube'}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-black text-2xl text-slate-900 dark:text-white">${a.gols}</span>
+                        <span class="text-xs text-slate-400 uppercase tracking-widest font-bold">Gols</span>
+                    </div>
+                </div>`;
+            }).join('');
+
+            container.innerHTML = `<div class="fade-in max-w-3xl mx-auto">${html}</div>`;
+        }
+
+        function renderizarHistoricoPublico() {
+            const container = document.getElementById('conteudo-tabela');
+            if(!container) return;
+
+            const partidasDoCamp = state.partidas.filter(p => p.campeonatoId === campeonatoAbertoPublico).reverse();
+
+            if(partidasDoCamp.length === 0) {
+                container.innerHTML = `
+                    <div class="py-16 text-center fade-in">
+                        <h3 class="text-xl font-display font-black tracking-tight mb-2">Sem Jogos</h3>
+                        <p class="text-sm text-slate-500 font-medium">Nenhum resultado registrado ainda.</p>
+                    </div>`;
+                return;
+            }
+
+            let html = partidasDoCamp.map(p => {
+                const tH = state.times[p.home];
+                const tA = state.times[p.away];
+                if(!tH || !tA) return '';
+
+                let bgH = tH.logo ? `background-image: url('${tH.logo}');` : `background-color: ${tH.cor};`;
+                let tagH = tH.logo ? '' : tH.tag.replace(/\[|\]/g, '');
+                
+                let bgA = tA.logo ? `background-image: url('${tA.logo}');` : `background-color: ${tA.cor};`;
+                let tagA = tA.logo ? '' : tA.tag.replace(/\[|\]/g, '');
+
+                // Função auxiliar para agrupar marcadores
+                const formatarGols = (golsArray) => {
+                    if(!golsArray || golsArray.length === 0) return '';
+                    return golsArray.map(g => `<span class="text-[10px] font-medium text-slate-500 flex items-center gap-1">⚽ ${g.nick} ${g.isContra ? '(GC)' : ''}</span>`).join('');
+                };
+
+                return `
+                <div class="bg-white dark:bg-zinc-800/30 border border-slate-200 dark:border-zinc-800 rounded-2xl p-4 md:p-6 shadow-sm mb-4">
+                    <div class="flex items-center justify-center gap-4 md:gap-8 mb-4">
+                        <!-- HOME -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 md:w-16 md:h-16 mb-2 rounded-[1rem] flex items-center justify-center text-[10px] md:text-xs font-black text-white bg-cover bg-center shadow-md border border-slate-200/50 dark:border-zinc-700/50" style="${bgH}">${tagH}</div>
+                            <span class="font-bold text-xs md:text-sm text-center truncate w-full">${tH.nome}</span>
+                        </div>
+                        
+                        <!-- PLACAR -->
+                        <div class="flex items-center gap-3 md:gap-4 shrink-0 px-2">
+                            <span class="text-2xl md:text-4xl font-black text-slate-900 dark:text-white">${p.scoreH}</span>
+                            <span class="text-sm md:text-base font-black text-slate-300 dark:text-zinc-600">X</span>
+                            <span class="text-2xl md:text-4xl font-black text-slate-900 dark:text-white">${p.scoreA}</span>
+                        </div>
+                        
+                        <!-- AWAY -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 md:w-16 md:h-16 mb-2 rounded-[1rem] flex items-center justify-center text-[10px] md:text-xs font-black text-white bg-cover bg-center shadow-md border border-slate-200/50 dark:border-zinc-700/50" style="${bgA}">${tagA}</div>
+                            <span class="font-bold text-xs md:text-sm text-center truncate w-full">${tA.nome}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- MARCADORES -->
+                    <div class="grid grid-cols-2 gap-4 border-t border-slate-100 dark:border-zinc-800/50 pt-3">
+                        <div class="flex flex-col items-center gap-1">${formatarGols(p.golsHome)}</div>
+                        <div class="flex flex-col items-center gap-1">${formatarGols(p.golsAway)}</div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            container.innerHTML = `<div class="fade-in max-w-4xl mx-auto">${html}</div>`;
         }
 
         // --- SISTEMA DE INSCRIÇÃO DO PÚBLICO ---
@@ -1206,7 +1404,6 @@
 
             if(docRef) await setDoc(docRef, state);
 
-            // Avisar no Discord sobre a nova inscrição (Se configurado no suporte)
             if(typeof DISCORD_WEBHOOK_INSCRICAO !== 'undefined' && DISCORD_WEBHOOK_INSCRICAO) {
                 try {
                     await fetch(DISCORD_WEBHOOK_INSCRICAO, {
@@ -1216,7 +1413,7 @@
                             embeds: [{
                                 title: `Solicitação: ${nome} ${tag}`,
                                 description: `O jogador **${currentUser.email}** inscreveu um time com ${jogadoresInscricaoLocal.length} jogadores.\nAcesse o Painel CFM Studio para aprovar ou rejeitar.`,
-                                color: 3447003 // Azul
+                                color: 3447003 
                             }]
                         })
                     });
@@ -1225,7 +1422,6 @@
 
             alert("Inscrição enviada com sucesso! A organização irá avaliar seu elenco.");
             
-            // Limpa o formulário
             document.getElementById('insc-nome').value = ''; document.getElementById('insc-tag').value = ''; document.getElementById('insc-logo-file').value = '';
             jogadoresInscricaoLocal = [];
             
@@ -1767,7 +1963,6 @@
             renderizarTudo();
         };
 
-        // Correção Importante: Salva o jogador na hora no Firebase, evitando perda de progresso 
         window.addJogadorTemp = async (timeId) => {
             if(!state.times[timeId].jogadores) state.times[timeId].jogadores = [];
             const idInput = document.getElementById(`add-jog-id-${timeId}`), nickInput = document.getElementById(`add-jog-nick-${timeId}`), discordInput = document.getElementById(`add-jog-discord-${timeId}`);
@@ -1775,12 +1970,12 @@
             state.times[timeId].jogadores.push({ id: idInput.value, nick: nickInput.value, discord: discordInput.value });
             idInput.value = ''; nickInput.value = ''; discordInput.value = '';
             
-            if(docRef) await setDoc(docRef, state); // Salva na Nuvem imediatamente
+            if(docRef) await setDoc(docRef, state); 
             window.renderJogadoresTemp(timeId);
         };
         window.remJogadorTemp = async (timeId, idx) => { 
             state.times[timeId].jogadores.splice(idx, 1); 
-            if(docRef) await setDoc(docRef, state); // Salva na Nuvem imediatamente
+            if(docRef) await setDoc(docRef, state); 
             window.renderJogadoresTemp(timeId); 
         };
 
@@ -1953,12 +2148,67 @@
             document.getElementById('admin-lista-torneios').innerHTML = html;
         }
 
+        // --- SISTEMA DE GERAÇÃO DE MENU DE GOLS (ADMIN) ---
+        function gerarOptionsJogadoresParaGols(timeHomeId, timeAwayId) {
+            let options = '<option value="">Selecione o jogador...</option>';
+            const tH = state.times[timeHomeId];
+            const tA = state.times[timeAwayId];
+
+            if(tH && tH.jogadores && tH.jogadores.length > 0) {
+                options += `<optgroup label="Jogadores - ${tH.nome}">`;
+                tH.jogadores.forEach(j => {
+                    options += `<option value='${JSON.stringify({id: j.id, nick: j.nick, timeId: timeHomeId})}'>${j.nick} (ID: ${j.id})</option>`;
+                });
+                options += `</optgroup>`;
+            }
+            if(tA && tA.jogadores && tA.jogadores.length > 0) {
+                options += `<optgroup label="Jogadores - ${tA.nome} (Gol Contra)">`;
+                tA.jogadores.forEach(j => {
+                    options += `<option value='${JSON.stringify({id: j.id, nick: j.nick, timeId: timeAwayId})}'>${j.nick} (ID: ${j.id})</option>`;
+                });
+                options += `</optgroup>`;
+            }
+            return options;
+        }
+
+        window.atualizarCamposDeGols = () => {
+            const homeId = document.getElementById('form-home-team').value;
+            const awayId = document.getElementById('form-away-team').value;
+            const scoreH = parseInt(document.getElementById('form-home-score').value) || 0;
+            const scoreA = parseInt(document.getElementById('form-away-score').value) || 0;
+            
+            const contHome = document.getElementById('container-gols-home');
+            const contAway = document.getElementById('container-gols-away');
+            
+            if(!homeId || !awayId || homeId === awayId) {
+                contHome.innerHTML = ''; contAway.innerHTML = ''; return;
+            }
+
+            const optHomeScorers = gerarOptionsJogadoresParaGols(homeId, awayId);
+            const optAwayScorers = gerarOptionsJogadoresParaGols(awayId, homeId);
+
+            // Gols Casa
+            let htmlHome = '';
+            for(let i=0; i<scoreH; i++) {
+                htmlHome += `<select id="gol-home-${i}" class="w-full p-2 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg outline-none focus:border-slate-400 text-xs font-semibold">${optHomeScorers}</select>`;
+            }
+            contHome.innerHTML = htmlHome;
+
+            // Gols Fora
+            let htmlAway = '';
+            for(let i=0; i<scoreA; i++) {
+                htmlAway += `<select id="gol-away-${i}" class="w-full p-2 bg-white dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 rounded-lg outline-none focus:border-slate-400 text-xs font-semibold">${optAwayScorers}</select>`;
+            }
+            contAway.innerHTML = htmlAway;
+        }
+
         window.atualizarSelectsPartida = function() {
             const campId = document.getElementById('form-partida-camp').value;
             if(!campId || !state.campeonatos[campId] || !state.campeonatos[campId].clubes) return;
             let options = ''; state.campeonatos[campId].clubes.forEach(id => { if(state.times[id]) options += `<option value="${id}">${state.times[id].nome}</option>`; });
             document.getElementById('form-home-team').innerHTML = options; document.getElementById('form-away-team').innerHTML = options;
             if(state.campeonatos[campId].clubes.length > 1) document.getElementById('form-away-team').selectedIndex = 1;
+            window.atualizarCamposDeGols(); // Chama para gerar os gols se já houver número
         };
 
         function atualizarFormularioPartidas() {
@@ -1971,13 +2221,40 @@
             const campId = document.getElementById('form-partida-camp').value;
             const home = document.getElementById('form-home-team').value, away = document.getElementById('form-away-team').value;
             const scoreH = parseInt(document.getElementById('form-home-score').value), scoreA = parseInt(document.getElementById('form-away-score').value);
+            
             if(!campId) return alert("Crie um torneio primeiro!");
             if(!home || !away) return alert("Adicione clubes ao torneio!");
             if(home === away) return alert("As equipas devem ser diferentes!");
             if(isNaN(scoreH) || isNaN(scoreA)) return alert("Preencha o resultado corretamente!");
-            state.partidas.push({ id: Date.now(), campeonatoId: campId, home, away, scoreH, scoreA });
+
+            let golsHome = [];
+            for(let i=0; i<scoreH; i++) {
+                let sel = document.getElementById(`gol-home-${i}`);
+                if(sel && sel.value) {
+                    let data = JSON.parse(sel.value);
+                    data.isContra = data.timeId !== home; // Gol para o Home, mas o jogador é de outro time
+                    golsHome.push(data);
+                }
+            }
+
+            let golsAway = [];
+            for(let i=0; i<scoreA; i++) {
+                let sel = document.getElementById(`gol-away-${i}`);
+                if(sel && sel.value) {
+                    let data = JSON.parse(sel.value);
+                    data.isContra = data.timeId !== away; // Gol para o Away, mas o jogador é de outro time
+                    golsAway.push(data);
+                }
+            }
+
+            state.partidas.push({ id: Date.now(), campeonatoId: campId, home, away, scoreH, scoreA, golsHome, golsAway });
             if(docRef) await setDoc(docRef, state);
-            alert("Resultado registado na nuvem!"); document.getElementById('form-home-score').value = ''; document.getElementById('form-away-score').value = ''; renderizarTudo();
+            
+            alert("Resultado e Artilharia registrados na nuvem!"); 
+            document.getElementById('form-home-score').value = ''; 
+            document.getElementById('form-away-score').value = ''; 
+            window.atualizarCamposDeGols();
+            renderizarTudo();
         };
 
         window.adicionarNovoTime = async () => { const novoId = 'time_' + Date.now(); if(!state.times) state.times = {}; state.times[novoId] = { nome: 'Nova Equipa', tag: '[CFM]', cor: '#1f2937', logo: '', jogadores: [] }; if(docRef) await setDoc(docRef, state); atualizarListasAdmin(); };
@@ -2042,4 +2319,3 @@
     </script>
 </body>
 </html>
-
