@@ -388,6 +388,45 @@
         </footer>
     </div>
 
+    <!-- MODAL PERFIL DO USUÁRIO (NOME + IDADE) -->
+    <div id="modal-perfil" class="fixed inset-0 z-[180] hidden items-center justify-center px-4 bg-black/40 backdrop-blur-sm">
+        <div class="w-full max-w-md bg-white dark:bg-cfm-card border border-slate-200 dark:border-zinc-800 rounded-[1.5rem] shadow-2xl p-6 md:p-8 fade-in-up">
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Identidade da Conta</p>
+            <h2 class="text-xl md:text-2xl font-display font-black tracking-tight mb-2">Como você quer ser chamado?</h2>
+            <p class="text-xs md:text-sm text-slate-500 mb-4">Esse nome será usado no suporte, nas inscrições e em outras áreas da CFM para ficar mais fácil te reconhecer do que só pelo e-mail.</p>
+            <p class="text-[11px] font-mono text-slate-400 mb-4 break-all">Conta: <span id="perfil-email-label"></span></p>
+            <div class="space-y-4 mb-4">
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">Nome da Conta</label>
+                    <input id="perfil-nome-input" type="text" maxlength="20" placeholder="Ex: CoachCFM, MamoPro, JoãoLima" class="w-full bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm font-semibold outline-none focus:border-slate-400" autocomplete="off">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black text-slate-400 mb-1 uppercase tracking-widest">Idade</label>
+                    <input id="perfil-idade-input" type="number" min="1" placeholder="Sua idade" class="w-28 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl px-4 py-3 text-sm font-semibold outline-none focus:border-slate-400">
+                </div>
+            </div>
+            <button onclick="salvarPerfilUsuario()" class="w-full bg-black hover:bg-slate-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-black font-bold py-3.5 rounded-xl shadow-lg active:scale-95 transition-all text-sm">Salvar e continuar</button>
+        </div>
+    </div>
+
+    <!-- TOAST DE APROVAÇÃO DE CLUBE (DISCRETO) -->
+    <div id="toast-aprovacao" class="fixed bottom-4 right-4 left-4 sm:left-auto sm:w-96 z-[170] hidden flex-col gap-3 bg-white/95 dark:bg-cfm-card/95 border border-slate-200/80 dark:border-zinc-800/80 rounded-2xl shadow-2xl px-4 py-3 md:px-5 md:py-4">
+        <div class="flex items-start gap-3">
+            <div class="mt-0.5 w-7 h-7 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-[11px] font-black uppercase tracking-[0.18em] text-emerald-500 mb-1">Clube aprovado</p>
+                <div id="toast-aprovacao-texto" class="text-xs md:text-sm text-slate-700 dark:text-slate-200 leading-relaxed"></div>
+                <div class="flex flex-wrap gap-2 mt-3">
+                    <button onclick="navegar('tabelas'); fecharToastAprovacao()" class="px-3 py-1.5 rounded-lg bg-black dark:bg-white text-white dark:text-black text-[11px] font-bold uppercase tracking-widest shadow-sm active:scale-95 transition-transform">Ver tabela</button>
+                    <button onclick="navegar('suporte'); fecharToastAprovacao()" class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-zinc-800 text-[11px] font-bold uppercase tracking-widest text-slate-600 dark:text-slate-200 active:scale-95 transition-transform">Central de Suporte</button>
+                    <button onclick="fecharToastAprovacao()" class="ml-auto text-[11px] text-slate-400 hover:text-slate-500 dark:text-zinc-500 dark:hover:text-zinc-300 font-bold uppercase tracking-widest">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL NOTICIA E CLUBE -->
     <div id="modal-noticia" class="fixed inset-0 z-[100] hidden flex-col bg-slate-50 dark:bg-black overflow-y-auto fade-in">
         <div class="sticky top-0 z-30 glass-panel border-b-0 m-2 md:m-4 rounded-2xl shadow-sm shrink-0">
@@ -669,7 +708,11 @@
 
         const ADMIN_EMAILS = ['samueldossantosramos123@gmail.com', 'inoha0792@gmail.com', 'essiquatru@gmail.com', 'joaopalmeiras1201@gmail.com'];
 
-        let state = { times: {}, campeonatos: {}, partidas: [], noticias: [], estatuto: "", tickets: [], inscricoes: [], inscricoesAbertas: { status: false, campId: null } };
+        let state = { 
+            times: {}, campeonatos: {}, partidas: [], noticias: [], estatuto: "", 
+            tickets: [], inscricoes: [], inscricoesAbertas: { status: false, campId: null },
+            perfis: {}, notificacoes: []
+        };
         let currentUser = null; 
         let db, docRef, auth, app;
         let campeonatoAbertoPublico = null; 
@@ -691,6 +734,8 @@
                 currentUser = (user && user.email) ? { email: user.email.toLowerCase() } : null;
                 verificarPermissoes();
                 renderizarSuporte(); 
+                abrirModalPerfilSeNecessario();
+                verificarNotificacoesUsuario();
             });
 
             const initDb = async () => {
@@ -703,11 +748,19 @@
                     if (docSnap.exists()) {
                         let data = docSnap.data();
                         state = {
-                            times: data.times || {}, campeonatos: data.campeonatos || {}, partidas: data.partidas || [],
-                            noticias: data.noticias || [], estatuto: data.estatuto || DEFAULT_ESTATUTO, tickets: data.tickets || [],
-                            inscricoes: data.inscricoes || [], inscricoesAbertas: data.inscricoesAbertas || { status: false, campId: null }
+                            times: data.times || {}, 
+                            campeonatos: data.campeonatos || {}, 
+                            partidas: data.partidas || [],
+                            noticias: data.noticias || [], 
+                            estatuto: data.estatuto || DEFAULT_ESTATUTO, 
+                            tickets: data.tickets || [],
+                            inscricoes: data.inscricoes || [], 
+                            inscricoesAbertas: data.inscricoesAbertas || { status: false, campId: null },
+                            perfis: data.perfis || {},
+                            notificacoes: data.notificacoes || []
                         };
                         renderizarTudo();
+                        verificarNotificacoesUsuario();
 
                         if (!urlDiretaVerificada) {
                             urlDiretaVerificada = true;
@@ -749,6 +802,62 @@
                 reader.readAsDataURL(file);
             });
         }
+
+        function getPerfilAtual() {
+            if (!currentUser || !currentUser.email || !state.perfis) return null;
+            return state.perfis[currentUser.email] || null;
+        }
+
+        function abrirModalPerfilSeNecessario() {
+            if (!currentUser || !currentUser.email) return;
+            const perfil = getPerfilAtual();
+            if (perfil && perfil.nome) return;
+            const modal = document.getElementById('modal-perfil');
+            const emailLabel = document.getElementById('perfil-email-label');
+            if (!modal || !emailLabel) return;
+            emailLabel.innerText = currentUser.email;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function verificarNotificacoesUsuario() {
+            if (!currentUser || !currentUser.email || !state.notificacoes || state.notificacoes.length === 0) return;
+            const minhas = state.notificacoes.filter(n => n.email === currentUser.email && n.tipo === 'aprovacao_clube');
+            if (minhas.length === 0) return;
+
+            const ultima = minhas[minhas.length - 1];
+            const camp = state.campeonatos[ultima.campId];
+            const time = state.times[ultima.timeId];
+            const campNome = camp ? camp.nome : 'seu campeonato';
+            const timeNome = time ? time.nome : 'seu clube';
+
+            const texto = `Seu clube <b>${timeNome}</b> foi aprovado na competição <b>${campNome}</b>.
+            Confira a tabela em <strong>Competições</strong>. Qualquer dúvida, ajustes ou reclamações, fale com a gente pela Central de Suporte.`;
+
+            mostrarToastAprovacao(texto);
+
+            // remove notificações consumidas para este usuário
+            state.notificacoes = state.notificacoes.filter(n => n.email !== currentUser.email || n.tipo !== 'aprovacao_clube');
+            if (docRef) setDoc(docRef, state);
+        }
+
+        function mostrarToastAprovacao(mensagemHtml) {
+            const toast = document.getElementById('toast-aprovacao');
+            const textoEl = document.getElementById('toast-aprovacao-texto');
+            if (!toast || !textoEl) return;
+            textoEl.innerHTML = mensagemHtml;
+            toast.classList.remove('hidden');
+            toast.classList.add('flex');
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => fecharToastAprovacao(), 10000);
+        }
+
+        window.fecharToastAprovacao = () => {
+            const toast = document.getElementById('toast-aprovacao');
+            if (!toast) return;
+            toast.classList.add('hidden');
+            toast.classList.remove('flex');
+        };
 
         window.toggleMenuMobile = () => document.getElementById('menu-mobile-dropdown').classList.toggle('hidden');
         window.navegarMobile = (pagina) => { navegar(pagina); toggleMenuMobile(); };
@@ -1400,11 +1509,14 @@
 
             const logoBase64 = await resizeImageAsync(logoFile, 400, 400);
 
+            const perfil = getPerfilAtual();
             const novaInscricao = {
                 id: Date.now(),
                 campId: state.inscricoesAbertas.campId,
                 userEmail: currentUser.email,
                 capitao: currentUser.email,
+                solicitanteNome: perfil && perfil.nome ? perfil.nome : currentUser.email.split('@')[0],
+                solicitanteIdade: perfil && perfil.idade ? perfil.idade : null,
                 nome,
                 tag,
                 logo: logoBase64,
@@ -1540,7 +1652,16 @@
         window.criarTicket = async () => {
             if (!currentUser) return;
             const novoId = Date.now();
-            state.tickets.push({ id: novoId, userEmail: currentUser.email, status: 'aberto', admin: null, createdAt: new Date().toISOString(), mensagens: [] });
+            const perfil = getPerfilAtual();
+            state.tickets.push({ 
+                id: novoId, 
+                userEmail: currentUser.email, 
+                displayName: perfil && perfil.nome ? perfil.nome : currentUser.email.split('@')[0],
+                status: 'aberto', 
+                admin: null, 
+                createdAt: new Date().toISOString(), 
+                mensagens: [] 
+            });
             if(docRef) await setDoc(docRef, state);
             
             if(typeof DISCORD_WEBHOOK_SUPORTE !== 'undefined' && DISCORD_WEBHOOK_SUPORTE) {
@@ -1623,6 +1744,8 @@
                 listaEl.innerHTML = '<p class="text-[10px] text-slate-400 text-center py-4">Nenhum ticket pendente no momento.</p>';
             } else {
                 listaEl.innerHTML = ticketsAtivos.map(t => {
+                    const perfilUser = state.perfis && state.perfis[t.userEmail];
+                    const nomeExibicao = t.displayName || (perfilUser && perfilUser.nome) || t.userEmail.split('@')[0];
                     const isSelecionado = adminTicketSelecionado === t.id;
                     const bgClass = isSelecionado ? 'bg-slate-100 dark:bg-zinc-800 border-slate-300 dark:border-zinc-600' : 'bg-transparent border-transparent hover:bg-slate-50 dark:hover:bg-zinc-900';
                     const icon = t.status === 'aberto' ? `<span class="w-2 h-2 rounded-full bg-red-500 animate-pulse shrink-0"></span>` : `<span class="w-2 h-2 rounded-full bg-green-500 shrink-0"></span>`;
@@ -1630,8 +1753,8 @@
                     <div onclick="selecionarTicketAdmin(${t.id})" class="cursor-pointer p-3 rounded-xl border ${bgClass} transition-all flex items-center gap-3">
                         ${icon}
                         <div class="min-w-0 flex-1">
-                            <p class="text-xs font-bold text-slate-900 dark:text-white truncate">${t.userEmail}</p>
-                            <p class="text-[9px] text-slate-500 mt-0.5 truncate font-medium">${t.status === 'aberto' ? 'Aguardando atendimento' : 'Em atendimento'}</p>
+                            <p class="text-xs font-bold text-slate-900 dark:text-white truncate">${nomeExibicao}</p>
+                            <p class="text-[9px] text-slate-500 mt-0.5 truncate font-medium">${t.userEmail} • ${t.status === 'aberto' ? 'Aguardando atendimento' : 'Em atendimento'}</p>
                         </div>
                     </div>`;
                 }).join('');
@@ -1823,7 +1946,7 @@
                                 <div class="w-12 h-12 rounded-xl bg-cover bg-center shadow-sm border border-slate-200 dark:border-zinc-700" style="background-image: url('${insc.logo}')"></div>
                                 <div>
                                     <h4 class="font-display font-black text-xl text-slate-900 dark:text-white leading-tight">${insc.nome}</h4>
-                                    <span class="text-[10px] uppercase font-mono tracking-widest text-slate-500">${insc.tag} • Org: ${insc.capitao.split('@')[0]}</span>
+                                    <span class="text-[10px] uppercase font-mono tracking-widest text-slate-500">${insc.tag} • Org: ${insc.solicitanteNome || insc.capitao.split('@')[0]}${insc.solicitanteIdade ? ' • ' + insc.solicitanteIdade + ' anos' : ''}</span>
                                 </div>
                             </div>
                             <div class="flex gap-2">
@@ -1887,6 +2010,38 @@
             if(state.campeonatos[insc.campId]) {
                 if(!state.campeonatos[insc.campId].clubes) state.campeonatos[insc.campId].clubes = [];
                 state.campeonatos[insc.campId].clubes.push(timeId);
+            }
+
+            // registra notificação personalizada para o solicitante
+            if(!state.notificacoes) state.notificacoes = [];
+            state.notificacoes.push({
+                id: Date.now(),
+                tipo: 'aprovacao_clube',
+                email: insc.userEmail,
+                campId: insc.campId,
+                timeId,
+                createdAt: new Date().toISOString()
+            });
+
+            // envia aviso no canal de notícias do Discord, se configurado
+            if (typeof DISCORD_WEBHOOK_URL !== 'undefined' && DISCORD_WEBHOOK_URL) {
+                try {
+                    const camp = state.campeonatos[insc.campId];
+                    const campNome = camp ? camp.nome : 'Campeonato';
+                    const responsavel = insc.solicitanteNome || insc.capitao;
+                    await fetch(DISCORD_WEBHOOK_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            content: "✅ **Novo clube aprovado na CFM!**",
+                            embeds: [{
+                                title: `${insc.nome} ${insc.tag} aprovado`,
+                                description: `O clube foi aprovado para o campeonato **${campNome}**.\nResponsável pela inscrição: **${responsavel}**`,
+                                color: 5763719
+                            }]
+                        })
+                    });
+                } catch(e) { console.error("Erro Discord aprovação clube:", e); }
             }
 
             state.inscricoes = state.inscricoes.filter(i => i.id !== id);
@@ -2279,6 +2434,53 @@
         };
 
         window.fazerLogout = async () => { if(isProducao) await signOut(auth); else currentUser = null; verificarPermissoes(); fecharAdminPanel(); renderizarSuporte(); };
+
+        window.salvarPerfilUsuario = async () => {
+            if (!currentUser || !currentUser.email) return;
+            const nomeInput = document.getElementById('perfil-nome-input');
+            const idadeInput = document.getElementById('perfil-idade-input');
+            if (!nomeInput || !idadeInput) return;
+
+            const nome = nomeInput.value.trim();
+            const idade = parseInt(idadeInput.value, 10);
+
+            if (nome.length < 3 || nome.length > 20) {
+                alert("O nome da conta deve ter entre 3 e 20 caracteres.");
+                return;
+            }
+            if (!/^[a-zA-Z0-9À-ÿ ]+$/.test(nome)) {
+                alert("Use apenas letras, números e espaços no nome da conta.");
+                return;
+            }
+            if (isNaN(idade) || idade <= 0) {
+                alert("Informe uma idade válida (número maior que zero).");
+                return;
+            }
+
+            // garantir unicidade do nome
+            for (let email in state.perfis) {
+                if (!Object.prototype.hasOwnProperty.call(state.perfis, email)) continue;
+                const p = state.perfis[email];
+                if (p && p.nome && p.nome.toLowerCase() === nome.toLowerCase() && email !== currentUser.email) {
+                    alert("Este nome já está sendo usado por outra conta. Tente outro.");
+                    return;
+                }
+            }
+
+            if (!state.perfis) state.perfis = {};
+            state.perfis[currentUser.email] = { nome, idade };
+
+            if (docRef) await setDoc(docRef, state);
+
+            const modal = document.getElementById('modal-perfil');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+
+            renderizarSuporte();
+            atualizarBadgeAdmin();
+        };
 
         function verificarPermissoes() {
             const btnL = document.getElementById('btn-login'), uMenu = document.getElementById('user-menu'), btnA = document.getElementById('btn-admin'), btnAT = document.getElementById('btn-admin-tickets');
